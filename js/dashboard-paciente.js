@@ -10,4 +10,8 @@ if (!name) {
     logout();
 }
 
-document.querySelector("h1").textContent = `Bienvenido, ${name}`;
+const shortName = name.split(" ").slice(0, 2).join(" ");
+
+
+document.querySelector("h1").textContent = `Bienvenido, ${shortName}`;
+ 
