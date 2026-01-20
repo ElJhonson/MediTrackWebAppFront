@@ -30,13 +30,13 @@ loginForm.addEventListener("submit", async (e) => {
 
         const data = await response.json();
 
-        // 1. Guardar sesión (JWT manda)
+        //Guardar sesión (JWT manda)
         saveSession(data);
 
-        // 2. Leer rol desde localStorage (extraído del JWT)
+        //Leer rol desde localStorage (extraído del JWT)
         const rol = localStorage.getItem(STORAGE_KEYS.ROLE);
 
-        // 3. Redirección por rol
+        //Redirección por rol
         if (rol === "PACIENTE") {
             window.location.href = "/pages/dashboard-paciente.html";
         } else if (rol === "CUIDADOR") {
@@ -53,29 +53,26 @@ loginForm.addEventListener("submit", async (e) => {
 });
 
 
-// Toggle password
+// mostrar - ocultar password
 document.querySelector(".toggle-password")?.addEventListener("click", () => {
     passwordInput.type =
         passwordInput.type === "password" ? "text" : "password";
 });
-// ... tu código anterior de login ...
 
 const modal = document.getElementById("roleModal");
 const btnOpen = document.getElementById("btnOpenModal");
 const btnClose = document.getElementById("btnCloseModal");
 
-// Abrir modal
+// modal
 btnOpen.addEventListener("click", (e) => {
     e.preventDefault();
     modal.classList.add("active");
 });
 
-// Cerrar modal al dar clic en X
 btnClose.addEventListener("click", () => {
     modal.classList.remove("active");
 });
 
-// Cerrar modal al dar clic fuera del contenedor blanco
 window.addEventListener("click", (e) => {
     if (e.target === modal) {
         modal.classList.remove("active");
