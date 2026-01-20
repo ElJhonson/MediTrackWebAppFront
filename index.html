@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Meditrack | Iniciar Sesión</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="assets/index.css">
+</head>
+
+<body>
+
+    <main class="main-wrapper">
+        <section class="illustration-side">
+            <div class="illustration-content">
+                <img src="https://img.freepik.com/free-vector/doctor-character-background_1270-84.jpg"
+                    alt="Meditrack Illustration">
+            </div>
+        </section>
+
+        <section class="form-side">
+            <div class="form-container">
+                <header class="form-header">
+                    <h1>Iniciar Sesión</h1>
+                </header>
+
+                <form id="loginForm">
+                    <div class="input-group">
+                        <input type="text" id="phoneNumber" placeholder="Número de teléfono" required>
+                    </div>
+
+                    <div class="input-group">
+                        <input type="password" id="password" placeholder="Contraseña" required>
+                        <span class="toggle-password">👁️</span>
+                    </div>
+
+                    <button type="submit" class="btn-primary">Iniciar Sesión</button>
+                </form>
+
+                <div class="divider">
+                    <span>o regístrate con</span>
+                </div>
+
+                <div class="social-login">
+                    <button class="social-btn"><img src="https://cdn-icons-png.flaticon.com/512/2991/2991148.png"
+                            alt="Google"></button>
+                    <button class="social-btn"><img src="https://cdn-icons-png.flaticon.com/512/733/733553.png"
+                            alt="GitHub"></button>
+                    <button class="social-btn"><img src="https://cdn-icons-png.flaticon.com/512/0/191.png"
+                            alt="Apple"></button>
+                </div>
+
+                <footer class="form-footer">
+                    <p>Al crear una cuenta, aceptas los <a href="#">Términos de Servicio</a> y <a
+                            href="#">Privacidad</a>.</p>
+                    <p class="login-link">¿No tienes una cuenta? <a href="#" id="btnOpenModal">Regístrate</a></p>
+
+                    <div id="roleModal" class="modal-overlay">
+                        <div class="modal-container">
+                            <button class="modal-close" id="btnCloseModal">&times;</button>
+                            <header class="modal-header">
+                                <h2>¿Cómo quieres unirte?</h2>
+                                <p>Selecciona tu perfil para continuar</p>
+                            </header>
+
+                            <div class="role-selection">
+                                <a href="./pages/registro-paciente.html" class="role-card">
+                                    <div class="role-icon">👤</div>
+                                    <h3>Paciente</h3>
+                                    <p>Quiero gestionar mis medicamentos y salud.</p>
+                                </a>
+
+                                <a href="./pages/registro-cuidador.html" class="role-card">
+                                    <div class="role-icon">🩺</div>
+                                    <h3>Cuidador</h3>
+                                    <p>Quiero supervisar y ayudar a mis pacientes.</p>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </footer>
+            </div>
+        </section>
+    </main>
+
+    <script type="module" src="/index.js"></script>
+</body>
+
+</html>

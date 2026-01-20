@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Meditrack | Registro Paciente</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../assets/registro-paciente.css">
+</head>
+<body>
+
+    <main class="main-wrapper">
+        <section class="illustration-side" style="background-color: #ecfdf5;">
+            <div class="illustration-content">
+                <img src="https://img.freepik.com/free-vector/patient-taking-pills-concept-illustration_114360-1554.jpg"
+                    alt="Paciente Meditrack">
+            </div>
+        </section>
+
+        <section class="form-side">
+            <div class="form-container">
+                <header class="form-header">
+                    <span class="badge" style="background-color: var(--accent-lime); color: var(--main-green);">Paciente</span>
+                    <h1>Crear Cuenta</h1>
+                    <p>Comienza a gestionar tu tratamiento de forma sencilla.</p>
+                </header>
+
+                <form id="registerPacienteForm">
+                    
+                    <div class="input-group">
+                        <input type="text" id="name" name="name" placeholder="Nombre completo" required>
+                    </div>
+
+                    <div class="input-group">
+                        <input type="text" id="phoneNumber" name="phoneNumber" placeholder="Número de teléfono" required>
+                    </div>
+
+                    <div class="input-group">
+                        <input type="number" id="edad" name="edad" placeholder="Edad" min="0" max="120" required>
+                    </div>
+
+                    <div class="input-group">
+                        <input type="password" id="password"  name="password" placeholder="Contraseña" required>
+                        <span class="toggle-password">👁️</span>
+                    </div>
+
+                    <button type="submit" class="btn-primary">Crear mi cuenta</button>
+                </form>
+
+                <footer class="form-footer">
+                    <p class="login-link">¿Ya eres parte de Meditrack? <a href="../index.html">Inicia Sesión</a></p>
+                </footer>
+            </div>
+        </section>
+    </main>
+
+
+    <script type="module" src="../js/registro-paciente.js"></script>
+</body>
+</html>

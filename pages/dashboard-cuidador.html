@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>MediTrack | Panel del Cuidador</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/dashboard-cuidador.css">
+</head>
+<body>
+
+    <header class="topbar">
+        <div class="user-info">
+            <h1>Panel de Control</h1>
+            <p class="status">Cuidador: <strong>Dr. Carlos Ortiz</strong></p>
+        </div>
+        <!-- Código de vinculación visible -->
+        <div class="link-code-container">
+            <span class="code-label">Código de Vinculación:</span>
+            <div class="code-badge">MT-9942X</div>
+        </div>
+    </header>
+
+    <main class="dashboard">
+
+        <!-- Sección de Resumen y Registro -->
+        <section class="action-bar">
+            <h2 class="section-title">Gestión de Pacientes</h2>
+            <button class="btn-add-patient">+ Registrar Nuevo Paciente</button>
+        </section>
+
+        <!-- Grid de Información -->
+        <div class="caregiver-grid">
+            
+            <!-- Listado de Pacientes Asignados -->
+            <section class="patient-list">
+                <div class="card-header">
+                    <h3>Pacientes Asignados (3)</h3>
+                </div>
+                
+                <div class="patient-card">
+                    <div class="patient-avatar">LB</div>
+                    <div class="patient-info">
+                        <h4>Luis Benavides</h4>
+                        <p>Última toma: Hace 20 min</p>
+                    </div>
+                    <span class="status-indicator online">Estable</span>
+                    <button class="btn-view">Ver Perfil</button>
+                </div>
+
+                <div class="patient-card">
+                    <div class="patient-avatar">MR</div>
+                    <div class="patient-info">
+                        <h4>María Rodriguez</h4>
+                        <p>Próxima dosis: 15:00 PM</p>
+                    </div>
+                    <span class="status-indicator warning">Alerta</span>
+                    <button class="btn-view">Ver Perfil</button>
+                </div>
+
+                <div class="patient-card">
+                    <div class="patient-avatar">JG</div>
+                    <div class="patient-info">
+                        <h4>Jorge Gómez</h4>
+                        <p>Sin medicación pendiente</p>
+                    </div>
+                    <span class="status-indicator online">Estable</span>
+                    <button class="btn-view">Ver Perfil</button>
+                </div>
+            </section>
+
+            <!-- Resumen de Actividades Rápidas -->
+            <aside class="sidebar-stats">
+                <div class="service-card schedules">
+                    <div class="icon">📅</div>
+                    <h3>Calendario Global</h3>
+                    <p>Ver todas las citas</p>
+                </div>
+                
+                <div class="service-card history">
+                    <div class="icon">📊</div>
+                    <h3>Reportes Médicos</h3>
+                    <p>Exportar PDF semanal</p>
+                </div>
+            </aside>
+
+        </div>
+
+    </main>
+
+</body>
+</html>
