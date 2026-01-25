@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Meditrack | Prescripciones Pro</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="../styles/medicamentos.css">
+</head>
+
+<body class="dashboard-body">
+
+    <header class="main-header">
+        <div class="logo">Meditrack</div>
+        <nav class="nav-links">
+            <a href="#">Inicio</a>
+            <a href="#" class="active">Medicinas</a>
+            <a href="#">Reportes</a>
+        </nav>
+        <button class="btn-add-main" id="btnOpenModal">+ Nueva Medicina</button>
+    </header>
+
+    <main class="grid-layout">
+
+        <aside class="sidebar">
+            <div class="glass-card patient-card">
+                <div class="profile-header">
+                    <img src="https://ui-avatars.com/api/?name=Ruben+George&background=0D8ABC&color=fff" alt="Avatar">
+                    <h3>Ruben George</h3>
+                    <p>Sin cuidador vinculado</p>
+                </div>
+                <div class="stats-grid">
+                    <div class="stat"><span>Edad</span><strong>36</strong></div>
+                    <div class="stat"><span>Peso</span><strong>82kg</strong></div>
+                </div>
+            </div>
+        </aside>
+
+
+        <section class="content-area">
+            <div class="section-title">
+                <h2>Mis Medicamentos</h2>
+                <p>Gestiona tus dosis y recordatorios activos.</p>
+            </div>
+            <div class="elderly-controls">
+                <div class="filter-tabs">
+                    <button class="tab-btn active" onclick="filterMeds('hoy')">📅 Para hoy</button>
+                    <button class="tab-btn" onclick="filterMeds('todas')">📋 Todas</button>
+                    <button class="tab-btn" onclick="filterMeds('vencidas')">⚠️ Por vencer</button>
+                </div>
+
+
+            </div>
+            <div class="med-grid" id="medContainer">
+            </div>
+        </section>
+
+    </main>
+
+    <div class="modal-overlay" id="modalMed">
+        <div class="glass-card modal-content">
+            <div class="modal-header">
+                <h3 id="modalTitle">Registrar Medicina</h3>
+                <button class="close-btn" id="btnCloseModal">&times;</button>
+            </div>
+            <form id="medForm">
+                <input type="hidden" id="editIndex">
+                <div class="form-group">
+                    <label>Nombre</label>
+                    <input type="text" id="name" placeholder="Ej. Paracetamol" required>
+                </div>
+                <div class="form-group">
+                    <label>Forma Farmacéutica</label>
+                    <select id="dosageForm">
+                        <option value="Tableta">Tableta</option>
+                        <option value="Cápsula">Cápsula</option>
+                        <option value="Jarabe">Jarabe</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Expiración</label>
+                    <input type="date" id="expirationDate" required>
+                </div>
+                <button type="submit" class="btn-save">Guardar Cambios</button>
+            </form>
+        </div>
+    </div>
+
+    <script src="../js/medicamentos.js"></script>
+</body>
+
+</html>

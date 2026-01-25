@@ -3,7 +3,7 @@ import {
     STORAGE_KEYS,
     ROLES,
     ROUTES
-} from "/js/config.js";import { saveSession } from "/js/auth.js";
+} from "/js/config.js"; import { saveSession } from "/js/auth.js";
 
 const loginForm = document.getElementById("loginForm");
 const phoneInput = document.getElementById("phoneNumber");
@@ -35,7 +35,6 @@ loginForm.addEventListener("submit", async (e) => {
         const data = await response.json();
         saveSession(data);
 
-        //Leer rol desde localStorage (extraído del JWT)
         const rol = localStorage.getItem(STORAGE_KEYS.ROLE);
 
         switch (rol) {
@@ -48,7 +47,7 @@ loginForm.addEventListener("submit", async (e) => {
                 break;
 
             default:
-                console.error("Rol no reconocido:", rol);
+                alert('Rol no reconocido:', rol);
                 window.location.href = ROUTES.LOGIN;
         }
 
@@ -84,3 +83,23 @@ window.addEventListener("click", (e) => {
         modal.classList.remove("active");
     }
 });
+function filterMeds(categoria) {
+    const medicinas = document.querySelectorAll('.med-card');
+    
+    // Actualizar botones
+    document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+    event.currentTarget.classList.add('active');
+
+    medicinas.forEach(card => {
+        // Simulamos la lógica: 
+        // En un caso real, compararías fechas o estados de tu base de datos
+        if (categoria === 'todas') {
+            card.style.display = 'flex';
+        } else if (categoria === 'vencidas') {
+            // Ejemplo: solo mostrar tarjetas que tengan una clase 'alerta'
+            card.style.display = card.classList.contains('urgent') ? 'flex' : 'none';
+        } else {
+            card.style.display = 'flex'; // 'hoy' por defecto
+        }
+    });
+}
