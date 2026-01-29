@@ -14,7 +14,7 @@
     <header class="main-header">
         <div class="logo">Meditrack</div>
         <nav class="nav-links">
-            <a href="#">Inicio</a>
+            <a href="dashboard-paciente.html">Inicio</a>
             <a href="#" class="active">Medicinas</a>
             <a href="#">Reportes</a>
         </nav>
@@ -26,13 +26,15 @@
         <aside class="sidebar">
             <div class="glass-card patient-card">
                 <div class="profile-header">
-                    <img src="https://ui-avatars.com/api/?name=Ruben+George&background=0D8ABC&color=fff" alt="Avatar">
-                    <h3>Ruben George</h3>
-                    <p>Sin cuidador vinculado</p>
+                    <img id="pacienteAvatar" src="https://ui-avatars.com/api/?name=--&background=0D8ABC&color=fff"
+                        alt="Avatar">
+
+                    <h3 id="pacienteNombre">---</h3>
+                    <p id="pacienteCuidador">---</p>
                 </div>
-                <div class="stats-grid">
-                    <div class="stat"><span>Edad</span><strong>36</strong></div>
-                    <div class="stat"><span>Peso</span><strong>82kg</strong></div>
+                <div class="stat">
+                    <span>Edad</span>
+                    <strong id="pacienteEdad">--</strong>
                 </div>
             </div>
         </aside>

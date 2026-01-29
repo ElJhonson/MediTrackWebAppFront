@@ -5,6 +5,7 @@ import {
     actualizarMedicina
 } from "./services/medicina.service.js";
 import { protectPage } from "./guard.js";
+import { obtenerMisDatosPaciente } from "./services/paciente.service.js";
 
 // Protege la página (JWT + rol)
 protectPage();
@@ -173,7 +174,37 @@ function formatDate(dateStr) {
 }
 
 
+async function cargarDatosPaciente() {
+
+    try {
+        const paciente = await obtenerMisDatosPaciente();
+
+        if (!paciente) return;
+
+
+        document.getElementById("pacienteNombre").innerText = paciente.name;
+        document.getElementById("pacienteEdad").innerText = paciente.edad ?? "--";
+
+        document.getElementById("pacienteCuidador").innerText =
+            paciente.cuidadorName
+                ? `Cuidador: ${paciente.cuidadorName}`
+                : "Sin cuidador vinculado";
+
+        const encodedName = encodeURIComponent(paciente.name);
+        document.getElementById("pacienteAvatar").src =
+            `https://ui-avatars.com/api/?name=${encodedName}&background=0D8ABC&color=fff`;
+
+    } catch (error) {
+        console.error(error);
+    }
+}
+
+
 // ===============================
 // Carga inicial
 // ===============================
-document.addEventListener("DOMContentLoaded", cargarMedicinas);
+document.addEventListener("DOMContentLoaded", async () => {
+    await cargarDatosPaciente();
+    setTimeout(cargarDatosPaciente, 300);
+    await cargarMedicinas();
+});
