@@ -1,5 +1,5 @@
-import { API_BASE_URL } from "../config.js";
-import { getAccessToken } from "../auth.js";
+import { API_BASE_URL } from "../core/config.js";
+import { getAccessToken } from "../core/auth.js";
 
 const BASE_URL = `${API_BASE_URL}/medicinas`;
 

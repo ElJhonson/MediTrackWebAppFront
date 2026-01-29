@@ -3,9 +3,9 @@ import {
     registrarMedicina,
     eliminarMedicina,
     actualizarMedicina
-} from "./services/medicina.service.js";
-import { protectPage } from "./guard.js";
-import { obtenerMisDatosPaciente } from "./services/paciente.service.js";
+} from "../../services/medicina.service.js";
+import { protectPage } from "../../guards/guard.js";
+import { obtenerMisDatosPaciente } from "../../services/paciente.service.js";
 
 // Protege la página (JWT + rol)
 protectPage();

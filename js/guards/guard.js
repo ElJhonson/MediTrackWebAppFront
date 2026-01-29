@@ -1,4 +1,4 @@
-import { isAuthenticated } from "./auth.js";
+import { isAuthenticated } from "../core/auth.js";
 
 export function protectPage() {
     if (!isAuthenticated()) {
