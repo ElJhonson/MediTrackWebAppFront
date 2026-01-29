@@ -1,4 +1,9 @@
-import { obtenerMisMedicinas, registrarMedicina } from "./services/medicina.service.js";
+import {
+    obtenerMisMedicinas,
+    registrarMedicina,
+    eliminarMedicina,
+    actualizarMedicina
+} from "./services/medicina.service.js";
 import { protectPage } from "./guard.js";
 
 // Protege la página (JWT + rol)
@@ -38,14 +43,15 @@ function renderMeds(lista) {
         const card = `
             <div class="med-card glass-card" data-id="${med.id}">
                 
-                <button class="btn-delete" title="Eliminar">✖</button>
+            <button class="btn-delete" data-id="${med.id}" title="Eliminar">✖</button>
 
                 <div>
                     <span class="type">${med.dosageForm}</span>
                     <h4>${med.nombre}</h4>
                     <p style="font-size: 0.8rem; color: #64748b;">
-                        Expira: ${new Date(med.expirationDate).toLocaleDateString()}
+                        Expira: ${formatDate(med.expirationDate)}
                     </p>
+
                 </div>
 
                 <div class="card-footer">
@@ -63,6 +69,44 @@ function renderMeds(lista) {
         container.insertAdjacentHTML("beforeend", card);
     });
 }
+
+// ===============================
+function abrirModalEditar(med) {
+    document.getElementById("modalTitle").innerText = "Editar Medicina";
+
+    document.getElementById("editId").value = med.id;
+    document.getElementById("name").value = med.nombre;
+    document.getElementById("dosageForm").value = med.dosageForm;
+    document.getElementById("expirationDate").value =
+        med.expirationDate.split("T")[0];
+
+    modal.classList.add("active");
+}
+// ===============================
+
+container.addEventListener("click", async (e) => {
+    if (e.target.classList.contains("btn-delete")) {
+        const id = e.target.dataset.id;
+
+        if (!confirm("¿Deseas eliminar esta medicina?")) return;
+
+        try {
+            await eliminarMedicina(id);
+            await cargarMedicinas(); // recarga solo las ACTIVAS
+        } catch (error) {
+            console.error(error);
+            alert("Error al eliminar la medicina");
+        }
+    }
+
+    if (e.target.classList.contains("btn-edit")) {
+        const card = e.target.closest(".med-card");
+        const id = card.dataset.id;
+
+        const med = medicinas.find(m => m.id == id);
+        abrirModalEditar(med);
+    }
+});
 
 
 // ===============================
@@ -87,25 +131,37 @@ document.getElementById("btnCloseModal").onclick = () => {
 form.onsubmit = async (e) => {
     e.preventDefault();
 
-    try {
-        const dto = {
-            nombre: document.getElementById("name").value.trim(),
-            dosageForm: document.getElementById("dosageForm").value,
-            expirationDate: document.getElementById("expirationDate").value
-            // pacienteId NO se envía (backend lo obtiene del JWT)
-        };
+    const id = document.getElementById("editId").value;
 
-        await registrarMedicina(dto);
+    const dto = {
+        nombre: document.getElementById("name").value.trim(),
+        dosageForm: document.getElementById("dosageForm").value,
+        expirationDate: document.getElementById("expirationDate").value
+    };
+
+    try {
+        if (id) {
+            await actualizarMedicina(id, dto); // PUT
+        } else {
+            await registrarMedicina(dto); // POST
+        }
 
         modal.classList.remove("active");
-        await cargarMedicinas();
         form.reset();
+        document.getElementById("editId").value = "";
+        await cargarMedicinas();
 
     } catch (error) {
         console.error(error);
-        alert(error.message || "Error al registrar la medicina");
+        alert(error.message || "Error al guardar la medicina");
     }
 };
+
+function formatDate(dateStr) {
+    const [year, month, day] = dateStr.split("-");
+    return `${month}/${day}/${year}`;
+}
+
 
 // ===============================
 // Carga inicial

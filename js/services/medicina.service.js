@@ -40,3 +40,41 @@ export async function obtenerMisMedicinas() {
 
     return response.json();
 }
+
+//Actualizar medicina por ID
+export async function actualizarMedicina(id, dto) {
+    const token = getAccessToken();
+
+    const response = await fetch(`${BASE_URL}/${id}`, {
+        method: "PUT",
+        headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`
+        },
+        body: JSON.stringify(dto)
+    });
+
+    if (!response.ok) {
+        throw new Error("Error al actualizar la medicina");
+    }
+
+    return response.json();
+}
+
+
+
+// Eliminar medicina por ID
+export async function eliminarMedicina(id) {
+    const token = getAccessToken();
+
+    const response = await fetch(`${BASE_URL}/${id}`, {
+        method: "DELETE",
+        headers: {
+            Authorization: `Bearer ${token}`
+        }
+    });
+
+    if (!response.ok) {
+        throw new Error("Error al eliminar la medicina");
+    }
+}
