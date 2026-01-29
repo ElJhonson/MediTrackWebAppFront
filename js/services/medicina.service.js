@@ -35,8 +35,10 @@ export async function obtenerMisMedicinas() {
     });
 
     if (!response.ok) {
-        throw new Error("Error al obtener medicinas");
+        const msg = await response.text();
+        throw new Error(msg || "Error real del servidor");
     }
+
 
     return response.json();
 }

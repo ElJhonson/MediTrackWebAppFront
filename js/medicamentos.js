@@ -18,15 +18,25 @@ let medicinas = [];
 // ===============================
 // Cargar medicinas del paciente
 // ===============================
+let cargandoMedicinas = false;
+
 async function cargarMedicinas() {
+    if (cargandoMedicinas) return;
+
+    cargandoMedicinas = true;
+
     try {
         medicinas = await obtenerMisMedicinas();
         renderMeds(medicinas);
     } catch (error) {
-        console.error(error);
-        alert("No se pudieron cargar tus medicinas");
+        if (error.name === "AbortError") return;
+        console.warn(error);
+    }
+    finally {
+        cargandoMedicinas = false;
     }
 }
+
 
 // ===============================
 // Renderizar tarjetas
