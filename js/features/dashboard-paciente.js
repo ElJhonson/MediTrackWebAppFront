@@ -1,6 +1,6 @@
-import { protectPage } from "../../guards/guard.js";
-import { STORAGE_KEYS } from "../../core/config.js";
-import { logout } from "../../core/auth.js";
+import { protectPage } from "../guards/guard.js";
+import { STORAGE_KEYS } from "../core/config.js";
+import { logout } from "../core/auth.js";
 
 protectPage();
 

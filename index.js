@@ -3,7 +3,7 @@ import {
     STORAGE_KEYS,
     ROLES,
     ROUTES
-} from "/js/config.js"; import { saveSession } from "/js/auth.js";
+} from "/js/core/config.js"; import { saveSession } from "/js/core/auth.js";
 
 const loginForm = document.getElementById("loginForm");
 const phoneInput = document.getElementById("phoneNumber");
