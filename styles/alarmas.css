@@ -1,0 +1,61 @@
+/* Contenedor de las tarjetas de alarma */
+.reminder-card {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.5rem;
+    border-left: 5px solid #0d8abc; /* Color distintivo */
+    margin-bottom: 1rem;
+}
+
+.med-tag {
+    background: rgba(13, 138, 188, 0.1);
+    color: #0d8abc;
+    padding: 2px 8px;
+    border-radius: 12px;
+    font-size: 0.7rem;
+    font-weight: bold;
+}
+
+/* Diseño del Timeline */
+.timeline {
+    margin-top: 20px;
+    position: relative;
+    padding-left: 20px;
+}
+
+.timeline::before {
+    content: '';
+    position: absolute;
+    left: 4px;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    background: rgba(255, 255, 255, 0.2);
+}
+
+.timeline-item {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.timeline-item .dot {
+    width: 10px;
+    height: 10px;
+    background: #64748b;
+    border-radius: 50%;
+    position: absolute;
+    left: 0;
+}
+
+.timeline-item.upcoming .dot {
+    background: #10b981; /* Verde para la siguiente */
+    box-shadow: 0 0 10px #10b981;
+}
+
+.timeline-item .time {
+    font-weight: bold;
+    min-width: 80px;
+    font-size: 0.9rem;
+}

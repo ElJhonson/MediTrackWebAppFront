@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meditrack | Gestión de Alarmas</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="../styles/medicamentos.css">
+    <style>
+        /* Estilos específicos para la vista de alarmas */
+        .reminders-grid {
+            display: grid;
+            grid-template-columns: 1.5fr 1fr;
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .alarm-card {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+            border-left: 4px solid #0D8ABC;
+            transition: transform 0.2s;
+        }
+
+        .alarm-card:hover {
+            transform: translateX(5px);
+        }
+
+        .alarm-details h4 {
+            margin: 0;
+            color: #fff;
+            font-size: 1.1rem;
+        }
+
+        .alarm-details p {
+            margin: 5px 0;
+            color: #94a3b8;
+            font-size: 0.9rem;
+        }
+
+        .frequency-badge {
+            background: rgba(13, 138, 188, 0.15);
+            color: #38bdf8;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        /* Timeline de próximas tomas */
+        .timeline-container {
+            position: relative;
+            padding-left: 1.5rem;
+            border-left: 2px dashed rgba(255, 255, 255, 0.1);
+            margin-left: 10px;
+        }
+
+        .timeline-item {
+            position: relative;
+            padding-bottom: 1.5rem;
+        }
+
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -1.95rem;
+            top: 5px;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: #0D8ABC;
+            border: 3px solid #1e293b;
+        }
+
+        .timeline-item.next-up::before {
+            background: #10b981;
+            box-shadow: 0 0 10px #10b981;
+        }
+
+        .timeline-content {
+            background: rgba(255, 255, 255, 0.03);
+            padding: 1rem;
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .time-label {
+            display: block;
+            font-size: 0.8rem;
+            color: #10b981;
+            font-weight: 700;
+            margin-bottom: 4px;
+        }
+
+        @media (max-width: 992px) {
+            .reminders-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+
+<body class="dashboard-body">
+
+    <header class="main-header">
+        <div class="logo">Meditrack</div>
+        <nav class="nav-links">
+            <a href="dashboard-paciente.html">Inicio</a>
+            <a href="medicamentos.html">Medicinas</a>
+            <a href="#" class="active">Recordatorios</a>
+        </nav>
+        <div class="user-profile">
+            <span id="userName">Cuidando a: ...</span>
+        </div>
+    </header>
+
+    <main class="grid-layout">
+        <aside class="sidebar">
+            <div class="glass-card patient-card">
+                <div class="profile-header">
+                    <img id="pacienteAvatar" src="https://ui-avatars.com/api/?name=P&background=0D8ABC&color=fff" alt="Avatar">
+                    <h3 id="pacienteNombre">Cargando...</h3>
+                    <p>Estado de Alarmas: <span style="color: #10b981;">Activo</span></p>
+                </div>
+            </div>
+        </aside>
+
+        <section class="content-area">
+            <div class="section-title">
+                <h2>Gestión de Recordatorios</h2>
+                <p>Configura y monitorea los horarios de medicación.</p>
+            </div>
+
+            <div class="reminders-grid">
+                <div class="alarm-management">
+                    <h3 class="sub-title">Configuraciones Activas</h3>
+                    <div id="alarmasContainer">
+                        <div class="glass-card alarm-card">
+                            <div class="alarm-details">
+                                <span class="frequency-badge">Cada 8 horas</span>
+                                <h4>Paracetamol 500mg</h4>
+                                <p>🗓️ Finaliza: 20 Feb 2026</p>
+                            </div>
+                            <div class="card-actions">
+                                <button class="btn-edit" title="Editar">✏️</button>
+                                <button class="btn-delete" title="Eliminar">🗑️</button>
+                            </div>
+                        </div>
+                        </div>
+                </div>
+
+                <div class="upcoming-schedule">
+                    <h3 class="sub-title">Próximas Tomas</h3>
+                    <div class="glass-card">
+                        <div class="timeline-container" id="timelineContainer">
+                            <div class="timeline-item next-up">
+                                <div class="timeline-content">
+                                    <span class="time-label">Siguiente: HOY 4:00 PM</span>
+                                    <strong>Paracetamol</strong>
+                                    <p style="font-size: 0.8rem; margin: 0;">Dosis programada</p>
+                                </div>
+                            </div>
+
+                            <div class="timeline-item">
+                                <div class="timeline-content">
+                                    <span class="time-label" style="color: #94a3b8;">MAÑANA 12:00 AM</span>
+                                    <strong>Paracetamol</strong>
+                                    <p style="font-size: 0.8rem; margin: 0;">Dosis programada</p>
+                                </div>
+                            </div>
+                            </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <div class="modal-overlay" id="modalAlarma">
+        </div>
+
+    <script type="module" src="../js/pages/alarmas.page.js"></script>
+</body>
+</html>
