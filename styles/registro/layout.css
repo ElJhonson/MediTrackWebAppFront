@@ -13,11 +13,19 @@
 /* Sección Izquierda (Ilustración) */
 .illustration-side {
     flex: 1.2;
-    background-color: #dcfce7;
+    background-color: var(--green-soft-4);
     display: flex;
     justify-content: center;
     align-items: center;
     padding: 40px;
+}
+
+.illustration-side.paciente {
+    background-color: var(--accent-soft);
+}
+
+.illustration-side.cuidador {
+    background-color: var(--green-soft-3);
 }
 
 .illustration-side img {
@@ -48,7 +56,7 @@
 }
 
 .form-header p {
-    color: #6b7280;
+    color: var(--text-gray);
     font-size: 0.9rem;
     margin-bottom: 25px;
     line-height: 1.5;

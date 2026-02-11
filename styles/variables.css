@@ -1,6 +1,9 @@
 
 /* HOME - Login/Inicio */
 :root {
+    /* === Typography === */
+    --font-primary: 'Poppins', sans-serif;
+    
     /* === Home Colors === */
     --main-green: #1f3d32;
     --accent-lime: #84cc16;
@@ -36,6 +39,8 @@
     --blue-soft: #e0e7ff;
     --green-soft: #e8f5e9;
     --green-soft-2: #d1fae5;
+    --green-soft-3: #f0fdf4;
+    --green-soft-4: #dcfce7;
     --surface-light: #f9fbff;
     --border-200: #f0f0f0;
     --placeholder: #9ca3af;
@@ -45,9 +50,10 @@
     --btn-add-bg: #4CAF50;
     --btn-add-bg-hover: #3d8b40;
     --text-green-dark: #1a2e05;
-    --border-200: #f0f0f0;
     --accent-lime-hover: #92d12f;
     --danger-light: #fee2e2;
+    --accent-lime-soft: rgba(163, 230, 53, 0.1);
+    --accent-lime-medium: rgba(163, 230, 53, 0.4);
 }
 
 /* ========================================

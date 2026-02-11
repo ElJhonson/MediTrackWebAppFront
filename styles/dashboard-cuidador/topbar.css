@@ -9,13 +9,22 @@
 }
 
 .topbar h1 {
+    font-family: var(--font-primary);
+    font-weight: 700;
     font-size: 1.6rem;
     color: var(--brand-blue);
 }
 
 .status {
+    font-family: var(--font-primary);
+    font-weight: 400;
     font-size: 0.9rem;
     color: #888;
+}
+
+.status strong {
+    font-family: var(--font-primary);
+    font-weight: 600;
 }
 
 /* Badge del Código de Vinculación */
@@ -28,8 +37,9 @@
 
 /* Label pequeño */
 .code-label {
+    font-family: var(--font-primary);
+    font-weight: 600;
     font-size: 0.65rem;
-    font-weight: 700;
     color: var(--text-gray);
     text-transform: uppercase;
     letter-spacing: 0.6px;

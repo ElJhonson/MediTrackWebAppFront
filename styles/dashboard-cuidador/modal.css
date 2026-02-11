@@ -59,12 +59,16 @@
 }
 
 .modal-form-side .form-header h1 {
+    font-family: var(--font-primary);
+    font-weight: 700;
     font-size: 1.8rem;
     margin-bottom: 5px;
     color: var(--text-dark-main);
 }
 
 .modal-form-side .form-header p {
+    font-family: var(--font-primary);
+    font-weight: 400;
     font-size: 0.9rem;
     color: var(--text-gray);
     margin-bottom: 25px;
@@ -80,6 +84,8 @@
     padding: 14px 18px; /* Padding interno más amplio */
     border: 1.5px solid var(--border-gray);
     border-radius: 14px;
+    font-family: var(--font-primary);
+    font-weight: 400;
     font-size: 0.95rem;
     background-color: var(--surface-light);
     transition: all 0.3s ease;
@@ -100,6 +106,7 @@
     color: var(--main-green);
     border: none;
     border-radius: 30px;
+    font-family: var(--font-primary);
     font-weight: 700;
     font-size: 1rem;
     cursor: pointer;

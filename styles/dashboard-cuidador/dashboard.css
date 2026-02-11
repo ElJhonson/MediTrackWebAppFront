@@ -12,13 +12,20 @@
     margin-bottom: 1.5rem;
 }
 
+.section-title {
+    font-family: var(--font-primary);
+    font-weight: 600;
+    font-size: 1.25rem;
+}
+
 .btn-add-patient {
     background-color: var(--btn-add-bg);
     color: var(--white);
     border: none;
     padding: 0.7rem 1.2rem;
     border-radius: 10px;
-    font-weight: bold;
+    font-family: var(--font-primary);
+    font-weight: 600;
     cursor: pointer;
     transition: 0.3s;
 }

@@ -1,0 +1,38 @@
+/* Inputs y Toggle */
+.input-group {
+    position: relative;
+    margin-bottom: 15px;
+}
+
+input {
+    width: 100%;
+    padding: 15px 20px;
+    border: 1px solid var(--border-gray);
+    border-radius: 12px;
+    font-size: 0.95rem;
+    outline: none;
+    transition: all 0.3s ease;
+    background-color: var(--surface-light);
+}
+
+input:focus {
+    border-color: var(--accent-lime);
+    background-color: var(--white);
+    box-shadow: 0 0 0 4px var(--accent-lime-soft);
+}
+
+.toggle-password {
+    position: absolute;
+    right: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+    opacity: 0.5;
+}
+
+/* Ocultar flechas del input edad */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}

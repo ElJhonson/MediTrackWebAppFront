@@ -42,6 +42,8 @@ form.addEventListener("submit", async (e) => {
 });
 
 document.querySelector(".toggle-password")?.addEventListener("click", () => {
-    passwordInput.type =
-        passwordInput.type === "password" ? "text" : "password";
+    const toggleBtn = document.querySelector(".toggle-password");
+    const isPassword = passwordInput.type === "password";
+    passwordInput.type = isPassword ? "text" : "password";
+    toggleBtn.textContent = isPassword ? String.fromCodePoint(0x1F513) : String.fromCodePoint(0x1F512);
 });

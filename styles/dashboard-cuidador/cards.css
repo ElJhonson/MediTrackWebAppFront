@@ -12,6 +12,12 @@
     padding-bottom: 1rem; 
 }
 
+.card-header h3 {
+    font-family: var(--font-primary);
+    font-weight: 600;
+    font-size: 1.15rem;
+}
+
 .patient-card {
     display: flex;
     align-items: center;
@@ -45,16 +51,21 @@
 }
 
 .patient-info h4 { 
+    font-family: var(--font-primary);
+    font-weight: 600;
     font-size: 1rem; 
     margin-bottom: 2px; 
 }
 
 .patient-info p { 
+    font-family: var(--font-primary);
     font-size: 0.8rem; 
     color: #777; 
 }
 
 .status-indicator {
+    font-family: var(--font-primary);
+    font-weight: 500;
     font-size: 0.75rem;
     padding: 4px 10px;
     border-radius: 20px;
@@ -77,6 +88,8 @@
     padding: 0.5rem 0.8rem;
     border-radius: 6px;
     cursor: pointer;
+    font-family: var(--font-primary);
+    font-weight: 500;
     font-size: 0.85rem;
 }
 
@@ -88,6 +101,16 @@
     box-shadow: 0 6px 18px rgba(0,0,0,0.08);
     text-align: center;
     margin-bottom: 1.5rem;
+}
+
+.service-card h3 {
+    font-family: var(--font-primary);
+    font-weight: 600;
+}
+
+.service-card p {
+    font-family: var(--font-primary);
+    font-weight: 400;
 }
 
 .schedules { 
