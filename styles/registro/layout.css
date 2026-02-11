@@ -68,6 +68,7 @@
     color: var(--accent-lime);
     padding: 5px 15px;
     border-radius: 20px;
+    font-family: var(--font-primary);
     font-size: 0.75rem;
     font-weight: 700;
     text-transform: uppercase;
@@ -76,6 +77,6 @@
 }
 
 .badge-paciente {
-    background-color: var(--accent-lime);
-    color: var(--main-green);
+    background-color: var(--main-green);
+    color: var(--accent-lime);
 }

@@ -3,6 +3,21 @@ import { saveSession } from "../core/auth.js";
 
 const form = document.getElementById("registerCuidadorForm");
 const passwordInput = document.getElementById("password");
+const togglePasswordBtn = document.getElementById("togglePasswordBtn");
+const passwordGroup = document.querySelector(".password-group");
+
+// Toggle de contraseña
+togglePasswordBtn?.addEventListener("click", (e) => {
+    e.preventDefault();
+    
+    if (passwordInput.type === "password") {
+        passwordInput.type = "text";
+        passwordGroup.classList.add("visible");
+    } else {
+        passwordInput.type = "password";
+        passwordGroup.classList.remove("visible");
+    }
+});
 
 form.addEventListener("submit", async (e) => {
     e.preventDefault();
@@ -38,10 +53,4 @@ form.addEventListener("submit", async (e) => {
         alert("No se pudo crear la cuenta");
         console.error(error);
     }
-});
-document.querySelector(".toggle-password")?.addEventListener("click", () => {
-    const toggleBtn = document.querySelector(".toggle-password");
-    const isPassword = passwordInput.type === "password";
-    passwordInput.type = isPassword ? "text" : "password";
-    toggleBtn.textContent = isPassword ? String.fromCodePoint(0x1F513) : String.fromCodePoint(0x1F512);
 });

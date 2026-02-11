@@ -59,11 +59,19 @@ loginForm.addEventListener("submit", async (e) => {
 
 
 // mostrar - ocultar password
-const togglePasswordBtn = document.querySelector(".toggle-password");
-togglePasswordBtn?.addEventListener("click", () => {
-    const isPassword = passwordInput.type === "password";
-    passwordInput.type = isPassword ? "text" : "password";
-    togglePasswordBtn.textContent = isPassword ? String.fromCodePoint(0x1F513) : String.fromCodePoint(0x1F512);
+const togglePasswordBtn = document.getElementById("togglePasswordBtn");
+const passwordGroup = document.querySelector(".password-group");
+
+togglePasswordBtn?.addEventListener("click", (e) => {
+    e.preventDefault();
+    
+    if (passwordInput.type === "password") {
+        passwordInput.type = "text";
+        passwordGroup.classList.add("visible");
+    } else {
+        passwordInput.type = "password";
+        passwordGroup.classList.remove("visible");
+    }
 });
 
 const modal = document.getElementById("roleModal");

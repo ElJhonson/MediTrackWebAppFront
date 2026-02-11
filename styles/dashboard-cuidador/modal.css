@@ -150,14 +150,78 @@
 
 .badge-paciente {
     display: inline-block;
-    background-color: var(--accent-lime); /* Fondo Verde Lima */
-    color: var(--main-green);            /* Texto Verde Oscuro */
-    padding: 6px 16px;
+    background-color: var(--main-green);
+    color: var(--accent-lime);
+    padding: 5px 15px;
     border-radius: 20px;
+    font-family: var(--font-primary);
     font-size: 0.75rem;
     font-weight: 700;
     text-transform: uppercase;
     letter-spacing: 1px;
     margin-bottom: 15px;
-    box-shadow: 0 2px 5px rgba(163, 230, 53, 0.2);
+}
+
+/* Contenedor del password con candado */
+.password-group {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.password-group input {
+    width: 100%;
+    padding-right: 45px; /* Espacio para el botón del candado */
+}
+
+/* Botón del candado */
+.toggle-password {
+    position: absolute;
+    right: 12px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-gray);
+    transition: all 0.3s ease;
+    z-index: 1;
+}
+
+.toggle-password:hover {
+    color: var(--brand-blue);
+    transform: scale(1.1);
+}
+
+/* Iconos del candado */
+.icon-lock,
+.icon-unlock {
+    width: 18px;
+    height: 18px;
+    transition: all 0.3s ease;
+}
+
+/* Por defecto muestra el candado cerrado */
+.icon-lock {
+    opacity: 1;
+    visibility: visible;
+}
+
+.icon-unlock {
+    opacity: 0;
+    visibility: hidden;
+    position: absolute;
+}
+
+/* Cuando la contraseña es visible, muestra candado abierto */
+.password-group.visible .icon-lock {
+    opacity: 0;
+    visibility: hidden;
+}
+
+.password-group.visible .icon-unlock {
+    opacity: 1;
+    visibility: visible;
 }

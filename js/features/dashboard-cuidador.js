@@ -11,6 +11,9 @@ const btnAddPatient = document.querySelector(".btn-add-patient");
 const modal = document.getElementById("modalRegister");
 const btnCloseModal = document.getElementById("btnCloseModal");
 const registerForm = document.getElementById("registerPacienteForm");
+const togglePasswordBtn = document.getElementById("togglePasswordBtn");
+const passwordInput = document.getElementById("password");
+const passwordGroup = document.querySelector(".password-group");
 
 protectPage();
 
@@ -22,6 +25,19 @@ btnCloseModal.addEventListener("click", cerrarModal);
 
 window.addEventListener("click", (e) => {
     if (e.target === modal) cerrarModal();
+});
+
+// Toggle del candado de contraseña
+togglePasswordBtn.addEventListener("click", (e) => {
+    e.preventDefault();
+    
+    if (passwordInput.type === "password") {
+        passwordInput.type = "text";
+        passwordGroup.classList.add("visible");
+    } else {
+        passwordInput.type = "password";
+        passwordGroup.classList.remove("visible");
+    }
 });
 
 
@@ -73,6 +89,8 @@ registerForm.addEventListener("submit", async (e) => {
 function cerrarModal() {
     modal.style.display = "none";
     registerForm.reset();
+    passwordInput.type = "password";
+    passwordGroup.classList.remove("visible");
 }
 
 
