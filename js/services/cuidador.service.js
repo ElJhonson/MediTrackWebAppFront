@@ -23,7 +23,6 @@ export async function obtenerMisDatosCuidador() {
 
     return response.json();
 }
-
 /**
  * Obtener pacientes asociados al cuidador
  * GET /cuidadores/pacientes-del-cuidador
@@ -44,7 +43,6 @@ export async function obtenerPacientesDelCuidador() {
 
     return response.json();
 }
-
 /**
  * Registrar paciente desde cuidador
  * POST /cuidadores/registrar-paciente
@@ -85,6 +83,29 @@ export async function obtenerPacientePorId(id) {
     if (!response.ok) {
         const msg = await response.text();
         throw new Error(msg || "Error al obtener paciente");
+    }
+
+    return response.json();
+}
+/**
+ * Actualizar paciente desde cuidador
+ * PUT /cuidadores/pacientes/{id}
+ */
+export async function actualizarPacienteDesdeCuidador(id, dto) {
+    const token = getAccessToken();
+
+    const response = await fetch(`${BASE_URL}/pacientes/${id}`, {
+        method: "PUT",
+        headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`
+        },
+        body: JSON.stringify(dto)
+    });
+
+    if (!response.ok) {
+        const msg = await response.text();
+        throw new Error(msg || "Error al actualizar paciente");
     }
 
     return response.json();

@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Perfil del Paciente</title>
+    <link rel="stylesheet" href="../styles/perfil-paciente/perfil.css">
+</head>
+
+<body>
+    <div class="container">
+        <button class="btn-back-link" onclick="window.history.back()">← Volver a la lista</button>
+        <h1 class="main-title">Gestión del Paciente</h1>
+
+        <div id="loading" class="loading-state">Cargando paciente...</div>
+
+        <main id="profile-card" class="profile-card hidden">
+            <div class="profile-header">
+                <div class="avatar-large" id="avatar-initials"></div>
+                <h2 id="display-name" class="patient-name"></h2>
+
+                <button id="edit-btn" class="btn-edit-outline" >Editar Perfil</button>
+            </div>
+
+            <form id="profile-form">
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label>Nombre Completo</label>
+                        <input type="text" id="nombre" name="nombre" disabled required>
+                    </div>
+                    <div class="form-group">
+                        <label>Edad</label>
+                        <input type="number" id="edad" name="edad" disabled required>
+                    </div>
+                    <div class="form-group">
+                        <label>CURP (Privado)</label>
+                        <div class="phone-input-wrapper">
+                            <input type="password" id="curp" disabled maxlength="18">
+                            <button type="button" id="toggle-curp" class="btn-toggle-eye"
+                                >Ver</button>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Teléfono (Privado)</label>
+                        <div class="phone-input-wrapper">
+                            <input type="password" id="phoneNumber" disabled class="readonly-field">
+                            <button type="button" id="toggle-phone" class="btn-toggle-eye"
+                                >Ver</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="diseases-section">
+                    <label class="section-label">Enfermedades Crónicas</label>
+                    <div id="diseases-container" class="tags-container">
+                    </div>
+
+                    <div id="add-disease-box" class="add-tag-box hidden">
+                        <input type="text" id="new-disease-input" placeholder="Agregar enfermedad...">
+                        <button type="button" class="btn-add-tag" >Agregar</button>
+                    </div>
+                </div>
+
+                <div id="actions-bar" class="footer-actions hidden">
+                    <button type="button" class="btn-cancel-flat" >Cancelar</button>
+                    <button type="submit" class="btn-save-main">Guardar Cambios</button>
+                </div>
+            </form>
+        </main>
+    </div>
+    <script type="module" src="../js/pages/perfil-paciente.js"></script>
+</body>
+
+</html>

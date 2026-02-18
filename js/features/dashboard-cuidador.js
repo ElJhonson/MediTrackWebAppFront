@@ -47,7 +47,7 @@ togglePasswordBtn.addEventListener("click", (e) => {
 // Copiar código de vinculación
 btnCopy.addEventListener("click", async () => {
     const codigoTexto = linkCode.textContent.trim();
-    
+
     if (!codigoTexto) {
         alert("El código aún no está disponible");
         return;
@@ -55,12 +55,12 @@ btnCopy.addEventListener("click", async () => {
 
     try {
         await navigator.clipboard.writeText(codigoTexto);
-        
+
         // Feedback visual
         const originalTitle = btnCopy.title;
         btnCopy.title = "¡Copiado!";
         btnCopy.style.color = "var(--accent-lime)";
-        
+
         setTimeout(() => {
             btnCopy.title = originalTitle;
             btnCopy.style.color = "";
@@ -116,131 +116,128 @@ registerForm.addEventListener("submit", async (e) => {
 });
 
 async function cargarPacientes() {
-    // Datos simulados de enfermedades por paciente
-    const enfermedadesSimuladas = {
-        // Los IDs se usarán como claves
-        1: ["Diabetes Tipo 2", "Hipertensión", "Colesterol Alto", "Artritis", "Asma"],
-        2: ["Insuficiencia Cardíaca", "Fibrilación Auricular", "Anemia", "Osteoporosis"],
-        3: ["EPOC", "Depresión", "Ansiedad", "Migrañas", "Tiroides"],
-        default: ["Diabetes", "Hipertensión", "Colesterol"]
-    };
+    try {
+        const pacientes = await obtenerPacientesDelCuidador();
 
-    const pacientes = await obtenerPacientesDelCuidador();
+        patientCount.textContent =
+            `Pacientes Asignados (${pacientes.length})`;
 
-    patientCount.textContent = `Pacientes Asignados (${pacientes.length})`;
-    patientContainer.innerHTML = "";
+        patientContainer.innerHTML = "";
 
-    pacientes.forEach(p => {
-        const initials = p.name
-            .split(" ")
-            .map(n => n[0])
-            .join("")
-            .substring(0, 2)
-            .toUpperCase();
+        pacientes.forEach(p => {
+            const initials = p.name
+                .split(" ")
+                .map(n => n[0])
+                .join("")
+                .substring(0, 2)
+                .toUpperCase();
 
-        // Obtener enfermedades simuladas
-        const enfermedades = enfermedadesSimuladas[p.id] || enfermedadesSimuladas.default;
-        const enfermedadesVisibles = enfermedades.slice(0, 3);
-        const enfermedadesOcultas = enfermedades.slice(3);
-        const tieneOcultas = enfermedadesOcultas.length > 0;
+            const enfermedades = p.enfermedadesCronicas || [];
+            const enfermedadesVisibles = enfermedades.slice(0, 3);
+            const enfermedadesOcultas = enfermedades.slice(3);
 
-        const card = document.createElement("div");
-        card.className = "patient-card";
+            const card = document.createElement("div");
+            card.className = "patient-card";
 
-        let enfermedadesHTML = enfermedadesVisibles
-            .map(e => `<span class="disease-badge">${e}</span>`)
-            .join("");
+            card.innerHTML = `
+                <div style="display: flex; align-items: center; width: 100%; margin-bottom: 0.8rem;">
+                    <div class="patient-avatar">${initials}</div>
+                    <div class="patient-info" style="flex: 1;">
+                        <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.6rem;">
+                            <h4 style="margin: 0;">
+                                ${p.name}, 
+                                <span class="patient-age-inline">
+                                    ${p.edad ?? "N/A"} años
+                                </span>
+                            </h4>
+                            <span class="status-badge">Estable</span>
+                        </div>
 
-        card.innerHTML = `
-            <div style="display: flex; align-items: center; width: 100%; margin-bottom: 0.8rem;">
-                <div class="patient-avatar">${initials}</div>
-                <div class="patient-info" style="flex: 1;">
-                    <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.6rem;">
-                        <h4 style="margin: 0;">${p.name}, <span class="patient-age-inline">${p.edad ?? "N/A"} años</span></h4>
-                        <span class="status-badge">Estable</span>
-                    </div>
-                    <div class="patient-conditions">
-                        ${enfermedades.slice(0, 3).map(e => `<span class="condition-badge">${e}</span>`).join("")}
-                        ${enfermedades.length > 3 ? `<button class="btn-see-more" data-expanded="false">+${enfermedadesOcultas.length}</button>` : ""}
+                        <div class="patient-conditions">
+                            ${enfermedadesVisibles.map(e =>
+                                `<span class="condition-badge">${e}</span>`
+                            ).join("")}
+
+                            ${enfermedades.length > 3
+                                ? `<button class="btn-see-more" data-expanded="false">
+                                        +${enfermedadesOcultas.length}
+                                   </button>`
+                                : ""
+                            }
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div class="patient-actions">
-                <button class="btn-action btn-profile" data-id="${p.id}" title="Ver Perfil">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
-                        <circle cx="12" cy="7" r="4"></circle>
-                    </svg>
-                    Ver Perfil
-                </button>
-                <button class="btn-action btn-medicine" data-id="${p.id}" title="Medicinas">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <circle cx="12" cy="12" r="10"></circle>
-                        <path d="M12 6v12M6 12h12"></path>
-                    </svg>
-                    Medicinas
-                </button>
-                <button class="btn-action btn-notes" data-id="${p.id}" title="Notas">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
-                        <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
-                    </svg>
-                    Notas
-                </button>
-                <button class="btn-action btn-menu" data-id="${p.id}" title="Más opciones">
-                    ⋮
-                </button>
-            </div>
-        `;
 
-        card.querySelector(".btn-profile")
-            .addEventListener("click", () => {
-                window.location.href =
-                    `/views/paciente-perfil.html?id=${p.id}`;
-            });
+                <div class="patient-actions">
+                    <button class="btn-action btn-profile" data-id="${p.id}">
+                        Ver Perfil
+                    </button>
 
-        card.querySelector(".btn-medicine")
-            .addEventListener("click", () => {
-                window.location.href =
-                    `/pages/medicamentos.html?id=${p.id}`;
-            });
+                    <button class="btn-action btn-medicine" data-id="${p.id}">
+                        Medicinas
+                    </button>
 
-        card.querySelector(".btn-notes")
-            .addEventListener("click", () => {
-                alert("Función de notas próximamente");
-            });
+                    <button class="btn-action btn-notes">
+                        Notas
+                    </button>
 
-        card.querySelector(".btn-menu")
-            .addEventListener("click", () => {
-                alert("Menú de opciones próximamente");
-            });
+                    <button class="btn-action btn-menu">
+                        ⋮
+                    </button>
+                </div>
+            `;
 
-        // Event listener para expandir/contraer enfermedades
-        const btnSeeMore = card.querySelector(".btn-see-more");
-        if (btnSeeMore) {
-            btnSeeMore.addEventListener("click", function expandToggle() {
-                const isExpanded = this.dataset.expanded === "true";
-                const conditionsDiv = card.querySelector(".patient-conditions");
-                
-                if (isExpanded) {
-                    conditionsDiv.innerHTML = `
-                        ${enfermedades.slice(0, 3).map(e => `<span class="condition-badge">${e}</span>`).join("")}
-                        <button class="btn-see-more" data-expanded="false">+${enfermedadesOcultas.length}</button>
-                    `;
-                    card.querySelector(".btn-see-more").addEventListener("click", expandToggle);
-                } else {
-                    conditionsDiv.innerHTML = `
-                        ${enfermedades.map(e => `<span class="condition-badge">${e}</span>`).join("")}
-                        <button class="btn-see-more" data-expanded="true">- Menos</button>
-                    `;
-                    card.querySelector(".btn-see-more").addEventListener("click", expandToggle);
-                }
-            });
-        }
+            // 🔹 Navegación a perfil
+            card.querySelector(".btn-profile")
+                .addEventListener("click", () => {
+                    window.location.href =
+                        `../../pages/perfil-paciente.html?id=${p.id}`;
+                });
 
-        patientContainer.appendChild(card);
-    });
+            // 🔹 Expandir / contraer enfermedades
+            const btnSeeMore = card.querySelector(".btn-see-more");
+
+            if (btnSeeMore) {
+                btnSeeMore.addEventListener("click", function () {
+                    const expanded = this.dataset.expanded === "true";
+                    const conditionsDiv =
+                        card.querySelector(".patient-conditions");
+
+                    if (expanded) {
+                        conditionsDiv.innerHTML = `
+                            ${enfermedadesVisibles.map(e =>
+                                `<span class="condition-badge">${e}</span>`
+                            ).join("")}
+                            <button class="btn-see-more" data-expanded="false">
+                                +${enfermedadesOcultas.length}
+                            </button>
+                        `;
+                    } else {
+                        conditionsDiv.innerHTML = `
+                            ${enfermedades.map(e =>
+                                `<span class="condition-badge">${e}</span>`
+                            ).join("")}
+                            <button class="btn-see-more" data-expanded="true">
+                                - Menos
+                            </button>
+                        `;
+                    }
+
+                    // Volver a enlazar evento
+                    conditionsDiv.querySelector(".btn-see-more")
+                        .addEventListener("click", arguments.callee);
+                });
+            }
+
+            patientContainer.appendChild(card);
+        });
+
+    } catch (error) {
+        console.error("Error cargando pacientes:", error);
+        alert("No se pudieron cargar los pacientes.");
+    }
 }
+
 
 
 function cerrarModal() {
