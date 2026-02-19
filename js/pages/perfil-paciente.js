@@ -1,7 +1,11 @@
-import { obtenerPacientePorId } from "../services/cuidador.service.js";
+import {
+    obtenerPacientePorId,
+    actualizarPacienteDesdeCuidador
+} from "../services/cuidador.service.js";
 
 let enfermedades = [];
 let modoEdicion = false;
+const coloresEnfermedad = new Map();
 
 function obtenerPacienteIdDesdeURL() {
     const params = new URLSearchParams(window.location.search);
@@ -53,23 +57,49 @@ function renderTags() {
     const container = document.getElementById('diseases-container');
 
     container.innerHTML = enfermedades.map((enf, index) => {
-
-        let colorClass = 'tag-default';
-        const name = enf.toLowerCase();
-
-        if (name.includes('diabetes')) colorClass = 'tag-diabetes';
-        else if (name.includes('hiperten')) colorClass = 'tag-hipertension';
-        else if (name.includes('colester')) colorClass = 'tag-colesterol';
+        const estilo = obtenerEstiloTag(enf);
 
         return `
-            <span class="tag ${colorClass}">
-                ${enf}
+            <span class="tag"
+                  style="--tag-bg:${estilo.bg};--tag-text:${estilo.text};--tag-border:${estilo.border};">
+                <span class="tag-text">${enf}</span>
                 ${modoEdicion ? `<button type="button"
                                          class="remove-tag"
-                                         onclick="removeDisease(${index})">×</button>` : ""}
+                                         data-index="${index}"
+                                         aria-label="Eliminar enfermedad">x</button>` : ""}
             </span>
         `;
     }).join('');
+}
+
+function normalizarEnfermedad(valor) {
+    return valor
+        .toLowerCase()
+        .normalize("NFD")
+        .replace(/[\u0300-\u036f]/g, "")
+        .trim();
+}
+
+function crearColorSuaveAleatorio() {
+    const hue = Math.floor(Math.random() * 360);
+    const saturation = Math.floor(55 + Math.random() * 20);
+    const lightness = Math.floor(82 + Math.random() * 10);
+
+    return {
+        bg: `hsl(${hue} ${saturation}% ${lightness}%)`,
+        border: `hsl(${hue} ${Math.max(42, saturation - 12)}% ${Math.max(66, lightness - 15)}%)`,
+        text: "#1f2937"
+    };
+}
+
+function obtenerEstiloTag(enfermedad) {
+    const key = normalizarEnfermedad(enfermedad);
+
+    if (!coloresEnfermedad.has(key)) {
+        coloresEnfermedad.set(key, crearColorSuaveAleatorio());
+    }
+
+    return coloresEnfermedad.get(key);
 }
 
 
@@ -80,7 +110,10 @@ function toggleEdit() {
 
     document.querySelectorAll('#profile-form input')
         .forEach(input => {
-            if (!input.classList.contains("readonly-field")) {
+            if (
+                !input.classList.contains("readonly-field") &&
+                input.id !== "nombre"
+            ) {
                 input.disabled = !modoEdicion;
             }
         });
@@ -92,6 +125,7 @@ function toggleEdit() {
         .classList.toggle('hidden', !modoEdicion);
 
     btn.innerText = modoEdicion ? "Viendo Perfil" : "Editar Perfil";
+    renderTags();
 }
 
 
@@ -122,10 +156,18 @@ function addDiseaseTag() {
 
     if (!value) return;
 
-    if (!enfermedades.includes(value)) {
-        enfermedades.push(value);
-        renderTags();
+    const nuevaEnfermedad = normalizarEnfermedad(value);
+    const yaExiste = enfermedades.some(
+        e => normalizarEnfermedad(e) === nuevaEnfermedad
+    );
+
+    if (yaExiste) {
+        alert("Esa enfermedad ya está registrada.");
+        return;
     }
+
+    enfermedades.push(value);
+    renderTags();
 
     input.value = "";
 }
@@ -141,6 +183,57 @@ function cancelEdit() {
 function removeDisease(index) {
     enfermedades.splice(index, 1);
     renderTags();
+}
+
+function handleDiseaseActions(e) {
+    const removeBtn = e.target.closest(".remove-tag");
+    if (!removeBtn) return;
+
+    const index = Number(removeBtn.dataset.index);
+    if (Number.isNaN(index)) return;
+
+    removeDisease(index);
+}
+
+async function guardarCambiosPaciente(e) {
+    e.preventDefault();
+
+    if (!modoEdicion) return;
+
+    const pacienteId = obtenerPacienteIdDesdeURL();
+
+    if (!pacienteId) {
+        alert("Paciente no especificado");
+        return;
+    }
+
+    const dto = {
+        name: document.getElementById("nombre").value.trim(),
+        edad: Number(document.getElementById("edad").value),
+        curp: document.getElementById("curp").value.trim(),
+        phoneNumber: document.getElementById("phoneNumber").value.trim(),
+        enfermedadesCronicas: [...enfermedades]
+    };
+
+    try {
+        await actualizarPacienteDesdeCuidador(pacienteId, dto);
+
+        document.getElementById("display-name").innerText = dto.name;
+
+        const initials = dto.name
+            .split(" ")
+            .map(p => p[0])
+            .join("")
+            .substring(0, 2)
+            .toUpperCase();
+
+        document.getElementById("avatar-initials").innerText = initials;
+        toggleEdit();
+        alert("Datos del paciente actualizados correctamente");
+    } catch (error) {
+        console.error(error);
+        alert(error.message || "No se pudo actualizar el paciente");
+    }
 }
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -159,6 +252,12 @@ document.addEventListener("DOMContentLoaded", () => {
 
     document.querySelector(".btn-cancel-flat")
         .addEventListener("click", cancelEdit);
+
+    document.getElementById("profile-form")
+        .addEventListener("submit", guardarCambiosPaciente);
+
+    document.getElementById("diseases-container")
+        .addEventListener("click", handleDiseaseActions);
 
 });
 
