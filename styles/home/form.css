@@ -141,3 +141,32 @@ input:focus {
     margin-top: 18px;
     font-size: 0.95rem;
 }
+
+.author-footer {
+    position: fixed;
+    bottom: 12px;
+    left: 50%;
+    transform: translateX(-50%);
+    text-align: center;
+    z-index: 5;
+    opacity: 0.8;
+}
+
+.author-footer p {
+    margin: 0;
+    font-size: 0.78rem;
+    color: var(--text-muted);
+}
+
+.author-footer a {
+    display: inline-block;
+    margin-top: 2px;
+    font-size: 0.78rem;
+    color: var(--text-muted);
+    text-decoration: none;
+    font-weight: 400;
+}
+
+.author-footer a:hover {
+    color: var(--main-green);
+}

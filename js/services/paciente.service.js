@@ -6,8 +6,7 @@ const BASE_URL = `${API_BASE_URL}/pacientes`;
 export async function obtenerMisDatosPaciente() {
     const response = await authFetch(`${BASE_URL}/misdatos`);
 
-    
-    if (response.status === 401) {
+    if (response.status === 401 || response.status === 403) {
         return null;
     }
 

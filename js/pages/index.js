@@ -99,7 +99,7 @@ togglePasswordBtn?.addEventListener("click", (e) => {
     e.preventDefault();
     
     if (passwordInput.type === "password") {
-        passwordInput.type = "text";
+        passwordInput.type = "text"; 
         passwordGroup.classList.add("visible");
     } else {
         passwordInput.type = "password";

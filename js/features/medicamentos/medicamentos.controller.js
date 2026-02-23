@@ -32,6 +32,12 @@ export async function cargarMedicamentos() {
 // Dentro de tu archivo medicamentos.controller.js, en la función initMedicamentos:
 
 export function initMedicamentos() {
+    if (medicamentosState.inicializado) {
+        cargarMedicamentos();
+        return;
+    }
+
+    medicamentosState.inicializado = true;
     initMedicamentosModal();
     cargarMedicamentos();
 
