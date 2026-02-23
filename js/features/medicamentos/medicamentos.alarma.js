@@ -1,5 +1,6 @@
 import { crearAlarmaConfig } from "../../services/alarma.service.js";
 import { medicamentosState } from "./medicamentos.state.js";
+import { notifyError, notifySuccess } from "../../core/notify.js";
 
 const modal = document.getElementById("modalAlarma");
 const form = document.getElementById("alarmaForm");
@@ -10,7 +11,7 @@ export function initAlarmaModal() {
         modal.classList.remove("active");
     };
 
-    // Manejar el envío del formulario
+    // Manejar el envio del formulario
     form.onsubmit = async (e) => {
         e.preventDefault();
 
@@ -21,20 +22,19 @@ export function initAlarmaModal() {
             frecuenciaHoras: Number(document.getElementById("frecuenciaHoras").value)
         };
 
-
         try {
             await crearAlarmaConfig(dto);
-            alert("¡Alarma configurada con éxito!");
+            notifySuccess("Alarma configurada con exito");
             modal.classList.remove("active");
             form.reset();
         } catch (error) {
             console.error("Error al configurar alarma:", error);
-            alert("Hubo un error al guardar la alarma.");
+            notifyError(error.message || "Hubo un error al guardar la alarma.");
         }
     };
 }
 
-// Función que llamarás desde el botón del reloj (Render)
+// Funcion que llamaras desde el boton del reloj (Render)
 export function abrirModalAlarma(medicinaId) {
     form.reset();
     document.getElementById("alarmaMedicinaId").value = medicinaId;

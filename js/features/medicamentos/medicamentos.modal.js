@@ -2,6 +2,7 @@ import {
     registrarMedicina,
     actualizarMedicina
 } from "../../services/medicina.service.js";
+import { notifyError, notifySuccess } from "../../core/notify.js";
 
 import { cargarMedicamentos } from "./medicamentos.controller.js";
 
@@ -31,16 +32,23 @@ export function initMedicamentosModal() {
             expirationDate: document.getElementById("expirationDate").value
         };
 
-        if (id) {
-            await actualizarMedicina(id, dto);
-        } else {
-            await registrarMedicina(dto);
-        }
+        try {
+            if (id) {
+                await actualizarMedicina(id, dto);
+                notifySuccess("Medicina actualizada correctamente");
+            } else {
+                await registrarMedicina(dto);
+                notifySuccess("Medicina registrada correctamente");
+            }
 
-        modal.classList.remove("active");
-        form.reset();
-        document.getElementById("editId").value = "";
-        await cargarMedicamentos();
+            modal.classList.remove("active");
+            form.reset();
+            document.getElementById("editId").value = "";
+            await cargarMedicamentos();
+        } catch (error) {
+            console.error("Error al guardar medicina:", error);
+            notifyError(error.message || "No se pudo guardar la medicina");
+        }
     };
 }
 

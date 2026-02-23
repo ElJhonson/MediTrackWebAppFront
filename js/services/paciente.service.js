@@ -1,5 +1,6 @@
 import { API_BASE_URL } from "../core/config.js";
 import { authFetch } from "../core/http.js";
+import { extraerMensajeError } from "./http-error.util.js";
 
 const BASE_URL = `${API_BASE_URL}/pacientes`;
 
@@ -11,7 +12,11 @@ export async function obtenerMisDatosPaciente() {
     }
 
     if (!response.ok) {
-        throw new Error("Error al obtener datos del paciente");
+        const msg = await extraerMensajeError(
+            response,
+            "Error al obtener datos del paciente"
+        );
+        throw new Error(msg || "Error al obtener datos del paciente");
     }
 
     return response.json();

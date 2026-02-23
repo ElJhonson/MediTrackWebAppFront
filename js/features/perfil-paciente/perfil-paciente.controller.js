@@ -22,6 +22,7 @@ import {
     initVisibilityButtons,
     cancelEdit
 } from "./perfil-paciente.edit.js";
+import { notifyError, notifySuccess } from "../../core/notify.js";
 
 function sleep(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
@@ -56,7 +57,7 @@ async function cargarPerfil() {
         const pacienteId = obtenerPacienteIdDesdeURL();
 
         if (!pacienteId) {
-            alert("Paciente no especificado");
+            notifyError("Paciente no especificado");
             return;
         }
 
@@ -69,11 +70,11 @@ async function cargarPerfil() {
         mostrarPerfilCargado();
     } catch (error) {
         if (esErrorRedFetch(error)) {
-            alert("No se pudo conectar al servidor. Intenta recargar en unos segundos.");
+            notifyError("No se pudo conectar al servidor. Intenta recargar en unos segundos.");
             return;
         }
 
-        alert(error.message);
+        notifyError(error.message);
         console.error(error);
     }
 }
@@ -86,7 +87,7 @@ async function guardarCambiosPaciente(e) {
     const pacienteId = obtenerPacienteIdDesdeURL();
 
     if (!pacienteId) {
-        alert("Paciente no especificado");
+        notifyError("Paciente no especificado");
         return;
     }
 
@@ -98,11 +99,11 @@ async function guardarCambiosPaciente(e) {
         setHeaderPaciente(actualizado.name);
 
         toggleEdit();
-        alert("Datos del paciente actualizados correctamente");
+        notifySuccess("Datos del paciente actualizados correctamente");
 
     } catch (error) {
         console.error(error);
-        alert(error.message || "No se pudo actualizar el paciente");
+        notifyError(error.message || "No se pudo actualizar el paciente");
     }
 }
 

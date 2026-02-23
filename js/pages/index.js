@@ -8,6 +8,7 @@ import {
     isAuthenticated,
     startSessionExpiryWatcher
 } from "/js/core/auth.js";
+import { notifyError } from "/js/core/notify.js";
 
 const loginForm = document.getElementById("loginForm");
 const phoneInput = document.getElementById("phoneNumber");
@@ -49,7 +50,7 @@ loginForm.addEventListener("submit", async (e) => {
     const password = passwordInput.value.trim();
 
     if (!phoneNumber || !password) {
-        alert("Todos los campos son obligatorios");
+        notifyError("Todos los campos son obligatorios");
         return;
     }
 
@@ -61,7 +62,7 @@ loginForm.addEventListener("submit", async (e) => {
         });
 
         if (!response.ok) {
-            alert("Credenciales incorrectas");
+            notifyError("Credenciales incorrectas");
             return;
         }
 
@@ -80,13 +81,13 @@ loginForm.addEventListener("submit", async (e) => {
                 break;
 
             default:
-                alert('Rol no reconocido:', rol);
+                notifyError(`Rol no reconocido: ${rol || "desconocido"}`);
                 window.location.replace(ROUTES.LOGIN);
         }
 
     } catch (error) {
         console.error(error);
-        alert("Error de conexión con el servidor");
+        notifyError("Error de conexión con el servidor");
     }
 });
 

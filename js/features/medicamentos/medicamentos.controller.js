@@ -2,6 +2,7 @@ import {
     obtenerMisMedicinas,
     eliminarMedicina
 } from "../../services/medicina.service.js";
+import { notifyError, notifySuccess } from "../../core/notify.js";
 
 import { medicamentosState } from "./medicamentos.state.js";
 import { renderMeds } from "./medicamentos.render.js";
@@ -47,8 +48,14 @@ export function initMedicamentos() {
         // Caso Eliminar (Ya lo tienes)
         if (e.target.classList.contains("btn-delete")) {
             if (!confirm("¿Deseas eliminar esta medicina?")) return;
-            await eliminarMedicina(id);
-            await cargarMedicamentos();
+            try {
+                await eliminarMedicina(id);
+                notifySuccess("Medicina eliminada correctamente");
+                await cargarMedicamentos();
+            } catch (error) {
+                console.error("Error al eliminar medicina:", error);
+                notifyError(error.message || "No se pudo eliminar la medicina");
+            }
         }
 
         // Caso Editar (Ya lo tienes)

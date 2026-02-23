@@ -1,5 +1,6 @@
 import { API_BASE_URL } from "../core/config.js";
 import { getAccessToken } from "../core/auth.js";
+import { extraerMensajeError } from "./http-error.util.js";
 
 const BASE_URL = `${API_BASE_URL}/medicinas`;
 
@@ -17,8 +18,8 @@ export async function registrarMedicina(dto) {
     });
 
     if (!response.ok) {
-        const error = await response.text();
-        throw new Error(error || "Error al registrar medicina");
+        const msg = await extraerMensajeError(response);
+        throw new Error(msg || "Error al registrar medicina");
     }
 
     return response.json();
@@ -35,7 +36,7 @@ export async function obtenerMisMedicinas() {
     });
 
     if (!response.ok) {
-        const msg = await response.text();
+        const msg = await extraerMensajeError(response);
         throw new Error(msg || "Error real del servidor");
     }
 
@@ -57,7 +58,8 @@ export async function actualizarMedicina(id, dto) {
     });
 
     if (!response.ok) {
-        throw new Error("Error al actualizar la medicina");
+        const msg = await extraerMensajeError(response);
+        throw new Error(msg || "Error al actualizar la medicina");
     }
 
     return response.json();
@@ -77,6 +79,7 @@ export async function eliminarMedicina(id) {
     });
 
     if (!response.ok) {
-        throw new Error("Error al eliminar la medicina");
+        const msg = await extraerMensajeError(response);
+        throw new Error(msg || "Error al eliminar la medicina");
     }
 }

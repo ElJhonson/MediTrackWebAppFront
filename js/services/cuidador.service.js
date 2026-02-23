@@ -1,5 +1,6 @@
 import { API_BASE_URL } from "../core/config.js";
 import { getAccessToken } from "../core/auth.js";
+import { extraerMensajeError } from "./http-error.util.js";
 
 const BASE_URL = `${API_BASE_URL}/cuidadores`;
 
@@ -17,7 +18,7 @@ export async function obtenerMisDatosCuidador() {
     });
 
     if (!response.ok) {
-        const msg = await response.text();
+        const msg = await extraerMensajeError(response);
         throw new Error(msg || "No se pudieron obtener los datos del cuidador");
     }
 
@@ -37,7 +38,7 @@ export async function obtenerPacientesDelCuidador() {
     });
 
     if (!response.ok) {
-        const msg = await response.text();
+        const msg = await extraerMensajeError(response);
         throw new Error(msg || "Error al obtener pacientes");
     }
 
@@ -60,7 +61,7 @@ export async function registrarPacienteDesdeCuidador(dto) {
     });
 
     if (!response.ok) {
-        const msg = await response.text();
+        const msg = await extraerMensajeError(response);
         throw new Error(msg || "Error al registrar paciente");
     }
 
@@ -81,7 +82,7 @@ export async function obtenerPacientePorId(id) {
     });
 
     if (!response.ok) {
-        const msg = await response.text();
+        const msg = await extraerMensajeError(response);
         throw new Error(msg || "Error al obtener paciente");
     }
 
@@ -111,7 +112,7 @@ export async function actualizarPacienteDesdeCuidador(id, dto) {
     });
 
     if (!response.ok) {
-        const msg = await response.text();
+        const msg = await extraerMensajeError(response);
         throw new Error(msg || "Error al actualizar paciente");
     }
 
