@@ -30,7 +30,6 @@ export async function cargarMedicamentos() {
     }
 }
 
-// Dentro de tu archivo medicamentos.controller.js, en la función initMedicamentos:
 
 export function initMedicamentos() {
     if (medicamentosState.inicializado) {
@@ -45,7 +44,7 @@ export function initMedicamentos() {
     container.addEventListener("click", async (e) => {
         const id = e.target.dataset.id || e.target.closest("button")?.dataset.id;
 
-        // Caso Eliminar (Ya lo tienes)
+        // Caso Eliminar 
         if (e.target.classList.contains("btn-delete")) {
             if (!confirm("¿Deseas eliminar esta medicina?")) return;
             try {
@@ -58,13 +57,13 @@ export function initMedicamentos() {
             }
         }
 
-        // Caso Editar (Ya lo tienes)
+        // Caso Editar 
         if (e.target.classList.contains("btn-edit")) {
             const med = medicamentosState.lista.find(m => m.id == id);
             abrirModalEditar(med);
         }
 
-        // NUEVO: Caso Alarma (Reloj)
+        // Caso Alarma 
         if (e.target.classList.contains("btn-reminder")) {
             import("./medicamentos.alarma.js").then(module => {
                 module.abrirModalAlarma(id);

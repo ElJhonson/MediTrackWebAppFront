@@ -1,6 +1,6 @@
-//export const API_BASE_URL = "https://meditrackwebappback.onrender.com";
+export const API_BASE_URL = "https://meditrackwebappback.onrender.com";
 
-export const API_BASE_URL = "http://localhost:8080";
+// export const API_BASE_URL = "http://localhost:8080";
 
 export const AUTH_ENDPOINTS = {
     LOGIN: `${API_BASE_URL}/auth/acceder`
