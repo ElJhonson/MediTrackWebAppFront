@@ -51,7 +51,7 @@ export function renderPacientes(elements, pacientesConDetalle) {
                         <h4 style="margin: 0;">
                             ${p.name}, 
                             <span class="patient-age-inline">
-                                ${p.edad ?? "N/A"} aÃ±os
+                                ${p.edad ?? "N/A"} a\u00f1os
                             </span>
                         </h4>
                         <span class="status-badge">Estable</span>
@@ -102,3 +102,4 @@ export function renderPacientes(elements, pacientesConDetalle) {
         elements.patientContainer.appendChild(card);
     });
 }
+
