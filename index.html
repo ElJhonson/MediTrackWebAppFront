@@ -35,7 +35,8 @@
 
                 <form id="loginForm">
                     <div class="input-group">
-                        <input type="text" id="phoneNumber" placeholder="Número de teléfono" required>
+                        <input type="text" id="phoneNumber" placeholder="Número de teléfono" inputmode="numeric"
+                            maxlength="10" autocomplete="tel-national" required>
                     </div>
 
                     <div class="input-group password-group">
@@ -54,15 +55,6 @@
 
                     <button type="submit" class="btn-primary">Iniciar Sesión</button>
                 </form>
-
-                <div class="divider">
-                    <span>o accede con</span>
-                </div>
-
-                <div class="social-login">
-                    <button class="social-btn"><img src="https://cdn-icons-png.flaticon.com/512/2991/2991148.png"
-                            alt="Google"></button>
-                </div>
 
                 <footer class="form-footer">
                     <p class="login-link">¿No tienes cuenta? <a href="#" id="btnOpenModal">Regístrate</a></p>

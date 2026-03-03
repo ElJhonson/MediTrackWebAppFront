@@ -23,6 +23,10 @@ import {
     cancelEdit
 } from "./perfil-paciente.edit.js";
 import { notifyError, notifySuccess } from "../../core/notify.js";
+import {
+    setupCurpInputValidation,
+    isCurpLengthValid
+} from "../../core/form-validation.js";
 
 function sleep(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
@@ -93,6 +97,11 @@ async function guardarCambiosPaciente(e) {
 
     const dto = getFormularioPacienteDTO(perfilPacienteState.enfermedades);
 
+    if (!isCurpLengthValid(dto.curp)) {
+        notifyError("La CURP debe tener 18 caracteres");
+        return;
+    }
+
     try {
         const actualizado = await actualizarPacienteDesdeCuidador(pacienteId, dto);
 
@@ -110,6 +119,7 @@ async function guardarCambiosPaciente(e) {
 
 export function initPerfilPaciente() {
     initVisibilityButtons();
+    setupCurpInputValidation(document.getElementById("curp"));
 
     document.getElementById("edit-btn")
         .addEventListener("click", toggleEdit);

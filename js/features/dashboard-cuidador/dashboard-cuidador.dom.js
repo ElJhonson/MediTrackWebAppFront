@@ -17,7 +17,10 @@ export function cerrarModal(elements) {
     elements.modal.style.display = "none";
     elements.registerForm.reset();
     elements.passwordInput.type = "password";
-    elements.passwordGroup.classList.remove("visible");
+    elements.confirmPasswordInput.type = "password";
+    elements.passwordInput.closest(".password-group")?.classList.remove("visible");
+    elements.confirmPasswordInput.closest(".password-group")?.classList.remove("visible");
+    elements.confirmPasswordInput.setCustomValidity("");
 }
 
 export function renderPacientes(elements, pacientesConDetalle) {

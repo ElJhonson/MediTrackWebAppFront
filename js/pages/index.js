@@ -3,7 +3,8 @@ import {
     STORAGE_KEYS,
     ROLES,
     ROUTES
-} from "/js/core/config.js"; import {
+} from "/js/core/config.js";
+import {
     saveSession,
     isAuthenticated,
     startSessionExpiryWatcher
@@ -13,6 +14,51 @@ import { notifyError } from "/js/core/notify.js";
 const loginForm = document.getElementById("loginForm");
 const phoneInput = document.getElementById("phoneNumber");
 const passwordInput = document.getElementById("password");
+const PHONE_DIGITS = 10;
+
+function sanitizePhoneValue(value) {
+    return String(value || "").replace(/\D/g, "").slice(0, PHONE_DIGITS);
+}
+
+function setupPhoneInputValidation(input) {
+    if (!input) return;
+
+    const normalizePhone = () => {
+        input.value = sanitizePhoneValue(input.value);
+    };
+
+    input.addEventListener("input", normalizePhone);
+    input.addEventListener("paste", () => setTimeout(normalizePhone, 0));
+}
+
+function applySpanishValidationMessages(form) {
+    if (!form) return;
+
+    const fields = form.querySelectorAll("input, select, textarea");
+
+    fields.forEach((field) => {
+        field.addEventListener("invalid", () => {
+            if (field.validity.valueMissing) {
+                field.setCustomValidity("Este campo es obligatorio.");
+                return;
+            }
+
+            if (field.id === "phoneNumber") {
+                const digits = sanitizePhoneValue(field.value);
+                if (digits.length !== PHONE_DIGITS) {
+                    field.setCustomValidity("El numero de telefono debe tener 10 digitos.");
+                    return;
+                }
+            }
+
+            field.setCustomValidity("Valor no valido.");
+        });
+
+        field.addEventListener("input", () => {
+            field.setCustomValidity("");
+        });
+    });
+}
 
 function redirectIfAuthenticated() {
     const token = localStorage.getItem(STORAGE_KEYS.ACCESS_TOKEN);
@@ -42,14 +88,22 @@ function redirectIfAuthenticated() {
 
 redirectIfAuthenticated();
 window.addEventListener("pageshow", redirectIfAuthenticated);
+setupPhoneInputValidation(phoneInput);
+applySpanishValidationMessages(loginForm);
 
 loginForm.addEventListener("submit", async (e) => {
     e.preventDefault();
 
-    const phoneNumber = phoneInput.value.trim();
+    const phoneNumber = sanitizePhoneValue(phoneInput.value.trim());
+    phoneInput.value = phoneNumber;
     const password = passwordInput.value.trim();
 
-    if (!phoneNumber || !password) {
+    if (phoneNumber.length !== PHONE_DIGITS) {
+        notifyError("El numero de telefono debe tener 10 digitos");
+        return;
+    }
+
+    if (!password) {
         notifyError("Todos los campos son obligatorios");
         return;
     }
@@ -75,32 +129,27 @@ loginForm.addEventListener("submit", async (e) => {
             case ROLES.PACIENTE:
                 window.location.replace(ROUTES.DASHBOARD_PACIENTE);
                 break;
-
             case ROLES.CUIDADOR:
                 window.location.replace(ROUTES.DASHBOARD_CUIDADOR);
                 break;
-
             default:
                 notifyError(`Rol no reconocido: ${rol || "desconocido"}`);
                 window.location.replace(ROUTES.LOGIN);
         }
-
     } catch (error) {
         console.error(error);
-        notifyError("Error de conexión con el servidor");
+        notifyError("Error de conexion con el servidor");
     }
 });
 
-
-// mostrar - ocultar password
 const togglePasswordBtn = document.getElementById("togglePasswordBtn");
 const passwordGroup = document.querySelector(".password-group");
 
 togglePasswordBtn?.addEventListener("click", (e) => {
     e.preventDefault();
-    
+
     if (passwordInput.type === "password") {
-        passwordInput.type = "text"; 
+        passwordInput.type = "text";
         passwordGroup.classList.add("visible");
     } else {
         passwordInput.type = "password";
@@ -112,7 +161,6 @@ const modal = document.getElementById("roleModal");
 const btnOpen = document.getElementById("btnOpenModal");
 const btnClose = document.getElementById("btnCloseModal");
 
-// modal
 btnOpen.addEventListener("click", (e) => {
     e.preventDefault();
     modal.classList.add("active");

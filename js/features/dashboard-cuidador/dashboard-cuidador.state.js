@@ -5,8 +5,9 @@ export function getDashboardElements() {
         btnCloseModal: document.getElementById("btnCloseModal"),
         registerForm: document.getElementById("registerPacienteForm"),
         togglePasswordBtn: document.getElementById("togglePasswordBtn"),
+        toggleConfirmPasswordBtn: document.getElementById("toggleConfirmPasswordBtn"),
         passwordInput: document.getElementById("password"),
-        passwordGroup: document.querySelector(".password-group"),
+        confirmPasswordInput: document.getElementById("confirmPassword"),
         patientContainer: document.getElementById("patient-list-container"),
         patientCount: document.getElementById("patient-count"),
         btnCopy: document.getElementById("btnCopy"),
@@ -26,8 +27,9 @@ export function hasRequiredDashboardElements(elements) {
         && elements.btnCloseModal
         && elements.registerForm
         && elements.togglePasswordBtn
+        && elements.toggleConfirmPasswordBtn
         && elements.passwordInput
-        && elements.passwordGroup
+        && elements.confirmPasswordInput
         && elements.patientContainer
         && elements.patientCount
         && elements.btnCopy

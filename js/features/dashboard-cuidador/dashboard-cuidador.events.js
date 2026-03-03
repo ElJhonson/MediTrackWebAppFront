@@ -1,8 +1,23 @@
 import { logout } from "../../core/auth.js";
 import { notifyError, notifyInfo } from "../../core/notify.js";
+import {
+    PHONE_DIGITS,
+    sanitizePhoneValue,
+    setupPhoneInputValidation,
+    applySpanishValidationMessages,
+    setupPasswordConfirmationValidation,
+    passwordsMatch,
+    setupPasswordToggle
+} from "../../core/form-validation.js";
 import { cerrarAccountMenu, cerrarModal } from "./dashboard-cuidador.dom.js";
 
 export function bindDashboardCuidadorEvents(elements, handlers) {
+    setupPhoneInputValidation(elements.registerForm?.phoneNumber);
+    setupPasswordConfirmationValidation(elements.passwordInput, elements.confirmPasswordInput);
+    applySpanishValidationMessages(elements.registerForm);
+    setupPasswordToggle(elements.togglePasswordBtn, elements.passwordInput);
+    setupPasswordToggle(elements.toggleConfirmPasswordBtn, elements.confirmPasswordInput);
+
     elements.btnAddPatient.addEventListener("click", () => {
         elements.modal.style.display = "flex";
     });
@@ -35,18 +50,6 @@ export function bindDashboardCuidadorEvents(elements, handlers) {
         if (e.key === "Escape") cerrarAccountMenu(elements);
     });
 
-    elements.togglePasswordBtn.addEventListener("click", (e) => {
-        e.preventDefault();
-
-        if (elements.passwordInput.type === "password") {
-            elements.passwordInput.type = "text";
-            elements.passwordGroup.classList.add("visible");
-        } else {
-            elements.passwordInput.type = "password";
-            elements.passwordGroup.classList.remove("visible");
-        }
-    });
-
     elements.btnCopy.addEventListener("click", async () => {
         const codigoTexto = elements.linkCode.textContent.trim();
 
@@ -74,6 +77,26 @@ export function bindDashboardCuidadorEvents(elements, handlers) {
 
     elements.registerForm.addEventListener("submit", async (e) => {
         e.preventDefault();
+
+        elements.registerForm.phoneNumber.value = sanitizePhoneValue(
+            elements.registerForm.phoneNumber.value
+        );
+
+        if (elements.registerForm.phoneNumber.value.length !== PHONE_DIGITS) {
+            notifyError("El numero de telefono debe tener 10 digitos");
+            return;
+        }
+
+        if (!elements.registerForm.reportValidity()) {
+            return;
+        }
+
+        if (!passwordsMatch(elements.passwordInput, elements.confirmPasswordInput)) {
+            notifyError("Las contraseñas no coinciden");
+            return;
+        }
+
         await handlers.onRegistrarPaciente();
     });
 }
+

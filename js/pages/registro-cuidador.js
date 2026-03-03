@@ -1,11 +1,22 @@
 import { API_BASE_URL } from "../core/config.js";
 import { saveSession } from "../core/auth.js";
 import { notifyError } from "../core/notify.js";
+import {
+    PHONE_DIGITS,
+    sanitizePhoneValue,
+    setupPhoneInputValidation,
+    applySpanishValidationMessages,
+    setupPasswordConfirmationValidation,
+    passwordsMatch,
+    setupPasswordToggle
+} from "../core/form-validation.js";
 
 const form = document.getElementById("registerCuidadorForm");
+const phoneInput = document.getElementById("phoneNumber");
 const passwordInput = document.getElementById("password");
+const confirmPasswordInput = document.getElementById("confirmPassword");
 const togglePasswordBtn = document.getElementById("togglePasswordBtn");
-const passwordGroup = document.querySelector(".password-group");
+const toggleConfirmPasswordBtn = document.getElementById("toggleConfirmPasswordBtn");
 
 function limpiarMensaje(msg) {
     return String(msg || "")
@@ -43,28 +54,31 @@ function obtenerMensajeError(data) {
     return "";
 }
 
-// Toggle de contraseña
-togglePasswordBtn?.addEventListener("click", (e) => {
-    e.preventDefault();
-    
-    if (passwordInput.type === "password") {
-        passwordInput.type = "text";
-        passwordGroup.classList.add("visible");
-    } else {
-        passwordInput.type = "password";
-        passwordGroup.classList.remove("visible");
-    }
-});
+setupPhoneInputValidation(phoneInput);
+setupPasswordConfirmationValidation(passwordInput, confirmPasswordInput);
+applySpanishValidationMessages(form);
+setupPasswordToggle(togglePasswordBtn, passwordInput);
+setupPasswordToggle(toggleConfirmPasswordBtn, confirmPasswordInput);
 
 form.addEventListener("submit", async (e) => {
     e.preventDefault();
 
     const cuidador = {
         name: form.name.value,
-        phoneNumber: form.phoneNumber.value,
+        phoneNumber: sanitizePhoneValue(form.phoneNumber.value),
         relacionConPaciente: form.relacionConPaciente.value,
         password: form.password.value
     };
+
+    if (cuidador.phoneNumber.length !== PHONE_DIGITS) {
+        notifyError("El numero de telefono debe tener 10 digitos");
+        return;
+    }
+
+    if (!passwordsMatch(passwordInput, confirmPasswordInput)) {
+        notifyError("Las contraseñas no coinciden");
+        return;
+    }
 
     try {
         const response = await fetch(`${API_BASE_URL}/cuidadores/registro`, {
@@ -105,3 +119,4 @@ form.addEventListener("submit", async (e) => {
         console.error(error);
     }
 });
+
