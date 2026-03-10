@@ -1,4 +1,4 @@
-import { API_BASE_URL } from "../core/config.js";
+import { API_BASE_URL, ROUTES } from "../core/config.js";
 import { saveSession } from "../core/auth.js";
 import { notifyError } from "../core/notify.js";
 import {
@@ -10,6 +10,7 @@ import {
     passwordsMatch,
     setupPasswordToggle
 } from "../core/form-validation.js";
+import { extraerMensajeError } from "../core/http-error.util.js";
 
 const form = document.getElementById("registerPacienteForm");
 const phoneInput = document.getElementById("phoneNumber");
@@ -17,42 +18,6 @@ const passwordInput = document.getElementById("password");
 const confirmPasswordInput = document.getElementById("confirmPassword");
 const togglePasswordBtn = document.getElementById("togglePasswordBtn");
 const toggleConfirmPasswordBtn = document.getElementById("toggleConfirmPasswordBtn");
-
-function limpiarMensaje(msg) {
-    return String(msg || "")
-        .trim()
-        .replace(/^"(.*)"$/, "$1")
-        .trim();
-}
-
-function obtenerMensajeError(data) {
-    if (typeof data === "string") return limpiarMensaje(data);
-    if (!data || typeof data !== "object") return "";
-
-    const candidatos = [
-        data.message,
-        data.mensaje,
-        data.error,
-        data.detail,
-        data.title
-    ];
-
-    for (const candidato of candidatos) {
-        const limpio = limpiarMensaje(candidato);
-        if (limpio) return limpio;
-    }
-
-    if (Array.isArray(data.errors) && data.errors.length > 0) {
-        const primerError = data.errors[0];
-        return limpiarMensaje(
-            typeof primerError === "string"
-                ? primerError
-                : primerError?.message || primerError?.defaultMessage
-        );
-    }
-
-    return "";
-}
 
 setupPhoneInputValidation(phoneInput);
 setupPasswordConfirmationValidation(passwordInput, confirmPasswordInput);
@@ -76,7 +41,7 @@ form.addEventListener("submit", async (e) => {
     }
 
     if (!passwordsMatch(passwordInput, confirmPasswordInput)) {
-        notifyError("Las contraseñas no coinciden");
+        notifyError("Las contrasenas no coinciden");
         return;
     }
 
@@ -90,34 +55,15 @@ form.addEventListener("submit", async (e) => {
         });
 
         if (!response.ok) {
-            const statusFallback =
-                limpiarMensaje(response.statusText) || `Error HTTP ${response.status}`;
-            const raw = limpiarMensaje(await response.text());
-            let msg = raw || statusFallback;
-
-            if (raw) {
-                try {
-                    const data = JSON.parse(raw);
-                    msg = obtenerMensajeError(data) || raw || statusFallback;
-                } catch {
-                    msg = raw || statusFallback;
-                }
-            }
-
-            throw new Error(msg || "Error al registrar paciente");
+            throw new Error(await extraerMensajeError(response));
         }
 
         const data = await response.json();
-
-        // data = { accessToken, refreshToken }
         saveSession(data);
 
-        // Redireccion directa (rol ya validado en JWT)
-        window.location.replace("/pages/dashboard-paciente.html");
-
+        window.location.replace(ROUTES.DASHBOARD_PACIENTE);
     } catch (error) {
         console.error(error);
         notifyError(error.message || "No se pudo crear la cuenta");
     }
 });
-

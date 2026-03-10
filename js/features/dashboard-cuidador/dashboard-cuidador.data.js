@@ -109,7 +109,7 @@ export async function registrarPacienteDesdeFormulario(elements) {
 
     try {
         await registrarPacienteDesdeCuidador(dto);
-        notifySuccess("Paciente registrado con Ã©xito");
+        notifySuccess("Paciente registrado con éxito");
         cerrarModal(elements);
         await cargarPacientes(elements);
     } catch (error) {

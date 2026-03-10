@@ -10,55 +10,17 @@ import {
     startSessionExpiryWatcher
 } from "/js/core/auth.js";
 import { notifyError } from "/js/core/notify.js";
+import {
+    PHONE_DIGITS,
+    sanitizePhoneValue,
+    setupPhoneInputValidation,
+    applySpanishValidationMessages,
+    setupPasswordToggle
+} from "/js/core/form-validation.js";
 
 const loginForm = document.getElementById("loginForm");
 const phoneInput = document.getElementById("phoneNumber");
 const passwordInput = document.getElementById("password");
-const PHONE_DIGITS = 10;
-
-function sanitizePhoneValue(value) {
-    return String(value || "").replace(/\D/g, "").slice(0, PHONE_DIGITS);
-}
-
-function setupPhoneInputValidation(input) {
-    if (!input) return;
-
-    const normalizePhone = () => {
-        input.value = sanitizePhoneValue(input.value);
-    };
-
-    input.addEventListener("input", normalizePhone);
-    input.addEventListener("paste", () => setTimeout(normalizePhone, 0));
-}
-
-function applySpanishValidationMessages(form) {
-    if (!form) return;
-
-    const fields = form.querySelectorAll("input, select, textarea");
-
-    fields.forEach((field) => {
-        field.addEventListener("invalid", () => {
-            if (field.validity.valueMissing) {
-                field.setCustomValidity("Este campo es obligatorio.");
-                return;
-            }
-
-            if (field.id === "phoneNumber") {
-                const digits = sanitizePhoneValue(field.value);
-                if (digits.length !== PHONE_DIGITS) {
-                    field.setCustomValidity("El numero de telefono debe tener 10 digitos.");
-                    return;
-                }
-            }
-
-            field.setCustomValidity("Valor no valido.");
-        });
-
-        field.addEventListener("input", () => {
-            field.setCustomValidity("");
-        });
-    });
-}
 
 function redirectIfAuthenticated() {
     const token = localStorage.getItem(STORAGE_KEYS.ACCESS_TOKEN);
@@ -143,19 +105,7 @@ loginForm.addEventListener("submit", async (e) => {
 });
 
 const togglePasswordBtn = document.getElementById("togglePasswordBtn");
-const passwordGroup = document.querySelector(".password-group");
-
-togglePasswordBtn?.addEventListener("click", (e) => {
-    e.preventDefault();
-
-    if (passwordInput.type === "password") {
-        passwordInput.type = "text";
-        passwordGroup.classList.add("visible");
-    } else {
-        passwordInput.type = "password";
-        passwordGroup.classList.remove("visible");
-    }
-});
+setupPasswordToggle(togglePasswordBtn, passwordInput);
 
 const modal = document.getElementById("roleModal");
 const btnOpen = document.getElementById("btnOpenModal");

@@ -1,6 +1,6 @@
 import { API_BASE_URL } from "../core/config.js";
 import { getAccessToken } from "../core/auth.js";
-import { extraerMensajeError } from "./http-error.util.js";
+import { extraerMensajeError } from "../core/http-error.util.js";
 
 const BASE_URL = `${API_BASE_URL}/cuidadores`;
 

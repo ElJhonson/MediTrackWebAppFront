@@ -80,7 +80,7 @@ export function renderPacientes(elements, pacientesConDetalle) {
                 </button>
 
                 <button class="btn-action btn-menu">
-                    â‹®
+                        &#x22EE;
                 </button>
             </div>
         `;
