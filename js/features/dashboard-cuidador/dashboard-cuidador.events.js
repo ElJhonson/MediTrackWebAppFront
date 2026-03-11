@@ -8,7 +8,7 @@ import {
     setupPasswordConfirmationValidation,
     passwordsMatch,
     setupPasswordToggle
-} from "../../core/form-validation.js";
+} from "../../utils/form-validation.js";
 import { cerrarAccountMenu, cerrarModal } from "./dashboard-cuidador.dom.js";
 
 export function bindDashboardCuidadorEvents(elements, handlers) {

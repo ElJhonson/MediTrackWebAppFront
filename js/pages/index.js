@@ -16,7 +16,7 @@ import {
     setupPhoneInputValidation,
     applySpanishValidationMessages,
     setupPasswordToggle
-} from "/js/core/form-validation.js";
+} from "/js/utils/form-validation.js";
 
 const loginForm = document.getElementById("loginForm");
 const phoneInput = document.getElementById("phoneNumber");

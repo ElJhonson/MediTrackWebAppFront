@@ -26,7 +26,7 @@ import { notifyError, notifySuccess } from "../../core/notify.js";
 import {
     setupCurpInputValidation,
     isCurpLengthValid
-} from "../../core/form-validation.js";
+} from "../../utils/form-validation.js";
 
 function sleep(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));

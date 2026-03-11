@@ -9,8 +9,8 @@ import {
     setupPasswordConfirmationValidation,
     passwordsMatch,
     setupPasswordToggle
-} from "../core/form-validation.js";
-import { extraerMensajeError } from "../core/http-error.util.js";
+} from "../utils/form-validation.js";
+import { extraerMensajeError } from "../utils/http-error.util.js";
 
 const form = document.getElementById("registerPacienteForm");
 const phoneInput = document.getElementById("phoneNumber");
