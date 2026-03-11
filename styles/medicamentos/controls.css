@@ -14,6 +14,13 @@
     flex-wrap: wrap;
 }
 
+.btn-add-inline {
+    border-radius: 50px;
+    padding: 15px 25px;
+    box-shadow: none;
+    font-size: 1rem;
+}
+
 .tab-btn {
     padding: 15px 25px;
     border-radius: 50px;
@@ -26,7 +33,7 @@
 }
 
 .tab-btn.active {
-    background: var(--primary);
-    color: white;
-    border-color: var(--primary);
+    background: var(--med-tab-active);
+    color: var(--white);
+    border-color: var(--med-tab-active);
 }

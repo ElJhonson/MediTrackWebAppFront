@@ -4,15 +4,22 @@
     <meta charset="UTF-8">
     <title>MediTrack | Cuidador Vinculacion</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;700&display=swap"
+        rel="stylesheet">
     <link rel="stylesheet" href="../styles/cuidador-vinculacion/index.css">
 </head>
-<body class="dashboard-paciente-page cuidador-page">
+<body class="dashboard-body cuidador-page">
 
-    <header class="topbar">
-        <div>
-            <h1>Cuidador</h1>
+    <header class="main-header">
+        <div class="logo-group">
+            <div class="logo">Tu Cuidador</div>
             <p class="status" id="caregiverStatus">Cargando informacion del cuidador...</p>
         </div>
+        <nav class="nav-links" aria-label="Navegacion principal">
+            <a href="/pages/dashboard-paciente.html">Inicio</a>
+            <a href="/pages/cuidador-vinculacion.html">Cuidador</a>
+            <a href="/pages/alarmas.html">Recordatorios</a>
+        </nav>
         <div class="account-menu" id="accountMenuWrap">
             <button
                 class="account-menu-btn"
@@ -30,10 +37,6 @@
             </button>
 
             <div class="account-dropdown" id="accountDropdown" role="menu">
-                <button class="menu-item" id="btnBackDashboard" type="button" role="menuitem">
-                    <span aria-hidden="true">◀</span>
-                    <span>Volver al dashboard</span>
-                </button>
                 <button class="logout-menu-item" id="btnLogout" type="button" role="menuitem">
                     <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none"
                         stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"

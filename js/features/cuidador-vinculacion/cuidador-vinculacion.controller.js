@@ -1,5 +1,5 @@
 import { logout } from "../../core/auth.js";
-import { ROUTES, STORAGE_KEYS } from "../../core/config.js";
+import { STORAGE_KEYS } from "../../core/config.js";
 import { notifyError, notifySuccess, notifyInfo } from "../../core/notify.js";
 import {
     obtenerMisDatosPaciente,
@@ -30,7 +30,6 @@ export function initCuidadorVinculacion() {
     const accountMenuWrap = document.getElementById("accountMenuWrap");
     const accountMenuBtn = document.getElementById("accountMenuBtn");
     const btnLogout = document.getElementById("btnLogout");
-    const btnBackDashboard = document.getElementById("btnBackDashboard");
     const patientDisplayName = document.getElementById("patient-display-name");
     const patientAvatar = document.getElementById("patient-avatar");
 
@@ -73,6 +72,21 @@ export function initCuidadorVinculacion() {
         if (!accountMenuWrap || !accountMenuBtn) return;
         accountMenuWrap.classList.remove("open");
         accountMenuBtn.setAttribute("aria-expanded", "false");
+    }
+
+    function setupTopbarNavActive() {
+        const currentPath = window.location.pathname;
+        const navLinks = document.querySelectorAll(".nav-links a");
+
+        navLinks.forEach((link) => {
+            const href = link.getAttribute("href");
+            if (!href) return;
+
+            const linkPath = new URL(href, window.location.origin).pathname;
+            if (linkPath === currentPath) {
+                link.classList.add("active");
+            }
+        });
     }
 
     async function vincularCuidador(codigo) {
@@ -253,16 +267,13 @@ export function initCuidadorVinculacion() {
             }
         });
 
-        btnBackDashboard?.addEventListener("click", () => {
-            window.location.href = ROUTES.DASHBOARD_PACIENTE;
-        });
-
         btnLogout?.addEventListener("click", () => {
             logout();
         });
     }
 
     initHeader();
+    setupTopbarNavActive();
     setupTopbarEvents();
     confirmModal?.setAttribute("inert", "");
     cargarEstadoCuidador();

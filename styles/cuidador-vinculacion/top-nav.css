@@ -1,0 +1,21 @@
+.logo-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+}
+
+.logo-group .status {
+    color: #888;
+    font-family: var(--font-primary);
+    font-size: 0.82rem;
+    font-weight: 500;
+    margin: 0;
+}
+
+.account-menu {
+    position: relative;
+}
+
+.account-menu-btn {
+    min-width: 190px;
+}
