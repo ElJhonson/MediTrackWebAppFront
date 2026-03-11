@@ -1,0 +1,15 @@
+.cuidador-page {
+    background: linear-gradient(180deg, #f5f9ff 0%, #eef5f1 100%);
+    color: var(--text-dark-main);
+}
+
+.caregiver-main {
+    min-height: calc(100vh - 96px);
+    display: grid;
+    place-items: center;
+    padding: 2rem 1rem 3rem;
+}
+
+.caregiver-panel {
+    width: min(720px, 100%);
+}

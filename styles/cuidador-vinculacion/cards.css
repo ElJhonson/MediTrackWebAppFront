@@ -1,0 +1,38 @@
+.caregiver-card {
+    background: var(--white);
+    border: 1px solid var(--border-soft);
+    border-radius: 18px;
+    padding: 1.8rem;
+    box-shadow: 0 10px 26px rgba(15, 23, 42, 0.08);
+}
+
+.caregiver-header {
+    display: flex;
+    align-items: center;
+    gap: 0.85rem;
+    margin-bottom: 0.8rem;
+}
+
+.caregiver-icon {
+    width: 46px;
+    height: 46px;
+    border-radius: 12px;
+    display: grid;
+    place-items: center;
+    font-size: 1.25rem;
+    background: var(--blue-soft);
+}
+
+.caregiver-title {
+    font-family: var(--font-primary);
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: var(--brand-blue);
+}
+
+.caregiver-desc {
+    font-family: var(--font-primary);
+    color: #64748b;
+    margin-bottom: 1.3rem;
+    line-height: 1.5;
+}

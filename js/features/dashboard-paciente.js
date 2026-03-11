@@ -1,5 +1,5 @@
 import { protectPage } from "../guards/guard.js";
-import { STORAGE_KEYS } from "../core/config.js";
+import { STORAGE_KEYS, ROUTES } from "../core/config.js";
 import { logout } from "../core/auth.js";
 import { obtenerMisDatosPaciente } from "../services/paciente.service.js";
 
@@ -28,6 +28,7 @@ const statusEl = document.querySelector(".status");
 titleEl.textContent = "Panel de Control";
 
 const medicinasCard = document.querySelector('.service-card.reminders');
+const cuidadorCard = document.querySelector('.service-card.caregiver');
 const btnLogout = document.getElementById("btnLogout");
 const accountMenuWrap = document.getElementById("accountMenuWrap");
 const accountMenuBtn = document.getElementById("accountMenuBtn");
@@ -110,7 +111,11 @@ window.addEventListener("keydown", (e) => {
 });
 
 medicinasCard.addEventListener('click', () => {
-    window.location.href = '../pages/medicamentos.html';
+    window.location.href = '/pages/medicamentos.html';
+});
+
+cuidadorCard?.addEventListener("click", () => {
+    window.location.href = ROUTES.CUIDADOR_PACIENTE;
 });
 
 btnLogout?.addEventListener("click", () => {

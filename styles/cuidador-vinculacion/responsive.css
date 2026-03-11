@@ -1,0 +1,24 @@
+@media (max-width: 640px) {
+    .topbar {
+        padding: 1rem;
+    }
+
+    .caregiver-main {
+        min-height: auto;
+        padding: 1.1rem 0.8rem 1.5rem;
+        place-items: start;
+    }
+
+    .caregiver-card {
+        padding: 1.1rem;
+        border-radius: 14px;
+    }
+
+    .button-row {
+        flex-direction: column;
+    }
+
+    .button-row .btn {
+        width: 100%;
+    }
+}

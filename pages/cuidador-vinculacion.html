@@ -2,16 +2,16 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>MediTrack | Dashboard</title>
+    <title>MediTrack | Cuidador Vinculacion</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../styles/dashboard-paciente/index.css">
+    <link rel="stylesheet" href="../styles/cuidador-vinculacion/index.css">
 </head>
-<body>
+<body class="dashboard-paciente-page cuidador-page">
 
     <header class="topbar">
         <div>
-            <h1></h1>
-            <p class="status"></p>
+            <h1>Cuidador</h1>
+            <p class="status" id="caregiverStatus">Cargando informacion del cuidador...</p>
         </div>
         <div class="account-menu" id="accountMenuWrap">
             <button
@@ -30,6 +30,10 @@
             </button>
 
             <div class="account-dropdown" id="accountDropdown" role="menu">
+                <button class="menu-item" id="btnBackDashboard" type="button" role="menuitem">
+                    <span aria-hidden="true">◀</span>
+                    <span>Volver al dashboard</span>
+                </button>
                 <button class="logout-menu-item" id="btnLogout" type="button" role="menuitem">
                     <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none"
                         stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
@@ -44,41 +48,21 @@
         </div>
     </header>
 
-    <main class="dashboard">
-
-        <h2 class="section-title">Servicios</h2>
-
-        <section class="services">
-
-            <div class="service-card reminders">
-                <div class="icon">💊</div>
-                <h3>Medicamentos</h3>
-                <p>Administra tus medicinas</p>
-            </div>
-
-            <div class="service-card schedules">
-                <div class="icon">⏰</div>
-                <h3>Horarios</h3>
-                <p>Configura recordatorios</p>
-            </div>
-
-            <div class="service-card caregiver">
-                <div class="icon">❤️</div>
-                <h3>Cuidador</h3>
-                <p>Vincula un cuidador</p>
-            </div>
-
-            <div class="service-card history">
-                <div class="icon">📋</div>
-                <h3>Historial</h3>
-                <p>Consulta tomas pasadas</p>
-            </div>
-
-        </section>
-
+    <main class="caregiver-main">
+        <section class="caregiver-panel" id="caregiverPanel"></section>
     </main>
 
-    <script type="module" src="../js/features/dashboard-paciente.js"></script>
+    <div class="modal" id="confirmModal" aria-hidden="true">
+        <div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="confirmTitle" aria-describedby="confirmMessage">
+            <h2 id="confirmTitle"></h2>
+            <p id="confirmMessage"></p>
+            <div class="modal-actions">
+                <button type="button" class="btn btn-secondary" id="cancelActionBtn">Cancelar</button>
+                <button type="button" class="btn btn-primary" id="confirmActionBtn">Confirmar</button>
+            </div>
+        </div>
+    </div>
 
+    <script type="module" src="../js/pages/cuidador-vinculacion.page.js"></script>
 </body>
 </html>
