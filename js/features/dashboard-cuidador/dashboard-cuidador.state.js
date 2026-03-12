@@ -12,6 +12,7 @@ export function getDashboardElements() {
         patientCount: document.getElementById("patient-count"),
         btnCopy: document.getElementById("btnCopy"),
         linkCode: document.getElementById("link-code"),
+        btnViewProfile: document.getElementById("btnViewProfile"),
         btnLogout: document.getElementById("btnLogout"),
         accountMenuWrap: document.getElementById("accountMenuWrap"),
         accountMenuBtn: document.getElementById("accountMenuBtn"),

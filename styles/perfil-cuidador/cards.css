@@ -1,0 +1,83 @@
+.panel {
+    background: var(--white);
+    border: 1px solid var(--border-soft);
+    border-radius: 14px;
+    box-shadow: 0 6px 18px rgba(15, 23, 42, 0.06);
+}
+
+.identity-card {
+    padding: 1.3rem;
+    text-align: center;
+}
+
+.avatar {
+    width: 82px;
+    height: 82px;
+    border-radius: 50%;
+    margin: 0 auto 0.8rem;
+    background: var(--blue-soft);
+    color: var(--brand-blue);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.45rem;
+    font-weight: 700;
+}
+
+.identity-name {
+    margin: 0;
+    font-size: 1.08rem;
+    color: var(--text-dark-main);
+}
+
+.identity-role {
+    margin: 0.3rem 0 0;
+    color: var(--text-gray);
+    font-size: 0.84rem;
+}
+
+.info-card {
+    padding: 1.2rem;
+}
+
+.info-title {
+    margin: 0 0 0.2rem;
+    font-size: 1.15rem;
+    color: var(--text-dark-main);
+}
+
+.info-subtitle {
+    margin: 0 0 1rem;
+    color: var(--text-gray);
+    font-size: 0.86rem;
+}
+
+.info-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.75rem;
+}
+
+.info-item {
+    border: 1px solid var(--border-soft);
+    border-radius: 10px;
+    padding: 0.72rem 0.78rem;
+    background: #fbfdff;
+}
+
+.info-label {
+    margin: 0;
+    font-size: 0.74rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: #64748b;
+    font-weight: 600;
+}
+
+.info-value {
+    margin: 0.3rem 0 0;
+    font-size: 0.95rem;
+    color: #0f172a;
+    font-weight: 600;
+    word-break: break-word;
+}

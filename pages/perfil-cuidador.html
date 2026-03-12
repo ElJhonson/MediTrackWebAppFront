@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MediTrack | Perfil del Cuidador</title>
+    <link rel="stylesheet" href="../styles/perfil-cuidador/index.css">
+</head>
+
+<body class="perfil-cuidador-page">
+    <header class="topbar">
+        <div>
+            <h1>Perfil del Cuidador</h1>
+            <p class="status" id="profileStatus">Cargando informacion del perfil...</p>
+        </div>
+        <button class="btn-back" id="btnBackToDashboard" type="button">Volver al dashboard</button>
+    </header>
+
+    <main class="perfil-main">
+        <section class="profile-grid">
+            <article class="panel identity-card">
+                <div class="avatar" id="caregiverAvatar">--</div>
+                <h2 class="identity-name" id="caregiverName">Cargando...</h2>
+                <p class="identity-role">Rol: Cuidador</p>
+            </article>
+
+            <article class="panel info-card">
+                <h3 class="info-title">Datos generales</h3>
+                <p class="info-subtitle">Vista inicial del perfil con informacion del endpoint del cuidador.</p>
+
+                <div class="info-grid">
+                    <div class="info-item">
+                        <p class="info-label">Nombre completo</p>
+                        <p class="info-value" id="infoName">--</p>
+                    </div>
+
+                    <div class="info-item">
+                        <p class="info-label">Telefono</p>
+                        <p class="info-value" id="infoPhone">--</p>
+                    </div>
+
+                    <div class="info-item">
+                        <p class="info-label">Codigo de vinculacion</p>
+                        <p class="info-value" id="infoCodigo">--</p>
+                    </div>
+
+                    <div class="info-item">
+                        <p class="info-label">Pacientes vinculados</p>
+                        <p class="info-value" id="infoPacientes">0</p>
+                    </div>
+                </div>
+            </article>
+        </section>
+    </main>
+
+    <script type="module" src="../js/pages/perfil-cuidador.page.js"></script>
+</body>
+
+</html>

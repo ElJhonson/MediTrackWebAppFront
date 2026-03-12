@@ -1,0 +1,10 @@
+@import url('../variables.css');
+@import url('./topbar.css');
+@import url('./layout.css');
+@import url('./cards.css');
+@import url('./responsive.css');
+
+body.perfil-cuidador-page {
+    background: #f6f9fc;
+    font-family: var(--font-primary);
+}

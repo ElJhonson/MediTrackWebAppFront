@@ -1,4 +1,5 @@
 import { logout } from "../../core/auth.js";
+import { ROUTES } from "../../core/config.js";
 import { notifyError, notifyInfo } from "../../core/notify.js";
 import {
     PHONE_DIGITS,
@@ -24,6 +25,11 @@ export function bindDashboardCuidadorEvents(elements, handlers) {
 
     elements.btnCloseModal.addEventListener("click", () => {
         cerrarModal(elements);
+    });
+
+    elements.btnViewProfile?.addEventListener("click", () => {
+        cerrarAccountMenu(elements);
+        window.location.href = ROUTES.PERFIL_CUIDADOR;
     });
 
     elements.btnLogout?.addEventListener("click", () => {

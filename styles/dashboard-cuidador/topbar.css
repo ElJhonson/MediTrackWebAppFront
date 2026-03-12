@@ -166,6 +166,29 @@
     transition: all 0.2s ease;
 }
 
+.profile-menu-item {
+    width: 100%;
+    border: none;
+    background: transparent;
+    color: var(--text-gray);
+    border-radius: 8px;
+    padding: 8px 10px;
+    font-family: var(--font-primary);
+    font-size: 0.8rem;
+    font-weight: 600;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    justify-content: flex-start;
+    transition: all 0.2s ease;
+}
+
+.profile-menu-item:hover {
+    background: #f1f5f9;
+    color: var(--brand-blue);
+}
+
 .logout-menu-item:hover {
     background: var(--danger-light);
     color: var(--danger);
