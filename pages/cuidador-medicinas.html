@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MediTrack | Plan de Medicación</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../styles/cuidador-medicinas/index.css">
+</head>
+
+<body class="dashboard-body cuidador-medicinas-page">
+    <header class="main-header">
+        <div class="logo">Panel de Medicacion</div>
+        <nav class="nav-links">
+            <a href="dashboard-cuidador.html">Inicio</a>
+            <a href="cuidador-medicinas.html" class="active">Medicinas</a>
+            <a href="#">Reportes</a>
+        </nav>
+
+        <div class="account-menu" id="accountMenuWrap">
+            <button
+                class="account-menu-btn"
+                id="accountMenuBtn"
+                type="button"
+                aria-haspopup="menu"
+                aria-expanded="false"
+            >
+                <span class="account-avatar" id="caregiverAvatar" aria-hidden="true"></span>
+                <span id="caregiverName"></span>
+                <svg class="account-arrow" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <polyline points="6 9 12 15 18 9"></polyline>
+                </svg>
+            </button>
+
+            <div class="account-dropdown" id="accountDropdown" role="menu">
+                <button class="logout-menu-item" id="btnLogout" type="button" role="menuitem">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                        <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+                        <polyline points="16 17 21 12 16 7"></polyline>
+                        <line x1="21" y1="12" x2="9" y2="12"></line>
+                    </svg>
+                    <span>Cerrar sesion</span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <main class="grid-layout">
+        <aside class="sidebar">
+            <div class="glass-card patient-card">
+                <div class="patient-selector" id="patientProfileSelectorWrap">
+                    <button
+                        class="patient-selector-btn"
+                        id="patientProfileSelectorBtn"
+                        type="button"
+                        aria-haspopup="menu"
+                        aria-expanded="false"
+                    >
+                        <div class="profile-compact">
+                            <img id="pacienteAvatar" src="https://ui-avatars.com/api/?name=--&background=0D8ABC&color=fff" alt="Avatar">
+                            <div class="profile-text">
+                                <h3 class="patient-name-row">
+                                    <span id="patientNameTitle">Paciente</span>
+                                    <svg class="patient-name-chevron" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none"
+                                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                                        <polyline points="6 9 12 15 18 9"></polyline>
+                                    </svg>
+                                </h3>
+                                <p id="patientSubtitle">Cuidador: --</p>
+                                <p id="patientMeta">Edad: --</p>
+                            </div>
+                        </div>
+                    </button>
+
+                    <div class="patient-selector-dropdown" id="patientProfileDropdown" role="menu"></div>
+                </div>
+            </div>
+
+            <div class="glass-card sidebar-quick-stats">
+                <h4>Resumen rapido</h4>
+                <p>Medicinas activas: <strong id="quickTotalMedicinas">0</strong></p>
+                <p>Proximas a vencer (30 dias): <strong id="quickPorVencer">0</strong></p>
+            </div>
+        </aside>
+
+        <section class="content-area">
+            <div class="section-title">
+                <h2>Plan de Medicación</h2>
+                <p>Consulta y gestiona medicamentos de pacientes vinculados.</p>
+            </div>
+
+            <div class="elderly-controls">
+                <div class="filter-tabs">
+                    <button id="btnOpenModal" class="btn-add-main btn-add-inline" type="button">+ Nueva Medicina</button>
+                </div>
+            </div>
+
+            <div class="med-grid" id="medContainer">
+                <p class="med-loading">Cargando medicinas...</p>
+            </div>
+        </section>
+    </main>
+
+    <div class="modal-overlay" id="modalMed">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="modalTitle">Registrar Medicina</h3>
+                <button class="close-btn" id="btnCloseModal">&times;</button>
+            </div>
+            <form id="medForm">
+                <input type="hidden" id="editId">
+
+                <div class="form-group">
+                    <label for="name">Nombre</label>
+                    <input type="text" id="name" placeholder="Ej. Paracetamol" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="dosageForm">Forma farmaceutica</label>
+                    <select id="dosageForm" required>
+                        <option value="Tableta">Tableta</option>
+                        <option value="Cápsula">Cápsula</option>
+                        <option value="Jarabe">Jarabe</option>
+                        <option value="Gotas">Gotas</option>
+                        <option value="Inyeccion">Inyeccion</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="expirationDate">Fecha de expiracion</label>
+                    <input type="date" id="expirationDate" required>
+                </div>
+
+                <button type="submit" class="btn-save">Guardar Cambios</button>
+            </form>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="modalDeleteConfirm">
+        <div class="modal-content modal-confirm-content" role="dialog" aria-modal="true" aria-labelledby="deleteConfirmTitle">
+            <div class="modal-header">
+                <h3 id="deleteConfirmTitle">Confirmar eliminacion</h3>
+                <button class="close-btn" id="btnCloseDeleteConfirm" type="button" aria-label="Cerrar confirmacion">&times;</button>
+            </div>
+            <p class="confirm-message">Esta accion eliminara la medicina seleccionada. ¿Deseas continuar?</p>
+            <div class="confirm-actions">
+                <button class="btn-cancel" id="btnCancelDelete" type="button">Cancelar</button>
+                <button class="btn-danger" id="btnConfirmDelete" type="button">Eliminar</button>
+            </div>
+        </div>
+    </div>
+
+    <script type="module" src="../js/pages/cuidador-medicinas.page.js"></script>
+</body>
+
+</html>

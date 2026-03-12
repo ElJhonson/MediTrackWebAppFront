@@ -1,5 +1,9 @@
 import { renderEnfermedades } from "./dashboard-cuidador.utils.js";
 
+let patientMenuDismissReady = false;
+let unlinkConfirmReady = false;
+let unlinkConfirmResolver = null;
+
 export function setPacientesLoading(elements, loading) {
     if (!loading) return;
     elements.patientContainer.innerHTML = `
@@ -23,7 +27,91 @@ export function cerrarModal(elements) {
     elements.confirmPasswordInput.setCustomValidity("");
 }
 
-export function renderPacientes(elements, pacientesConDetalle) {
+function closePatientMenus(container, except = null) {
+    container.querySelectorAll(".patient-menu-wrap.open").forEach((menuWrap) => {
+        if (except && menuWrap === except) return;
+
+        menuWrap.classList.remove("open");
+        const trigger = menuWrap.querySelector(".btn-menu");
+        trigger?.setAttribute("aria-expanded", "false");
+    });
+}
+
+function ensurePatientMenuDismissBehavior(elements) {
+    if (patientMenuDismissReady) return;
+
+    patientMenuDismissReady = true;
+
+    window.addEventListener("click", () => {
+        closePatientMenus(elements.patientContainer);
+    });
+
+    window.addEventListener("keydown", (event) => {
+        if (event.key === "Escape") {
+            closePatientMenus(elements.patientContainer);
+        }
+    });
+}
+
+function closeUnlinkConfirmModal(elements, confirmed) {
+    if (!elements.modalUnlinkConfirm) return;
+
+    elements.modalUnlinkConfirm.style.display = "none";
+
+    if (unlinkConfirmResolver) {
+        unlinkConfirmResolver(confirmed);
+        unlinkConfirmResolver = null;
+    }
+}
+
+function ensureUnlinkConfirmBindings(elements) {
+    if (unlinkConfirmReady || !elements.modalUnlinkConfirm) return;
+    unlinkConfirmReady = true;
+
+    elements.btnCloseUnlinkConfirm?.addEventListener("click", () => {
+        closeUnlinkConfirmModal(elements, false);
+    });
+
+    elements.btnCancelUnlink?.addEventListener("click", () => {
+        closeUnlinkConfirmModal(elements, false);
+    });
+
+    elements.btnConfirmUnlink?.addEventListener("click", () => {
+        closeUnlinkConfirmModal(elements, true);
+    });
+
+    elements.modalUnlinkConfirm.addEventListener("click", (event) => {
+        if (event.target === elements.modalUnlinkConfirm) {
+            closeUnlinkConfirmModal(elements, false);
+        }
+    });
+
+    window.addEventListener("keydown", (event) => {
+        if (event.key === "Escape" && elements.modalUnlinkConfirm.style.display === "flex") {
+            closeUnlinkConfirmModal(elements, false);
+        }
+    });
+}
+
+function solicitarConfirmacionDesvincular(elements, pacienteNombre) {
+    if (!elements.modalUnlinkConfirm) return Promise.resolve(false);
+
+    ensureUnlinkConfirmBindings(elements);
+
+    if (elements.unlinkConfirmMessage) {
+        elements.unlinkConfirmMessage.textContent = `Se desvinculara a ${pacienteNombre}. Esta accion no se puede deshacer.`;
+    }
+
+    elements.modalUnlinkConfirm.style.display = "flex";
+
+    return new Promise((resolve) => {
+        unlinkConfirmResolver = resolve;
+    });
+}
+
+export function renderPacientes(elements, pacientesConDetalle, handlers = {}) {
+    ensurePatientMenuDismissBehavior(elements);
+
     elements.patientCount.textContent = `Pacientes Asignados (${pacientesConDetalle.length})`;
     elements.patientContainer.innerHTML = "";
 
@@ -79,15 +167,28 @@ export function renderPacientes(elements, pacientesConDetalle) {
                     Notas
                 </button>
 
-                <button class="btn-action btn-menu">
+                <div class="patient-menu-wrap">
+                    <button class="btn-action btn-menu" type="button" aria-haspopup="menu" aria-expanded="false">
                         &#x22EE;
-                </button>
+                    </button>
+                    <div class="patient-menu-dropdown" role="menu">
+                        <button class="patient-menu-item btn-unlink-patient" type="button" role="menuitem">
+                            Desvincular paciente
+                        </button>
+                    </div>
+                </div>
             </div>
         `;
 
         card.querySelector(".btn-profile")
             .addEventListener("click", () => {
                 window.location.href = `../../pages/perfil-paciente.html?id=${p.id}`;
+            });
+
+        card.querySelector(".btn-medicine")
+            .addEventListener("click", () => {
+                const patientName = encodeURIComponent(p.name || "Paciente");
+                window.location.href = `../../pages/cuidador-medicinas.html?pacienteId=${p.id}&pacienteNombre=${patientName}`;
             });
 
         const conditionsDiv = card.querySelector(".patient-conditions");
@@ -100,6 +201,31 @@ export function renderPacientes(elements, pacientesConDetalle) {
                 enfermedades,
                 !isExpanded
             );
+        });
+
+        const menuWrap = card.querySelector(".patient-menu-wrap");
+        const menuButton = card.querySelector(".btn-menu");
+        const unlinkButton = card.querySelector(".btn-unlink-patient");
+
+        menuButton.addEventListener("click", (event) => {
+            event.stopPropagation();
+
+            const willOpen = !menuWrap.classList.contains("open");
+            closePatientMenus(elements.patientContainer, menuWrap);
+            menuWrap.classList.toggle("open", willOpen);
+            menuButton.setAttribute("aria-expanded", String(willOpen));
+        });
+
+        unlinkButton.addEventListener("click", async (event) => {
+            event.stopPropagation();
+
+            const confirmado = await solicitarConfirmacionDesvincular(elements, p.name);
+            if (!confirmado) return;
+
+            menuWrap.classList.remove("open");
+            menuButton.setAttribute("aria-expanded", "false");
+
+            await handlers.onDesvincularPaciente?.(p);
         });
 
         elements.patientContainer.appendChild(card);

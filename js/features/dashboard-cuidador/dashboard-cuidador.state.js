@@ -16,7 +16,12 @@ export function getDashboardElements() {
         accountMenuWrap: document.getElementById("accountMenuWrap"),
         accountMenuBtn: document.getElementById("accountMenuBtn"),
         caregiverAvatar: document.getElementById("caregiver-avatar"),
-        caregiverName: document.getElementById("caregiver-name")
+        caregiverName: document.getElementById("caregiver-name"),
+        modalUnlinkConfirm: document.getElementById("modalUnlinkConfirm"),
+        btnCloseUnlinkConfirm: document.getElementById("btnCloseUnlinkConfirm"),
+        btnCancelUnlink: document.getElementById("btnCancelUnlink"),
+        btnConfirmUnlink: document.getElementById("btnConfirmUnlink"),
+        unlinkConfirmMessage: document.getElementById("unlinkConfirmMessage")
     };
 }
 

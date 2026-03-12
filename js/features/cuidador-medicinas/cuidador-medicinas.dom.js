@@ -1,0 +1,203 @@
+let deleteConfirmationResolver = null;
+
+export function setMedicinasLoading(elements) {
+    elements.medContainer.innerHTML = '<p class="med-loading">Cargando medicinas...</p>';
+}
+
+export function setMedicinasLoadError(elements) {
+    elements.medContainer.innerHTML = '<p class="med-loading">No se pudieron cargar las medicinas.</p>';
+}
+
+export function closeAccountMenu(elements) {
+    elements.accountMenuWrap.classList.remove("open");
+    elements.accountMenuBtn.setAttribute("aria-expanded", "false");
+}
+
+export function closePatientSelector(elements) {
+    elements.patientProfileSelectorWrap.classList.remove("open");
+    elements.patientProfileSelectorBtn.setAttribute("aria-expanded", "false");
+}
+
+export function setPatientHeader(elements, state, paciente = {}) {
+    state.pacienteNombre = paciente.name || state.pacienteNombre || "Paciente";
+    elements.patientNameTitle.textContent = state.pacienteNombre;
+    elements.patientSubtitle.textContent = `Cuidador: ${state.cuidadorNombre}`;
+    elements.patientMeta.textContent = `Edad: ${paciente.edad ?? "--"}`;
+
+    const avatarUrl = `https://ui-avatars.com/api/?name=${encodeURIComponent(state.pacienteNombre)}&background=0D8ABC&color=fff`;
+    elements.patientAvatar.src = avatarUrl;
+    elements.patientAvatar.alt = `Avatar de ${state.pacienteNombre}`;
+}
+
+export function renderPatientSelectorDropdown(elements, state) {
+    elements.patientProfileDropdown.innerHTML = "";
+
+    state.pacientes.forEach((paciente) => {
+        const option = document.createElement("button");
+        option.type = "button";
+        option.className = "patient-option";
+        option.dataset.patientId = String(paciente.id);
+        option.textContent = paciente.name || `Paciente ${paciente.id}`;
+
+        if (String(paciente.id) === String(state.pacienteId)) {
+            option.classList.add("active");
+        }
+
+        elements.patientProfileDropdown.appendChild(option);
+    });
+}
+
+export function renderMedicinas(elements, lista) {
+    elements.medContainer.innerHTML = "";
+
+    if (!Array.isArray(lista) || lista.length === 0) {
+        elements.medContainer.innerHTML = '<p class="med-loading">Este paciente no tiene medicinas registradas.</p>';
+        return;
+    }
+
+    lista.forEach((med) => {
+        const reminderActive = isReminderActive(med);
+        const reminderClass = reminderActive ? "btn-reminder active" : "btn-reminder";
+        const reminderTitle = reminderActive ? "Recordatorio activo" : "Recordatorio inactivo";
+
+        const card = document.createElement("div");
+        card.className = "med-card glass-card";
+        card.innerHTML = `
+            <button class="btn-delete" data-id="${med.id}" title="Eliminar" type="button">✖</button>
+            <div>
+                <span class="type">${med.dosageForm || "-"}</span>
+                <h4>${med.nombre || "-"}</h4>
+                <p class="med-expiration">Expira: ${formatDate(med.expirationDate)}</p>
+            </div>
+            <div class="card-footer">
+                <span class="registered-by">Registrado por: ${med.registradoPorNombre || "--"}</span>
+                <div class="card-actions">
+                    <button class="btn-edit" data-id="${med.id}" type="button">✏️</button>
+                    <button class="${reminderClass}" data-id="${med.id}" title="${reminderTitle}" type="button">⏰</button>
+                </div>
+            </div>
+        `;
+
+        elements.medContainer.appendChild(card);
+    });
+}
+
+export function renderQuickStats(elements, lista = []) {
+    const total = Array.isArray(lista) ? lista.length : 0;
+    const porVencer = Array.isArray(lista)
+        ? lista.filter((med) => estaPorVencer(med.expirationDate, 30)).length
+        : 0;
+
+    elements.quickTotalMedicinas.textContent = String(total);
+    elements.quickPorVencer.textContent = String(porVencer);
+}
+
+export function openCreateModal(elements) {
+    elements.modalTitle.textContent = "Registrar Medicina";
+    elements.medForm.reset();
+    elements.editId.value = "";
+    elements.modalMed.classList.add("active");
+}
+
+export function closeModal(elements) {
+    elements.modalMed.classList.remove("active");
+    elements.medForm.reset();
+    elements.editId.value = "";
+}
+
+export function fillEditModal(elements, med) {
+    elements.modalTitle.textContent = "Editar Medicina";
+    elements.editId.value = med.id;
+    elements.name.value = med.nombre || "";
+    setDosageFormValue(elements, med.dosageForm || "Tableta");
+    elements.expirationDate.value = normalizeDateForInput(med.expirationDate);
+    elements.modalMed.classList.add("active");
+}
+
+export function getFormPayload(elements) {
+    return {
+        nombre: elements.name.value.trim(),
+        dosageForm: elements.dosageForm.value,
+        expirationDate: elements.expirationDate.value
+    };
+}
+
+export function syncPatientInUrl(state, pacienteId) {
+    const paciente = state.pacientes.find((p) => String(p.id) === String(pacienteId));
+    const params = new URLSearchParams(window.location.search);
+
+    params.set("pacienteId", String(pacienteId));
+    if (paciente?.name) {
+        params.set("pacienteNombre", paciente.name);
+    }
+
+    const nextUrl = `${window.location.pathname}?${params.toString()}`;
+    window.history.replaceState({}, "", nextUrl);
+}
+
+export function solicitarConfirmacionEliminacion(elements) {
+    return new Promise((resolve) => {
+        deleteConfirmationResolver = resolve;
+        elements.modalDeleteConfirm.classList.add("active");
+    });
+}
+
+export function cerrarModalConfirmacionEliminacion(elements, confirmado) {
+    elements.modalDeleteConfirm.classList.remove("active");
+
+    if (deleteConfirmationResolver) {
+        deleteConfirmationResolver(confirmado);
+        deleteConfirmationResolver = null;
+    }
+}
+
+function normalizeDateForInput(value) {
+    if (!value) return "";
+    return value.includes("T") ? value.split("T")[0] : value;
+}
+
+function formatDate(value) {
+    if (!value) return "-";
+
+    const date = new Date(value);
+    if (Number.isNaN(date.getTime())) return "-";
+
+    return date.toLocaleDateString("es-MX");
+}
+
+function setDosageFormValue(elements, value) {
+    const found = Array.from(elements.dosageForm.options).some((opt) => opt.value === value);
+
+    if (!found && value) {
+        const option = document.createElement("option");
+        option.value = value;
+        option.textContent = value;
+        elements.dosageForm.appendChild(option);
+    }
+
+    elements.dosageForm.value = value;
+}
+
+function isReminderActive(med = {}) {
+    return Boolean(
+        med.recordatorioActivo
+        || med.alarmaActiva
+        || med.tieneAlarma
+        || med.reminderActive
+    );
+}
+
+function estaPorVencer(expirationDate, diasLimite) {
+    if (!expirationDate) return false;
+
+    const fechaExp = new Date(expirationDate);
+    if (Number.isNaN(fechaExp.getTime())) return false;
+
+    const hoy = new Date();
+    hoy.setHours(0, 0, 0, 0);
+
+    const limite = new Date(hoy);
+    limite.setDate(limite.getDate() + diasLimite);
+
+    return fechaExp >= hoy && fechaExp <= limite;
+}

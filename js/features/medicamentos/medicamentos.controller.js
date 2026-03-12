@@ -12,6 +12,12 @@ import {
 } from "./medicamentos.modal.js";
 
 const container = document.getElementById("medContainer");
+const modalDeleteConfirm = document.getElementById("modalDeleteConfirm");
+const btnCloseDeleteConfirm = document.getElementById("btnCloseDeleteConfirm");
+const btnCancelDelete = document.getElementById("btnCancelDelete");
+const btnConfirmDelete = document.getElementById("btnConfirmDelete");
+
+let resolveDeleteConfirmation = null;
 
 export async function cargarMedicamentos() {
     if (medicamentosState.cargando) return;
@@ -39,6 +45,7 @@ export function initMedicamentos() {
 
     medicamentosState.inicializado = true;
     initMedicamentosModal();
+    initDeleteConfirmationModal();
     cargarMedicamentos();
 
     container.addEventListener("click", async (e) => {
@@ -46,7 +53,8 @@ export function initMedicamentos() {
 
         // Caso Eliminar 
         if (e.target.classList.contains("btn-delete")) {
-            if (!confirm("¿Deseas eliminar esta medicina?")) return;
+            const isConfirmed = await solicitarConfirmacionEliminacion();
+            if (!isConfirmed) return;
             try {
                 await eliminarMedicina(id);
                 notifySuccess("Medicina eliminada correctamente");
@@ -70,4 +78,54 @@ export function initMedicamentos() {
             });
         }
     });
+}
+
+function initDeleteConfirmationModal() {
+    if (!modalDeleteConfirm) return;
+
+    btnCloseDeleteConfirm?.addEventListener("click", () => {
+        cerrarConfirmacionEliminacion(false);
+    });
+
+    btnCancelDelete?.addEventListener("click", () => {
+        cerrarConfirmacionEliminacion(false);
+    });
+
+    btnConfirmDelete?.addEventListener("click", () => {
+        cerrarConfirmacionEliminacion(true);
+    });
+
+    modalDeleteConfirm.addEventListener("click", (event) => {
+        if (event.target === modalDeleteConfirm) {
+            cerrarConfirmacionEliminacion(false);
+        }
+    });
+
+    window.addEventListener("keydown", (event) => {
+        if (event.key === "Escape" && modalDeleteConfirm.classList.contains("active")) {
+            cerrarConfirmacionEliminacion(false);
+        }
+    });
+}
+
+function solicitarConfirmacionEliminacion() {
+    if (!modalDeleteConfirm) {
+        return Promise.resolve(false);
+    }
+
+    return new Promise((resolve) => {
+        resolveDeleteConfirmation = resolve;
+        modalDeleteConfirm.classList.add("active");
+    });
+}
+
+function cerrarConfirmacionEliminacion(confirmed) {
+    if (!modalDeleteConfirm) return;
+
+    modalDeleteConfirm.classList.remove("active");
+
+    if (resolveDeleteConfirmation) {
+        resolveDeleteConfirmation(confirmed);
+        resolveDeleteConfirmation = null;
+    }
 }

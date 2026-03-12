@@ -118,3 +118,23 @@ export async function actualizarPacienteDesdeCuidador(id, dto) {
 
     return response.json();
 }
+
+/**
+ * Desvincular paciente del cuidador autenticado
+ * DELETE /cuidadores/{id}/desvincular
+ */
+export async function desvincularPacienteDelCuidador(id) {
+    const token = getAccessToken();
+
+    const response = await fetch(`${BASE_URL}/${id}/desvincular`, {
+        method: "DELETE",
+        headers: {
+            Authorization: `Bearer ${token}`
+        }
+    });
+
+    if (!response.ok) {
+        const msg = await extraerMensajeError(response);
+        throw new Error(msg || "Error al desvincular paciente");
+    }
+}

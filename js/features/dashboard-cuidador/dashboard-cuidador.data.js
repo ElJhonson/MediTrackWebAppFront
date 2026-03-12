@@ -4,7 +4,8 @@ import {
     obtenerMisDatosCuidador,
     obtenerPacientesDelCuidador,
     registrarPacienteDesdeCuidador,
-    obtenerPacientePorId
+    obtenerPacientePorId,
+    desvincularPacienteDelCuidador
 } from "../../services/cuidador.service.js";
 import { conRetry, esErrorRedFetch } from "./dashboard-cuidador.utils.js";
 import {
@@ -50,7 +51,7 @@ export async function cargarDatosCuidador(elements) {
     }
 }
 
-export async function cargarPacientes(elements) {
+export async function cargarPacientes(elements, handlers = {}) {
     setPacientesLoading(elements, true);
 
     try {
@@ -85,7 +86,7 @@ export async function cargarPacientes(elements) {
             })
         );
 
-        renderPacientes(elements, pacientesConDetalle);
+        renderPacientes(elements, pacientesConDetalle, handlers);
     } catch (error) {
         elements.patientContainer.innerHTML = "";
 
@@ -99,7 +100,7 @@ export async function cargarPacientes(elements) {
     }
 }
 
-export async function registrarPacienteDesdeFormulario(elements) {
+export async function registrarPacienteDesdeFormulario(elements, handlers = {}) {
     const dto = {
         name: elements.registerForm.name.value.trim(),
         phoneNumber: elements.registerForm.phoneNumber.value.trim(),
@@ -111,9 +112,25 @@ export async function registrarPacienteDesdeFormulario(elements) {
         await registrarPacienteDesdeCuidador(dto);
         notifySuccess("Paciente registrado con éxito");
         cerrarModal(elements);
-        await cargarPacientes(elements);
+        await cargarPacientes(elements, handlers);
     } catch (error) {
         console.error("Error al registrar:", error);
         notifyError(error.message || "Error al registrar paciente");
+    }
+}
+
+export async function desvincularPacienteDesdeDashboard(elements, paciente, handlers = {}) {
+    if (!paciente?.id) {
+        notifyError("No se pudo identificar el paciente a desvincular");
+        return;
+    }
+
+    try {
+        await desvincularPacienteDelCuidador(paciente.id);
+        notifySuccess("Paciente desvinculado correctamente");
+        await cargarPacientes(elements, handlers);
+    } catch (error) {
+        console.error("Error al desvincular paciente:", error);
+        notifyError(error.message || "No se pudo desvincular al paciente");
     }
 }

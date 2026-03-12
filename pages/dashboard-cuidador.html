@@ -20,7 +20,7 @@
 
         <div class="topbar-actions">
             <div class="link-code-container">
-                <p class="code-label">Tu codigo de vinculacion</p>
+                <p class="code-label">Tu código de vinculación</p>
                 <div class="code-box">
                     <span class="code-badge" id="link-code"></span>
                     <button class="copy-btn" id="btnCopy" title="Copiar codigo">
@@ -161,6 +161,22 @@
                         </div>
                         <button type="submit" class="btn-primary">Registrar Paciente</button>
                     </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="modalUnlinkConfirm" class="modal-overlay">
+        <div class="modal-content modal-confirm-content" role="dialog" aria-modal="true" aria-labelledby="unlinkConfirmTitle">
+            <button class="modal-close" id="btnCloseUnlinkConfirm" type="button" aria-label="Cerrar confirmacion">&times;</button>
+            <div class="modal-confirm-body">
+                <h3 id="unlinkConfirmTitle">Desvincular paciente</h3>
+                <p id="unlinkConfirmMessage" class="modal-confirm-message">
+                    ¿Deseas desvincular a este paciente?
+                </p>
+                <div class="modal-confirm-actions">
+                    <button class="btn-secondary" id="btnCancelUnlink" type="button">Cancelar</button>
+                    <button class="btn-danger" id="btnConfirmUnlink" type="button">Desvincular</button>
                 </div>
             </div>
         </div>

@@ -1,7 +1,8 @@
 import {
     cargarDatosCuidador,
     cargarPacientes,
-    registrarPacienteDesdeFormulario
+    registrarPacienteDesdeFormulario,
+    desvincularPacienteDesdeDashboard
 } from "./dashboard-cuidador.data.js";
 import { bindDashboardCuidadorEvents } from "./dashboard-cuidador.events.js";
 import {
@@ -17,10 +18,13 @@ export function initDashboardCuidador() {
         return;
     }
 
-    bindDashboardCuidadorEvents(elements, {
-        onRegistrarPaciente: () => registrarPacienteDesdeFormulario(elements)
-    });
+    const handlers = {
+        onRegistrarPaciente: () => registrarPacienteDesdeFormulario(elements, handlers),
+        onDesvincularPaciente: (paciente) => desvincularPacienteDesdeDashboard(elements, paciente, handlers)
+    };
+
+    bindDashboardCuidadorEvents(elements, handlers);
 
     cargarDatosCuidador(elements);
-    cargarPacientes(elements);
+    cargarPacientes(elements, handlers);
 }

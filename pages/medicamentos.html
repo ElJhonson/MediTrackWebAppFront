@@ -147,6 +147,20 @@
         </div>
     </div>
 
+    <div class="modal-overlay" id="modalDeleteConfirm">
+        <div class="glass-card modal-content modal-confirm-content" role="dialog" aria-modal="true" aria-labelledby="deleteConfirmTitle">
+            <div class="modal-header">
+                <h3 id="deleteConfirmTitle">Confirmar eliminacion</h3>
+                <button class="close-btn" id="btnCloseDeleteConfirm" type="button" aria-label="Cerrar confirmacion">&times;</button>
+            </div>
+            <p class="confirm-message">Esta accion eliminara la medicina seleccionada. ¿Deseas continuar?</p>
+            <div class="confirm-actions">
+                <button class="btn-cancel" id="btnCancelDelete" type="button">Cancelar</button>
+                <button class="btn-danger" id="btnConfirmDelete" type="button">Eliminar</button>
+            </div>
+        </div>
+    </div>
+
     <script type="module" src="../js/pages/medicamentos.page.js"></script>
 </body>
 
