@@ -1,9 +1,37 @@
 @media (max-width: 900px) {
+    .topbar {
+        padding: 1rem 1.25rem;
+        align-items: center;
+        flex-direction: column;
+    }
+
+    .nav-links {
+        width: 100%;
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 0.2rem;
+    }
+
     .profile-grid {
         grid-template-columns: 1fr;
     }
 
     .info-grid {
         grid-template-columns: 1fr;
+    }
+
+    .info-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .form-actions {
+        justify-content: flex-start;
+        flex-wrap: wrap;
+    }
+
+    .reauth-actions {
+        justify-content: flex-start;
+        flex-wrap: wrap;
     }
 }

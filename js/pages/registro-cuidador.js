@@ -31,7 +31,7 @@ form.addEventListener("submit", async (e) => {
     const cuidador = {
         name: form.name.value,
         phoneNumber: sanitizePhoneValue(form.phoneNumber.value),
-        relacionConPaciente: form.relacionConPaciente.value,
+        ocupacion: form.ocupacion.value,
         password: form.password.value
     };
 

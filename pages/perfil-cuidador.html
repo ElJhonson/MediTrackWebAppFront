@@ -10,11 +10,16 @@
 
 <body class="perfil-cuidador-page">
     <header class="topbar">
-        <div>
+        <div class="topbar-title">
             <h1>Perfil del Cuidador</h1>
-            <p class="status" id="profileStatus">Cargando informacion del perfil...</p>
+            <p class="status" id="profileStatus"></p>
         </div>
-        <button class="btn-back" id="btnBackToDashboard" type="button">Volver al dashboard</button>
+
+        <nav class="nav-links" aria-label="Navegacion principal">
+            <a href="/pages/dashboard-cuidador.html">Inicio</a>
+            <a href="/pages/perfil-cuidador.html" class="active" aria-current="page">Ver Perfil</a>
+            <a href="/pages/cuidador-medicinas.html">Medicinas</a>
+        </nav>
     </header>
 
     <main class="perfil-main">
@@ -22,37 +27,73 @@
             <article class="panel identity-card">
                 <div class="avatar" id="caregiverAvatar">--</div>
                 <h2 class="identity-name" id="caregiverName">Cargando...</h2>
-                <p class="identity-role">Rol: Cuidador</p>
+                <p class="identity-role">Cuidador</p>
             </article>
 
             <article class="panel info-card">
-                <h3 class="info-title">Datos generales</h3>
-                <p class="info-subtitle">Vista inicial del perfil con informacion del endpoint del cuidador.</p>
-
-                <div class="info-grid">
-                    <div class="info-item">
-                        <p class="info-label">Nombre completo</p>
-                        <p class="info-value" id="infoName">--</p>
-                    </div>
-
-                    <div class="info-item">
-                        <p class="info-label">Telefono</p>
-                        <p class="info-value" id="infoPhone">--</p>
-                    </div>
-
-                    <div class="info-item">
-                        <p class="info-label">Codigo de vinculacion</p>
-                        <p class="info-value" id="infoCodigo">--</p>
-                    </div>
-
-                    <div class="info-item">
-                        <p class="info-label">Pacientes vinculados</p>
-                        <p class="info-value" id="infoPacientes">0</p>
-                    </div>
+                <div class="info-header">
+                    <h3 class="info-title">Datos generales</h3>
+                    <button class="btn-edit-outline" id="btnEditProfile" type="button">Editar Perfil</button>
                 </div>
+
+                <form id="caregiverProfileForm">
+                    <div class="info-grid">
+                        <div class="info-item">
+                            <label class="info-label" for="inputName">Nombre completo</label>
+                            <input class="info-input" id="inputName" type="text" maxlength="80" required disabled>
+                        </div>
+
+                        <div class="info-item">
+                            <label class="info-label" for="inputPhone">Telefono</label>
+                            <input
+                                class="info-input"
+                                id="inputPhone"
+                                type="text"
+                                inputmode="numeric"
+                                maxlength="10"
+                                autocomplete="tel-national"
+                                required
+                                disabled
+                            >
+                        </div>
+
+                        <div class="info-item">
+                            <label class="info-label" for="inputOcupacion">Ocupacion</label>
+                            <input class="info-input" id="inputOcupacion" type="text" maxlength="80" disabled>
+                        </div>
+
+                        <div class="info-item">
+                            <p class="info-label">Codigo de vinculacion</p>
+                            <p class="info-value" id="infoCodigo">--</p>
+                        </div>
+
+                        <div class="info-item">
+                            <p class="info-label">Pacientes vinculados</p>
+                            <p class="info-value" id="infoPacientes">0</p>
+                        </div>
+                    </div>
+
+                    <div class="form-actions hidden" id="profileActions">
+                        <button class="btn-cancel-flat" id="btnCancelProfile" type="button">Cancelar</button>
+                        <button class="btn-save-main" id="btnSaveProfile" type="submit">Guardar Cambios</button>
+                    </div>
+                </form>
             </article>
         </section>
     </main>
+
+    <div class="reauth-modal hidden" id="reauthModal" aria-hidden="true">
+        <div class="reauth-dialog" role="dialog" aria-modal="true" aria-labelledby="reauthTitle">
+            <h3 class="reauth-title" id="reauthTitle">Debes iniciar sesion nuevamente</h3>
+            <p class="reauth-text">
+                Si cambias el telefono y guardas, tendras que iniciar sesion nuevamente. Deseas continuar?
+            </p>
+            <div class="reauth-actions">
+                <button class="btn-cancel-flat" id="btnCancelReauth" type="button">Cancelar</button>
+                <button class="btn-save-main" id="btnContinueReauth" type="button">Aceptar</button>
+            </div>
+        </div>
+    </div>
 
     <script type="module" src="../js/pages/perfil-cuidador.page.js"></script>
 </body>

@@ -1,6 +1,7 @@
 import {
     obtenerMisDatosCuidador,
-    obtenerPacientesDelCuidador
+    obtenerPacientesDelCuidador,
+    actualizarMisDatosCuidador
 } from "../../services/cuidador.service.js";
 
 export async function obtenerPerfilCuidadorConPacientes() {
@@ -13,4 +14,8 @@ export async function obtenerPerfilCuidadorConPacientes() {
         cuidador,
         pacientes: Array.isArray(pacientes) ? pacientes : []
     };
+}
+
+export async function actualizarPerfilCuidador(dto) {
+    return actualizarMisDatosCuidador(dto);
 }

@@ -1,11 +1,19 @@
 export function getPerfilCuidadorElements() {
     return {
         profileStatus: document.getElementById("profileStatus"),
-        btnBackToDashboard: document.getElementById("btnBackToDashboard"),
         caregiverAvatar: document.getElementById("caregiverAvatar"),
         caregiverName: document.getElementById("caregiverName"),
-        infoName: document.getElementById("infoName"),
-        infoPhone: document.getElementById("infoPhone"),
+        caregiverProfileForm: document.getElementById("caregiverProfileForm"),
+        btnEditProfile: document.getElementById("btnEditProfile"),
+        btnCancelProfile: document.getElementById("btnCancelProfile"),
+        btnSaveProfile: document.getElementById("btnSaveProfile"),
+        reauthModal: document.getElementById("reauthModal"),
+        btnCancelReauth: document.getElementById("btnCancelReauth"),
+        btnContinueReauth: document.getElementById("btnContinueReauth"),
+        profileActions: document.getElementById("profileActions"),
+        inputName: document.getElementById("inputName"),
+        inputPhone: document.getElementById("inputPhone"),
+        inputOcupacion: document.getElementById("inputOcupacion"),
         infoCodigo: document.getElementById("infoCodigo"),
         infoPacientes: document.getElementById("infoPacientes")
     };
@@ -14,11 +22,19 @@ export function getPerfilCuidadorElements() {
 export function hasRequiredPerfilCuidadorElements(elements) {
     return Boolean(
         elements.profileStatus
-        && elements.btnBackToDashboard
         && elements.caregiverAvatar
         && elements.caregiverName
-        && elements.infoName
-        && elements.infoPhone
+        && elements.caregiverProfileForm
+        && elements.btnEditProfile
+        && elements.btnCancelProfile
+        && elements.btnSaveProfile
+        && elements.reauthModal
+        && elements.btnCancelReauth
+        && elements.btnContinueReauth
+        && elements.profileActions
+        && elements.inputName
+        && elements.inputPhone
+        && elements.inputOcupacion
         && elements.infoCodigo
         && elements.infoPacientes
     );

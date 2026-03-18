@@ -88,6 +88,31 @@ export async function obtenerPacientePorId(id) {
 
     return response.json();
 }
+
+/**
+ * Actualizar datos del cuidador autenticado
+ * PUT /cuidadores/actualizar
+ */
+export async function actualizarMisDatosCuidador(dto) {
+    const token = getAccessToken();
+
+    const response = await fetch(`${BASE_URL}/actualizar`, {
+        method: "PUT",
+        headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`
+        },
+        body: JSON.stringify(dto)
+    });
+
+    if (!response.ok) {
+        const msg = await extraerMensajeError(response);
+        throw new Error(msg || "Error al actualizar datos del cuidador");
+    }
+
+    return response.json();
+}
+
 /**
  * Actualizar paciente desde cuidador
  * PUT /cuidadores/pacientes/{id}

@@ -40,8 +40,16 @@
     padding: 1.2rem;
 }
 
+.info-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.7rem;
+    margin-bottom: 0.9rem;
+}
+
 .info-title {
-    margin: 0 0 0.2rem;
+    margin: 0;
     font-size: 1.15rem;
     color: var(--text-dark-main);
 }
@@ -65,6 +73,31 @@
     background: #fbfdff;
 }
 
+.info-input {
+    width: 100%;
+    margin-top: 0.28rem;
+    border: 1px solid var(--perfil-border);
+    border-radius: 10px;
+    padding: 10px 12px;
+    font-size: 0.95rem;
+    color: #0f172a;
+    font-family: var(--font-primary);
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.info-input:disabled {
+    background: #f8fafc;
+    border-color: #e2e8f0;
+    color: #1e293b;
+    font-weight: 500;
+}
+
+.info-input:focus-visible {
+    outline: none;
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.18);
+}
+
 .info-label {
     margin: 0;
     font-size: 0.74rem;
@@ -80,4 +113,104 @@
     color: #0f172a;
     font-weight: 600;
     word-break: break-word;
+}
+
+.btn-edit-outline {
+    border: 1px solid var(--border-soft);
+    background: var(--white);
+    color: var(--text-dark-main);
+    border-radius: 10px;
+    padding: 8px 12px;
+    font-family: var(--font-primary);
+    font-size: 0.82rem;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.btn-edit-outline:hover {
+    background: #f1f5f9;
+    border-color: #cbd5e1;
+}
+
+.form-actions {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 0.6rem;
+    margin-top: 1rem;
+}
+
+.hidden {
+    display: none !important;
+}
+
+.btn-cancel-flat,
+.btn-save-main {
+    border-radius: 10px;
+    padding: 9px 14px;
+    font-family: var(--font-primary);
+    font-size: 0.84rem;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.btn-cancel-flat {
+    border: 1px solid var(--border-soft);
+    background: var(--white);
+    color: var(--text-gray);
+}
+
+.btn-cancel-flat:hover {
+    background: #f8fafc;
+}
+
+.btn-save-main {
+    border: 1px solid var(--primary);
+    background: var(--primary);
+    color: var(--white);
+}
+
+.btn-save-main:hover {
+    filter: brightness(0.95);
+}
+
+.reauth-modal {
+    position: fixed;
+    inset: 0;
+    background: rgba(15, 23, 42, 0.45);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem;
+    z-index: 130;
+}
+
+.reauth-dialog {
+    width: min(460px, 100%);
+    background: var(--white);
+    border: 1px solid var(--border-soft);
+    border-radius: 14px;
+    padding: 1.05rem;
+    box-shadow: 0 12px 30px rgba(15, 23, 42, 0.2);
+}
+
+.reauth-title {
+    margin: 0;
+    font-size: 1.04rem;
+    font-weight: 700;
+    color: var(--text-dark-main);
+}
+
+.reauth-text {
+    margin: 0.65rem 0 0;
+    color: #475569;
+    font-size: 0.9rem;
+    line-height: 1.45;
+}
+
+.reauth-actions {
+    margin-top: 1rem;
+    display: flex;
+    justify-content: flex-end;
+    gap: 0.6rem;
 }
