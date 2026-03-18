@@ -100,19 +100,18 @@ export function createCuidadorMedicinasActions({
         try {
             if (id) {
                 await data.actualizarMedicinaPaciente(id, dto);
-                notify.success("Medicina actualizada correctamente");
             } else {
                 await data.registrarMedicinaPaciente(dto, state.pacienteId);
-                notify.success("Medicina registrada correctamente");
             }
 
+            submitLock.setLocked(false, { isEditing });
             dom.closeModal(elements);
             await cargarMedicinasPaciente(state.pacienteId);
+            notify.success(id ? "Medicina actualizada correctamente" : "Medicina registrada correctamente");
         } catch (error) {
             console.error("Error al guardar medicina:", error);
-            notify.error(error.message || "No se pudo guardar la medicina");
-        } finally {
             submitLock.setLocked(false, { isEditing });
+            notify.error(error.message || "No se pudo guardar la medicina");
         }
     }
 
