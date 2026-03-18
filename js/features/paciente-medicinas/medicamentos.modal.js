@@ -3,6 +3,7 @@ import {
     actualizarMedicina
 } from "../../services/medicina.service.js";
 import { notifyError, notifySuccess } from "../../core/notify.js";
+import { createFormSubmitLock } from "../../core/helpers/form-submit-lock.js";
 import { medicamentosState } from "./medicamentos.state.js";
 
 import { cargarMedicamentos } from "./medicamentos.controller.js";
@@ -17,6 +18,14 @@ const expirationDateInput = document.getElementById("expirationDate");
 const submitButton = form?.querySelector(".btn-save");
 const openModalButton = document.getElementById("btnOpenModal");
 const closeModalButton = document.getElementById("btnCloseModal");
+const submitLock = createFormSubmitLock({
+    form,
+    submitButton,
+    fields: [nameInput, dosageFormInput, expirationDateInput],
+    buttons: [openModalButton, closeModalButton],
+    getIdleText: ({ isEditing }) => isEditing ? "Guardar Cambios" : "Registrar Medicina",
+    getPendingText: ({ isEditing }) => isEditing ? "Actualizando..." : "Registrando..."
+});
 
 export function initMedicamentosModal() {
 
@@ -93,20 +102,5 @@ export function abrirModalEditar(med) {
 }
 
 function setSubmitState(isSubmitting, isEditing) {
-    if (!submitButton) return;
-
-    form.dataset.submitting = isSubmitting ? "true" : "false";
-    submitButton.disabled = isSubmitting;
-    nameInput.disabled = isSubmitting;
-    dosageFormInput.disabled = isSubmitting;
-    expirationDateInput.disabled = isSubmitting;
-    if (openModalButton) openModalButton.disabled = isSubmitting;
-    if (closeModalButton) closeModalButton.disabled = isSubmitting;
-
-    if (isSubmitting) {
-        submitButton.textContent = isEditing ? "Actualizando..." : "Registrando...";
-        return;
-    }
-
-    submitButton.textContent = isEditing ? "Guardar Cambios" : "Registrar Medicina";
+    submitLock.setLocked(isSubmitting, { isEditing });
 }

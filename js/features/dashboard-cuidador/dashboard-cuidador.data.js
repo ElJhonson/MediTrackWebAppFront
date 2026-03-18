@@ -9,8 +9,11 @@ import {
 } from "../../services/cuidador.service.js";
 import { conRetry, esErrorRedFetch } from "./dashboard-cuidador.utils.js";
 import {
+    closeUnlinkConfirmModal,
     cerrarModal,
     renderPacientes,
+    setRegisterFormLocked,
+    setUnlinkConfirmationLocked,
     setPacientesLoading
 } from "./dashboard-cuidador.dom.js";
 
@@ -101,6 +104,8 @@ export async function cargarPacientes(elements, handlers = {}) {
 }
 
 export async function registrarPacienteDesdeFormulario(elements, handlers = {}) {
+    if (elements.registerForm?.dataset.submitting === "true") return;
+
     const dto = {
         name: elements.registerForm.name.value.trim(),
         phoneNumber: elements.registerForm.phoneNumber.value.trim(),
@@ -109,13 +114,16 @@ export async function registrarPacienteDesdeFormulario(elements, handlers = {}) 
     };
 
     try {
+        setRegisterFormLocked(elements, true);
         await registrarPacienteDesdeCuidador(dto);
-        notifySuccess("Paciente registrado con éxito");
-        cerrarModal(elements);
         await cargarPacientes(elements, handlers);
+        setRegisterFormLocked(elements, false);
+        cerrarModal(elements);
+        notifySuccess("Paciente registrado con éxito");
     } catch (error) {
         console.error("Error al registrar:", error);
         notifyError(error.message || "Error al registrar paciente");
+        setRegisterFormLocked(elements, false);
     }
 }
 
@@ -127,10 +135,12 @@ export async function desvincularPacienteDesdeDashboard(elements, paciente, hand
 
     try {
         await desvincularPacienteDelCuidador(paciente.id);
-        notifySuccess("Paciente desvinculado correctamente");
         await cargarPacientes(elements, handlers);
+        closeUnlinkConfirmModal(elements);
+        notifySuccess("Paciente desvinculado correctamente");
     } catch (error) {
         console.error("Error al desvincular paciente:", error);
+        setUnlinkConfirmationLocked(elements, false);
         notifyError(error.message || "No se pudo desvincular al paciente");
     }
 }

@@ -1,4 +1,24 @@
-let deleteConfirmationResolver = null;
+import { createBlockingConfirmationModal } from "../../core/helpers/confirmation-modal.js";
+
+let deleteConfirmation = null;
+
+function getDeleteConfirmation(elements) {
+    if (!deleteConfirmation) {
+        deleteConfirmation = createBlockingConfirmationModal({
+            modal: elements.modalDeleteConfirm,
+            confirmButton: elements.btnConfirmDelete,
+            cancelButton: elements.btnCancelDelete,
+            closeButton: elements.btnCloseDeleteConfirm,
+            idleConfirmText: "Eliminar",
+            pendingConfirmText: "Eliminando...",
+            showModal: () => elements.modalDeleteConfirm.classList.add("active"),
+            hideModal: () => elements.modalDeleteConfirm.classList.remove("active"),
+            isModalOpen: () => elements.modalDeleteConfirm.classList.contains("active")
+        });
+    }
+
+    return deleteConfirmation;
+}
 
 export function setMedicinasLoading(elements) {
     elements.medContainer.innerHTML = '<p class="med-loading">Cargando medicinas...</p>';
@@ -101,6 +121,8 @@ export function openCreateModal(elements) {
 }
 
 export function closeModal(elements) {
+    if (elements.medForm?.dataset.submitting === "true") return;
+
     elements.modalMed.classList.remove("active");
     elements.medForm.reset();
     elements.editId.value = "";
@@ -139,19 +161,19 @@ export function syncPatientInUrl(state, pacienteId) {
 }
 
 export function solicitarConfirmacionEliminacion(elements) {
-    return new Promise((resolve) => {
-        deleteConfirmationResolver = resolve;
-        elements.modalDeleteConfirm.classList.add("active");
-    });
+    return getDeleteConfirmation(elements).open();
 }
 
-export function cerrarModalConfirmacionEliminacion(elements, confirmado) {
-    elements.modalDeleteConfirm.classList.remove("active");
+export function responderConfirmacionEliminacion(elements, confirmado) {
+    getDeleteConfirmation(elements).respond(confirmado);
+}
 
-    if (deleteConfirmationResolver) {
-        deleteConfirmationResolver(confirmado);
-        deleteConfirmationResolver = null;
-    }
+export function closeDeleteConfirmation(elements) {
+    getDeleteConfirmation(elements).close();
+}
+
+export function setDeleteConfirmationLocked(elements, locked) {
+    getDeleteConfirmation(elements).setLocked(locked);
 }
 
 function normalizeDateForInput(value) {

@@ -40,7 +40,7 @@ export async function initCuidadorMedicinasPage() {
         onCloseAccountMenu: () => dom.closeAccountMenu(elements),
         onClosePatientSelector: () => dom.closePatientSelector(elements),
         onCloseModal: () => dom.closeModal(elements),
-        onDeleteConfirmChoice: (confirmado) => dom.cerrarModalConfirmacionEliminacion(elements, confirmado),
+        onDeleteConfirmChoice: (confirmado) => dom.responderConfirmacionEliminacion(elements, confirmado),
         onLogout: () => logout(),
         onChangePaciente: async (pacienteId) => actions.cambiarPaciente(pacienteId),
         onOpenCreateModal: () => dom.openCreateModal(elements),

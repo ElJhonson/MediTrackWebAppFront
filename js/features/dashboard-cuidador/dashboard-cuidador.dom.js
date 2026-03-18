@@ -1,8 +1,59 @@
 import { renderEnfermedades } from "./dashboard-cuidador.utils.js";
+import { createBlockingConfirmationModal } from "../../core/helpers/confirmation-modal.js";
+import { createFormSubmitLock } from "../../core/helpers/form-submit-lock.js";
 
 let patientMenuDismissReady = false;
 let unlinkConfirmReady = false;
-let unlinkConfirmResolver = null;
+let unlinkConfirmation = null;
+let registerFormSubmitLock = null;
+
+function getRegisterFormSubmitLock(elements) {
+    if (!registerFormSubmitLock) {
+        registerFormSubmitLock = createFormSubmitLock({
+            form: elements.registerForm,
+            submitButton: elements.registerSubmitButton,
+            fields: [
+                elements.registerForm?.name,
+                elements.registerForm?.phoneNumber,
+                elements.registerForm?.edad,
+                elements.passwordInput,
+                elements.confirmPasswordInput
+            ],
+            buttons: [
+                elements.btnCloseModal,
+                elements.btnAddPatient,
+                elements.togglePasswordBtn,
+                elements.toggleConfirmPasswordBtn
+            ],
+            getIdleText: () => "Registrar Paciente",
+            getPendingText: () => "Registrando..."
+        });
+    }
+
+    return registerFormSubmitLock;
+}
+
+function getUnlinkConfirmation(elements) {
+    if (!unlinkConfirmation) {
+        unlinkConfirmation = createBlockingConfirmationModal({
+            modal: elements.modalUnlinkConfirm,
+            confirmButton: elements.btnConfirmUnlink,
+            cancelButton: elements.btnCancelUnlink,
+            closeButton: elements.btnCloseUnlinkConfirm,
+            idleConfirmText: "Desvincular",
+            pendingConfirmText: "Desvinculando...",
+            showModal: () => {
+                elements.modalUnlinkConfirm.style.display = "flex";
+            },
+            hideModal: () => {
+                elements.modalUnlinkConfirm.style.display = "none";
+            },
+            isModalOpen: () => elements.modalUnlinkConfirm.style.display === "flex"
+        });
+    }
+
+    return unlinkConfirmation;
+}
 
 export function setPacientesLoading(elements, loading) {
     if (!loading) return;
@@ -18,6 +69,8 @@ export function cerrarAccountMenu(elements) {
 }
 
 export function cerrarModal(elements) {
+    if (getRegisterFormSubmitLock(elements).isLocked()) return;
+
     elements.modal.style.display = "none";
     elements.registerForm.reset();
     elements.passwordInput.type = "password";
@@ -25,6 +78,10 @@ export function cerrarModal(elements) {
     elements.passwordInput.closest(".password-group")?.classList.remove("visible");
     elements.confirmPasswordInput.closest(".password-group")?.classList.remove("visible");
     elements.confirmPasswordInput.setCustomValidity("");
+}
+
+export function setRegisterFormLocked(elements, locked) {
+    getRegisterFormSubmitLock(elements).setLocked(locked);
 }
 
 function closePatientMenus(container, except = null) {
@@ -53,44 +110,19 @@ function ensurePatientMenuDismissBehavior(elements) {
     });
 }
 
-function closeUnlinkConfirmModal(elements, confirmed) {
-    if (!elements.modalUnlinkConfirm) return;
+export function closeUnlinkConfirmModal(elements) {
+    getUnlinkConfirmation(elements).close();
+}
 
-    elements.modalUnlinkConfirm.style.display = "none";
-
-    if (unlinkConfirmResolver) {
-        unlinkConfirmResolver(confirmed);
-        unlinkConfirmResolver = null;
-    }
+export function setUnlinkConfirmationLocked(elements, locked) {
+    getUnlinkConfirmation(elements).setLocked(locked);
 }
 
 function ensureUnlinkConfirmBindings(elements) {
     if (unlinkConfirmReady || !elements.modalUnlinkConfirm) return;
     unlinkConfirmReady = true;
 
-    elements.btnCloseUnlinkConfirm?.addEventListener("click", () => {
-        closeUnlinkConfirmModal(elements, false);
-    });
-
-    elements.btnCancelUnlink?.addEventListener("click", () => {
-        closeUnlinkConfirmModal(elements, false);
-    });
-
-    elements.btnConfirmUnlink?.addEventListener("click", () => {
-        closeUnlinkConfirmModal(elements, true);
-    });
-
-    elements.modalUnlinkConfirm.addEventListener("click", (event) => {
-        if (event.target === elements.modalUnlinkConfirm) {
-            closeUnlinkConfirmModal(elements, false);
-        }
-    });
-
-    window.addEventListener("keydown", (event) => {
-        if (event.key === "Escape" && elements.modalUnlinkConfirm.style.display === "flex") {
-            closeUnlinkConfirmModal(elements, false);
-        }
-    });
+    getUnlinkConfirmation(elements).bind();
 }
 
 function solicitarConfirmacionDesvincular(elements, pacienteNombre) {
@@ -102,11 +134,7 @@ function solicitarConfirmacionDesvincular(elements, pacienteNombre) {
         elements.unlinkConfirmMessage.textContent = `Se desvinculara a ${pacienteNombre}. Esta accion no se puede deshacer.`;
     }
 
-    elements.modalUnlinkConfirm.style.display = "flex";
-
-    return new Promise((resolve) => {
-        unlinkConfirmResolver = resolve;
-    });
+    return getUnlinkConfirmation(elements).open();
 }
 
 export function renderPacientes(elements, pacientesConDetalle, handlers = {}) {

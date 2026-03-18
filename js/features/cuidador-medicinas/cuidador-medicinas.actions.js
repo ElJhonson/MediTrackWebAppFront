@@ -1,4 +1,5 @@
 import { ROLES, STORAGE_KEYS } from "../../core/config.js";
+import { createFormSubmitLock } from "../../core/helpers/form-submit-lock.js";
 
 export function createCuidadorMedicinasActions({
     elements,
@@ -7,7 +8,14 @@ export function createCuidadorMedicinasActions({
     dom,
     notify
 }) {
-    let submitInFlight = false;
+    const submitLock = createFormSubmitLock({
+        form: elements.medForm,
+        submitButton: elements.medForm?.querySelector(".btn-save"),
+        fields: [elements.name, elements.dosageForm, elements.expirationDate],
+        buttons: [elements.btnOpenModal, elements.btnCloseModal],
+        getIdleText: ({ isEditing }) => isEditing ? "Guardar Cambios" : "Registrar Medicina",
+        getPendingText: ({ isEditing }) => isEditing ? "Actualizando..." : "Registrando..."
+    });
     let editModalInFlight = false;
 
     function validarRolCuidador() {
@@ -81,14 +89,13 @@ export function createCuidadorMedicinasActions({
     }
 
     async function guardarDesdeFormulario() {
-        if (submitInFlight) return;
+        if (submitLock.isLocked()) return;
 
         const id = elements.editId.value;
         const dto = dom.getFormPayload(elements);
         const isEditing = Boolean(id);
 
-        submitInFlight = true;
-        setSubmitButtonLocked(true, isEditing);
+        submitLock.setLocked(true, { isEditing });
 
         try {
             if (id) {
@@ -105,8 +112,7 @@ export function createCuidadorMedicinasActions({
             console.error("Error al guardar medicina:", error);
             notify.error(error.message || "No se pudo guardar la medicina");
         } finally {
-            submitInFlight = false;
-            setSubmitButtonLocked(false, isEditing);
+            submitLock.setLocked(false, { isEditing });
         }
     }
 
@@ -147,10 +153,12 @@ export function createCuidadorMedicinasActions({
 
         try {
             await data.eliminarMedicinaPaciente(id);
-            notify.success("Medicina eliminada correctamente");
             await cargarMedicinasPaciente(state.pacienteId);
+            dom.closeDeleteConfirmation(elements);
+            notify.success("Medicina eliminada correctamente");
         } catch (error) {
             console.error("Error al eliminar medicina:", error);
+            dom.setDeleteConfirmationLocked(elements, false);
             notify.error(error.message || "No se pudo eliminar la medicina");
         }
     }
@@ -172,19 +180,6 @@ export function createCuidadorMedicinasActions({
             const fallback = state.pacientes.find((p) => String(p.id) === String(pacienteId));
             dom.setPatientHeader(elements, state, fallback || { name: state.pacienteNombre });
         }
-    }
-
-    function setSubmitButtonLocked(locked, isEditing) {
-        const submitButton = elements.medForm?.querySelector(".btn-save");
-        if (!submitButton) return;
-
-        submitButton.disabled = locked;
-        if (locked) {
-            submitButton.textContent = isEditing ? "Actualizando..." : "Registrando...";
-            return;
-        }
-
-        submitButton.textContent = isEditing ? "Guardar Cambios" : "Registrar Medicina";
     }
 
     return {

@@ -4,6 +4,7 @@ export function getDashboardElements() {
         modal: document.getElementById("modalRegister"),
         btnCloseModal: document.getElementById("btnCloseModal"),
         registerForm: document.getElementById("registerPacienteForm"),
+        registerSubmitButton: document.querySelector("#registerPacienteForm .btn-primary"),
         togglePasswordBtn: document.getElementById("togglePasswordBtn"),
         toggleConfirmPasswordBtn: document.getElementById("toggleConfirmPasswordBtn"),
         passwordInput: document.getElementById("password"),
