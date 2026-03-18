@@ -89,7 +89,7 @@ function validarDTO(dto) {
     }
 
     if (dto.phoneNumber.length !== PHONE_DIGITS) {
-        notifyError("El numero de telefono debe tener 10 digitos");
+        notifyError("El número de teléfono debe tener 10 dígitos");
         return false;
     }
 

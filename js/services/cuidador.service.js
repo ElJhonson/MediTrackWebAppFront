@@ -1,5 +1,5 @@
 import { API_BASE_URL } from "../core/config.js";
-import { getAccessToken } from "../core/auth.js";
+import { authFetch } from "../core/http.js";
 import { extraerMensajeError } from "../utils/http-error.util.js";
 
 const BASE_URL = `${API_BASE_URL}/cuidadores`;
@@ -9,13 +9,7 @@ const BASE_URL = `${API_BASE_URL}/cuidadores`;
  * GET /cuidadores/mis-datos
  */
 export async function obtenerMisDatosCuidador() {
-    const token = getAccessToken();
-
-    const response = await fetch(`${BASE_URL}/mis-datos`, {
-        headers: {
-            Authorization: `Bearer ${token}`
-        }
-    });
+    const response = await authFetch(`${BASE_URL}/mis-datos`);
 
     if (!response.ok) {
         const msg = await extraerMensajeError(response);
@@ -29,13 +23,7 @@ export async function obtenerMisDatosCuidador() {
  * GET /cuidadores/pacientes-del-cuidador
  */
 export async function obtenerPacientesDelCuidador() {
-    const token = getAccessToken();
-
-    const response = await fetch(`${BASE_URL}/pacientes-del-cuidador`, {
-        headers: {
-            Authorization: `Bearer ${token}`
-        }
-    });
+    const response = await authFetch(`${BASE_URL}/pacientes-del-cuidador`);
 
     if (!response.ok) {
         const msg = await extraerMensajeError(response);
@@ -49,14 +37,8 @@ export async function obtenerPacientesDelCuidador() {
  * POST /cuidadores/registrar-paciente
  */
 export async function registrarPacienteDesdeCuidador(dto) {
-    const token = getAccessToken();
-
-    const response = await fetch(`${BASE_URL}/registrar-paciente`, {
+    const response = await authFetch(`${BASE_URL}/registrar-paciente`, {
         method: "POST",
-        headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`
-        },
         body: JSON.stringify(dto)
     });
 
@@ -73,13 +55,7 @@ export async function registrarPacienteDesdeCuidador(dto) {
  * GET /cuidadores/pacientes/{id}
  */
 export async function obtenerPacientePorId(id) {
-    const token = getAccessToken();
-
-    const response = await fetch(`${BASE_URL}/pacientes/${id}`, {
-        headers: {
-            Authorization: `Bearer ${token}`
-        }
-    });
+    const response = await authFetch(`${BASE_URL}/pacientes/${id}`);
 
     if (!response.ok) {
         const msg = await extraerMensajeError(response);
@@ -94,14 +70,8 @@ export async function obtenerPacientePorId(id) {
  * PUT /cuidadores/actualizar
  */
 export async function actualizarMisDatosCuidador(dto) {
-    const token = getAccessToken();
-
-    const response = await fetch(`${BASE_URL}/actualizar`, {
+    const response = await authFetch(`${BASE_URL}/actualizar`, {
         method: "PUT",
-        headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`
-        },
         body: JSON.stringify(dto)
     });
 
@@ -118,7 +88,6 @@ export async function actualizarMisDatosCuidador(dto) {
  * PUT /cuidadores/pacientes/{id}
  */
 export async function actualizarPacienteDesdeCuidador(id, dto) {
-    const token = getAccessToken();
     const payload = { ...dto };
 
     // Compatibilidad: el backend espera "nombre" en vez de "name".
@@ -127,12 +96,8 @@ export async function actualizarPacienteDesdeCuidador(id, dto) {
         delete payload.name;
     }
 
-    const response = await fetch(`${BASE_URL}/pacientes/${id}`, {
+    const response = await authFetch(`${BASE_URL}/pacientes/${id}`, {
         method: "PUT",
-        headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`
-        },
         body: JSON.stringify(payload)
     });
 
@@ -149,13 +114,8 @@ export async function actualizarPacienteDesdeCuidador(id, dto) {
  * DELETE /cuidadores/{id}/desvincular
  */
 export async function desvincularPacienteDelCuidador(id) {
-    const token = getAccessToken();
-
-    const response = await fetch(`${BASE_URL}/${id}/desvincular`, {
-        method: "DELETE",
-        headers: {
-            Authorization: `Bearer ${token}`
-        }
+    const response = await authFetch(`${BASE_URL}/${id}/desvincular`, {
+        method: "DELETE"
     });
 
     if (!response.ok) {

@@ -1,5 +1,5 @@
 import { API_BASE_URL } from "../core/config.js";
-import { getAccessToken } from "../core/auth.js";
+import { authFetch } from "../core/http.js";
 
 const BASE_URL = `${API_BASE_URL}/alarmas`;
 
@@ -8,14 +8,8 @@ const BASE_URL = `${API_BASE_URL}/alarmas`;
  * @param {Object} dto AlarmaConfigRequestDto
  */
 export async function crearAlarmaConfig(dto) {
-    const token = getAccessToken();
-
-    const response = await fetch(`${BASE_URL}/crear`, {
+    const response = await authFetch(`${BASE_URL}/crear`, {
         method: "POST",
-        headers: {
-            "Content-Type": "application/json",
-            "Authorization": `Bearer ${token}`
-        },
         body: JSON.stringify(dto)
     });
 
@@ -31,13 +25,7 @@ export async function crearAlarmaConfig(dto) {
  * Obtener configuraciones de alarma del paciente actual
  */
 export async function obtenerMisAlarmasConfig() {
-    const token = getAccessToken();
-
-    const response = await fetch(`${BASE_URL}/mias`, {
-        headers: {
-            "Authorization": `Bearer ${token}`
-        }
-    });
+    const response = await authFetch(`${BASE_URL}/mias`);
 
     if (!response.ok) {
         const msg = await response.text();

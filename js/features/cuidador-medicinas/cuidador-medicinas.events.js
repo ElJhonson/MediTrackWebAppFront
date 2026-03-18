@@ -86,7 +86,7 @@ export function bindCuidadorMedicinasEvents(elements, handlers) {
         if (!id) return;
 
         if (button.classList.contains("btn-edit")) {
-            await handlers.onEditMedicina(id);
+            await handlers.onEditMedicina(id, button);
             return;
         }
 

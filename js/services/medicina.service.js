@@ -1,18 +1,12 @@
 import { API_BASE_URL } from "../core/config.js";
-import { getAccessToken } from "../core/auth.js";
+import { authFetch } from "../core/http.js";
 import { extraerMensajeError } from "../utils/http-error.util.js";
 
 const BASE_URL = `${API_BASE_URL}/medicinas`;
 
 // Obtener medicinas de un paciente vinculado (cuidador)
 export async function obtenerMedicinasPaciente(pacienteId) {
-    const token = getAccessToken();
-
-    const response = await fetch(`${BASE_URL}/paciente/${pacienteId}`, {
-        headers: {
-            Authorization: `Bearer ${token}`
-        }
-    });
+    const response = await authFetch(`${BASE_URL}/paciente/${pacienteId}`);
 
     if (!response.ok) {
         const msg = await extraerMensajeError(response);
@@ -24,14 +18,8 @@ export async function obtenerMedicinasPaciente(pacienteId) {
 
 // Registrar nueva medicina
 export async function registrarMedicina(dto) {
-    const token = getAccessToken();
-
-    const response = await fetch(`${BASE_URL}/registrar`, {
+    const response = await authFetch(`${BASE_URL}/registrar`, {
         method: "POST",
-        headers: {
-            "Content-Type": "application/json",
-            "Authorization": `Bearer ${token}`
-        },
         body: JSON.stringify(dto)
     });
 
@@ -45,13 +33,7 @@ export async function registrarMedicina(dto) {
 
 // Obtener medicinas del paciente actual
 export async function obtenerMisMedicinas() {
-    const token = getAccessToken();
-
-    const response = await fetch(`${BASE_URL}/mias`, {
-        headers: {
-            Authorization: `Bearer ${token}`
-        }
-    });
+    const response = await authFetch(`${BASE_URL}/mias`);
 
     if (!response.ok) {
         const msg = await extraerMensajeError(response);
@@ -64,13 +46,7 @@ export async function obtenerMisMedicinas() {
 
 // Obtener medicina por ID
 export async function obtenerMedicinaPorId(id) {
-    const token = getAccessToken();
-
-    const response = await fetch(`${BASE_URL}/${id}`, {
-        headers: {
-            Authorization: `Bearer ${token}`
-        }
-    });
+    const response = await authFetch(`${BASE_URL}/${id}`);
 
     if (!response.ok) {
         const msg = await extraerMensajeError(response);
@@ -82,14 +58,8 @@ export async function obtenerMedicinaPorId(id) {
 
 //Actualizar medicina por ID
 export async function actualizarMedicina(id, dto) {
-    const token = getAccessToken();
-
-    const response = await fetch(`${BASE_URL}/${id}`, {
+    const response = await authFetch(`${BASE_URL}/${id}`, {
         method: "PUT",
-        headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`
-        },
         body: JSON.stringify(dto)
     });
 
@@ -105,13 +75,8 @@ export async function actualizarMedicina(id, dto) {
 
 // Eliminar medicina por ID
 export async function eliminarMedicina(id) {
-    const token = getAccessToken();
-
-    const response = await fetch(`${BASE_URL}/${id}`, {
-        method: "DELETE",
-        headers: {
-            Authorization: `Bearer ${token}`
-        }
+    const response = await authFetch(`${BASE_URL}/${id}`, {
+        method: "DELETE"
     });
 
     if (!response.ok) {

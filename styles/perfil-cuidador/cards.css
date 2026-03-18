@@ -115,6 +115,19 @@
     word-break: break-word;
 }
 
+#infoCodigo {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.25rem 0.55rem;
+    border: 1px solid #bfdbfe;
+    border-radius: 999px;
+    background: linear-gradient(180deg, #eff6ff 0%, #dbeafe 100%);
+    color: #1e3a8a;
+    font-family: "Consolas", "Courier New", monospace;
+    letter-spacing: 0.06em;
+    font-weight: 700;
+}
+
 .btn-edit-outline {
     border: 1px solid var(--border-soft);
     background: var(--white);

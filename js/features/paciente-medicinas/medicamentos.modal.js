@@ -3,36 +3,55 @@ import {
     actualizarMedicina
 } from "../../services/medicina.service.js";
 import { notifyError, notifySuccess } from "../../core/notify.js";
+import { medicamentosState } from "./medicamentos.state.js";
 
 import { cargarMedicamentos } from "./medicamentos.controller.js";
 
 const modal = document.getElementById("modalMed");
 const form = document.getElementById("medForm");
+const modalTitle = document.getElementById("modalTitle");
+const editIdInput = document.getElementById("editId");
+const nameInput = document.getElementById("name");
+const dosageFormInput = document.getElementById("dosageForm");
+const expirationDateInput = document.getElementById("expirationDate");
+const submitButton = form?.querySelector(".btn-save");
+const openModalButton = document.getElementById("btnOpenModal");
+const closeModalButton = document.getElementById("btnCloseModal");
 
 export function initMedicamentosModal() {
 
     document.getElementById("btnOpenModal").onclick = () => {
-        document.getElementById("modalTitle").innerText = "Registrar Medicina";
+        if (medicamentosState.guardando) return;
+        modalTitle.innerText = "Registrar Medicina";
         form.reset();
+        editIdInput.value = "";
+        setSubmitState(false, false);
         modal.classList.add("active");
     };
 
     document.getElementById("btnCloseModal").onclick = () => {
+        if (medicamentosState.guardando) return;
         modal.classList.remove("active");
     };
 
     form.onsubmit = async (e) => {
         e.preventDefault();
 
-        const id = document.getElementById("editId").value;
+        if (medicamentosState.guardando) return;
+
+        const id = editIdInput.value;
+        const isEditing = Boolean(id);
 
         const dto = {
-            nombre: document.getElementById("name").value.trim(),
-            dosageForm: document.getElementById("dosageForm").value,
-            expirationDate: document.getElementById("expirationDate").value
+            nombre: nameInput.value.trim(),
+            dosageForm: dosageFormInput.value,
+            expirationDate: expirationDateInput.value
         };
 
         try {
+            medicamentosState.guardando = true;
+            setSubmitState(true, isEditing);
+
             if (id) {
                 await actualizarMedicina(id, dto);
                 notifySuccess("Medicina actualizada correctamente");
@@ -43,22 +62,51 @@ export function initMedicamentosModal() {
 
             modal.classList.remove("active");
             form.reset();
-            document.getElementById("editId").value = "";
+            editIdInput.value = "";
             await cargarMedicamentos();
         } catch (error) {
             console.error("Error al guardar medicina:", error);
             notifyError(error.message || "No se pudo guardar la medicina");
+        } finally {
+            medicamentosState.guardando = false;
+            setSubmitState(false, isEditing);
         }
     };
 }
 
 export function abrirModalEditar(med) {
-    document.getElementById("modalTitle").innerText = "Editar Medicina";
-    document.getElementById("editId").value = med.id;
-    document.getElementById("name").value = med.nombre;
-    document.getElementById("dosageForm").value = med.dosageForm;
-    document.getElementById("expirationDate").value =
+    if (!med) {
+        notifyError("No se encontró la medicina seleccionada");
+        return;
+    }
+
+    modalTitle.innerText = "Editar Medicina";
+    editIdInput.value = med.id;
+    nameInput.value = med.nombre;
+    dosageFormInput.value = med.dosageForm;
+    expirationDateInput.value =
         med.expirationDate.split("T")[0];
 
+    setSubmitState(false, true);
+
     modal.classList.add("active");
+}
+
+function setSubmitState(isSubmitting, isEditing) {
+    if (!submitButton) return;
+
+    form.dataset.submitting = isSubmitting ? "true" : "false";
+    submitButton.disabled = isSubmitting;
+    nameInput.disabled = isSubmitting;
+    dosageFormInput.disabled = isSubmitting;
+    expirationDateInput.disabled = isSubmitting;
+    if (openModalButton) openModalButton.disabled = isSubmitting;
+    if (closeModalButton) closeModalButton.disabled = isSubmitting;
+
+    if (isSubmitting) {
+        submitButton.textContent = isEditing ? "Actualizando..." : "Registrando...";
+        return;
+    }
+
+    submitButton.textContent = isEditing ? "Guardar Cambios" : "Registrar Medicina";
 }

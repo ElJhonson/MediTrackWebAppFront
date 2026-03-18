@@ -47,5 +47,5 @@ export function getPerfilCuidadorDTO(elements) {
 }
 
 export function renderPerfilCuidadorError(elements) {
-    elements.profileStatus.textContent = "No se pudo cargar la informacion del perfil";
+    elements.profileStatus.textContent = "No se pudo cargar la información del perfil";
 }

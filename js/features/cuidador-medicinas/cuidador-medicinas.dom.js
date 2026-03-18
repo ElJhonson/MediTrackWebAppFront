@@ -96,6 +96,7 @@ export function openCreateModal(elements) {
     elements.modalTitle.textContent = "Registrar Medicina";
     elements.medForm.reset();
     elements.editId.value = "";
+    setFormFieldsEnabled(elements, true);
     elements.modalMed.classList.add("active");
 }
 
@@ -103,6 +104,7 @@ export function closeModal(elements) {
     elements.modalMed.classList.remove("active");
     elements.medForm.reset();
     elements.editId.value = "";
+    setFormFieldsEnabled(elements, true);
 }
 
 export function fillEditModal(elements, med) {
@@ -111,6 +113,7 @@ export function fillEditModal(elements, med) {
     elements.name.value = med.nombre || "";
     setDosageFormValue(elements, med.dosageForm || "Tableta");
     elements.expirationDate.value = normalizeDateForInput(med.expirationDate);
+    setFormFieldsEnabled(elements, true);
     elements.modalMed.classList.add("active");
 }
 
@@ -176,6 +179,12 @@ function setDosageFormValue(elements, value) {
     }
 
     elements.dosageForm.value = value;
+}
+
+function setFormFieldsEnabled(elements, enabled) {
+    elements.name.disabled = !enabled;
+    elements.dosageForm.disabled = !enabled;
+    elements.expirationDate.disabled = !enabled;
 }
 
 function isReminderActive(med = {}) {

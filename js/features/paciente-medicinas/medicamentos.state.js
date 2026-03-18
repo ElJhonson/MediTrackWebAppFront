@@ -1,5 +1,6 @@
 export const medicamentosState = {
     lista: [],
     cargando: false,
-    inicializado: false
+    inicializado: false,
+    guardando: false
 };

@@ -1,5 +1,6 @@
 import { API_BASE_URL, ROUTES } from "../core/config.js";
 import { saveSession } from "../core/auth.js";
+import { guardedFetch } from "../core/http.js";
 import { notifyError } from "../core/notify.js";
 import {
     PHONE_DIGITS,
@@ -46,7 +47,7 @@ form.addEventListener("submit", async (e) => {
     }
 
     try {
-        const response = await fetch(`${API_BASE_URL}/pacientes/registro`, {
+        const response = await guardedFetch(`${API_BASE_URL}/pacientes/registro`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
