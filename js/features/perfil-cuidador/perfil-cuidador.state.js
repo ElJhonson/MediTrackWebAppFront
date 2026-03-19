@@ -1,6 +1,11 @@
 export function getPerfilCuidadorElements() {
     return {
         profileStatus: document.getElementById("profileStatus"),
+        accountMenuWrap: document.getElementById("accountMenuWrap"),
+        accountMenuBtn: document.getElementById("accountMenuBtn"),
+        topbarCaregiverAvatar: document.getElementById("topbarCaregiverAvatar"),
+        topbarCaregiverName: document.getElementById("topbarCaregiverName"),
+        btnLogout: document.getElementById("btnLogout"),
         caregiverAvatar: document.getElementById("caregiverAvatar"),
         caregiverName: document.getElementById("caregiverName"),
         caregiverProfileForm: document.getElementById("caregiverProfileForm"),
@@ -22,6 +27,11 @@ export function getPerfilCuidadorElements() {
 export function hasRequiredPerfilCuidadorElements(elements) {
     return Boolean(
         elements.profileStatus
+        && elements.accountMenuWrap
+        && elements.accountMenuBtn
+        && elements.topbarCaregiverAvatar
+        && elements.topbarCaregiverName
+        && elements.btnLogout
         && elements.caregiverAvatar
         && elements.caregiverName
         && elements.caregiverProfileForm

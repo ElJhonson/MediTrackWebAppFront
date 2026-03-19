@@ -6,15 +6,25 @@ function resolveFullName(cuidador) {
 
 export function renderPerfilCuidador(elements, cuidador, pacientes) {
     const fullName = String(cuidador?.name || "Cuidador").trim() || "Cuidador";
-
-    elements.profileStatus.textContent = "";
-    elements.caregiverName.textContent = fullName;
-    elements.caregiverAvatar.textContent = fullName
+    const topbarName = fullName.split(" ").slice(0, 2).join(" ") || "Cuidador";
+    const initials = fullName
         .split(" ")
         .map((part) => part[0] || "")
         .join("")
         .substring(0, 2)
         .toUpperCase();
+
+    elements.profileStatus.textContent = "";
+    elements.caregiverName.textContent = fullName;
+    elements.caregiverAvatar.textContent = initials;
+
+    if (elements.topbarCaregiverName) {
+        elements.topbarCaregiverName.textContent = topbarName;
+    }
+
+    if (elements.topbarCaregiverAvatar) {
+        elements.topbarCaregiverAvatar.textContent = initials;
+    }
 
     elements.inputName.value = fullName;
     elements.inputPhone.value = sanitizePhoneValue(cuidador?.phoneNumber || "");
@@ -48,4 +58,26 @@ export function getPerfilCuidadorDTO(elements) {
 
 export function renderPerfilCuidadorError(elements) {
     elements.profileStatus.textContent = "No se pudo cargar la información del perfil";
+}
+
+export function setSavingState(elements, isSaving, modoEdicion) {
+    elements.btnSaveProfile.disabled = isSaving;
+    elements.btnCancelProfile.disabled = isSaving;
+    elements.btnEditProfile.disabled = isSaving;
+    elements.inputName.disabled = isSaving || !modoEdicion;
+    elements.inputPhone.disabled = isSaving || !modoEdicion;
+    elements.inputOcupacion.disabled = isSaving || !modoEdicion;
+    elements.btnContinueReauth.disabled = isSaving;
+    elements.btnCancelReauth.disabled = isSaving;
+    elements.btnSaveProfile.textContent = isSaving ? "Guardando..." : "Guardar Cambios";
+}
+
+export function openReauthModal(elements) {
+    elements.reauthModal.classList.remove("hidden");
+    elements.reauthModal.setAttribute("aria-hidden", "false");
+}
+
+export function closeReauthModal(elements) {
+    elements.reauthModal.classList.add("hidden");
+    elements.reauthModal.setAttribute("aria-hidden", "true");
 }
