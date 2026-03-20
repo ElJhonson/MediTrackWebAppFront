@@ -4,6 +4,7 @@ export function getDashboardPacienteElements() {
         statusEl: document.querySelector(".status"),
         medicinasCard: document.querySelector(".service-card.reminders"),
         cuidadorCard: document.querySelector(".service-card.caregiver"),
+        btnViewProfile: document.getElementById("btnViewProfile"),
         btnLogout: document.getElementById("btnLogout"),
         accountMenuWrap: document.getElementById("accountMenuWrap"),
         accountMenuBtn: document.getElementById("accountMenuBtn"),

@@ -32,6 +32,10 @@ export async function initDashboardPaciente() {
 
     bindDashboardPacienteEvents(elements, {
         onCloseAccountMenu: () => closeAccountMenu(elements),
+        onOpenProfile: () => {
+            closeAccountMenu(elements);
+            window.location.href = ROUTES.PERFIL_PACIENTE;
+        },
         onOpenMedicinas: () => {
             window.location.href = "/pages/medicamentos.html";
         },

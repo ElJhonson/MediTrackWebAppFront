@@ -1,41 +1,94 @@
-export function obtenerPacienteIdDesdeURL() {
-    const params = new URLSearchParams(window.location.search);
-    return params.get("id");
+import { sanitizePhoneValue } from "../../utils/form-validation.js";
+
+function resolveFullName(paciente) {
+    return String(paciente?.name || paciente?.nombre || "").trim() || "Paciente";
 }
 
-export function calcularIniciales(nombre = "") {
-    return nombre
+export function renderPerfilPaciente(elements, paciente) {
+    console.log("RENDER PACIENTE:", paciente);
+    const fullName = resolveFullName(paciente);
+    const initials = fullName
         .split(" ")
-        .map(p => p[0])
+        .map((part) => part[0] || "")
         .join("")
         .substring(0, 2)
         .toUpperCase();
+
+    if (elements.patientName) {
+        elements.patientName.textContent = fullName;
+    }
+    if (elements.patientAvatar) {
+        elements.patientAvatar.textContent = initials;
+    }
+
+    if (elements.topbarPatientName) {
+        elements.topbarPatientName.textContent = fullName.split(" ").slice(0, 2).join(" ");
+    }
+    if (elements.topbarPatientAvatar) {
+        elements.topbarPatientAvatar.textContent = initials;
+    }
+
+    elements.inputName.value = String(paciente?.name || paciente?.nombre || "").trim();
+    elements.inputPhone.value = sanitizePhoneValue(paciente?.phoneNumber || "");
+    elements.inputEdad.value = paciente?.edad ?? "";
+    elements.inputCurp.value = String(paciente?.curp || "").trim();
 }
 
-export function setHeaderPaciente(nombre) {
-    document.getElementById("display-name").innerText = nombre;
-    document.getElementById("avatar-initials").innerText =
-        calcularIniciales(nombre);
+export function setPerfilPacienteEditMode(elements, isEditing) {
+    elements.inputName.disabled = !isEditing;
+    elements.inputPhone.disabled = !isEditing;
+    elements.inputEdad.disabled = !isEditing;
+    elements.inputCurp.disabled = !isEditing;
+    elements.profileActions.classList.toggle("hidden", !isEditing);
+    elements.addDiseaseBox.classList.toggle("hidden", !isEditing);
+    elements.btnEditProfile.textContent = isEditing ? "Viendo Perfil" : "Editar Perfil";
 }
 
-export function setFormularioPaciente(data) {
-    document.getElementById("nombre").value = data.name ?? "";
-    document.getElementById("edad").value = data.edad ?? "";
-    document.getElementById("curp").value = data.curp ?? "";
-    document.getElementById("phoneNumber").value = data.phoneNumber ?? "";
+export function resetPerfilPacienteForm(elements, paciente, enfermedades) {
+    elements.inputName.value = String(paciente?.name || paciente?.nombre || "").trim();
+    elements.inputPhone.value = sanitizePhoneValue(paciente?.phoneNumber || "");
+    elements.inputEdad.value = paciente?.edad ?? "";
+    elements.inputCurp.value = String(paciente?.curp || "").trim();
 }
 
-export function getFormularioPacienteDTO(enfermedades) {
+export function getPerfilPacienteDTO(elements, enfermedades) {
     return {
-        nombre: document.getElementById("nombre").value.trim(),
-        edad: Number(document.getElementById("edad").value),
-        curp: document.getElementById("curp").value.trim(),
-        phoneNumber: document.getElementById("phoneNumber").value.trim(),
-        enfermedadesCronicas: [...enfermedades]
+        nombre: String(elements.inputName.value || "").trim(), // 🔥 FIX
+        phoneNumber: sanitizePhoneValue(elements.inputPhone.value),
+        edad: Number(elements.inputEdad.value),
+        curp: elements.inputCurp.value.trim()
+            ? elements.inputCurp.value.trim().toUpperCase()
+            : null,
+        enfermedadesCronicas: enfermedades.length ? [...enfermedades] : null
     };
 }
 
+export function setSavingState(elements, isSaving, modoEdicion) {
+    elements.btnSaveProfile.disabled = isSaving;
+    elements.btnCancelProfile.disabled = isSaving;
+    elements.btnEditProfile.disabled = isSaving;
+    elements.inputName.disabled = isSaving || !modoEdicion;
+    elements.inputPhone.disabled = isSaving || !modoEdicion;
+    elements.inputEdad.disabled = isSaving || !modoEdicion;
+    elements.inputCurp.disabled = isSaving || !modoEdicion;
+    elements.btnContinueReauth.disabled = isSaving;
+    elements.btnCancelReauth.disabled = isSaving;
+    elements.btnSaveProfile.textContent = isSaving ? "Guardando..." : "Guardar Cambios";
+}
+
+export function openReauthModal(elements) {
+    elements.reauthModal.classList.remove("hidden");
+    elements.reauthModal.setAttribute("aria-hidden", "false");
+}
+
+export function closeReauthModal(elements) {
+    elements.reauthModal.classList.add("hidden");
+    elements.reauthModal.setAttribute("aria-hidden", "true");
+}
+
 export function mostrarPerfilCargado() {
-    document.getElementById("loading").classList.add("hidden");
-    document.getElementById("profile-card").classList.remove("hidden");
+    const loadingDiv = document.getElementById("loading");
+    const profileCard = document.getElementById("profile-card");
+    if (loadingDiv) loadingDiv.classList.add("hidden");
+    if (profileCard) profileCard.classList.remove("hidden");
 }

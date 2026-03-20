@@ -1,146 +1,97 @@
+import { logout } from "../../core/auth.js";
+import { setupPhoneInputValidation, setupCurpInputValidation } from "../../utils/form-validation.js";
+import { notifyError } from "../../core/notify.js";
+import { perfilPacienteState, getPerfilPacienteElements, hasRequiredPerfilPacienteElements } from "./perfil-paciente.state.js";
+import { createPerfilPacienteActions } from "./perfil-paciente.actions.js";
+import { closeReauthModal, mostrarPerfilCargado } from "./perfil-paciente.dom.js";
+import { renderTags } from "./perfil-paciente.tags.js";
 import {
-    obtenerPacientePorId,
-    actualizarPacienteDesdeCuidador
-} from "../../services/cuidador.service.js";
-import { perfilPacienteState } from "./perfil-paciente.state.js";
-import {
-    renderTags,
-    addDiseaseTag,
-    handleDiseaseActions
-} from "./perfil-paciente.tags.js";
-import {
-    obtenerPacienteIdDesdeURL,
-    setHeaderPaciente,
-    setFormularioPaciente,
-    getFormularioPacienteDTO,
-    mostrarPerfilCargado
-} from "./perfil-paciente.dom.js";
-import {
-    toggleEdit,
     togglePhoneVisibility,
     toggleCurpVisibility,
-    initVisibilityButtons,
-    cancelEdit
+    initVisibilityButtons
 } from "./perfil-paciente.edit.js";
-import { notifyError, notifySuccess } from "../../core/notify.js";
-import {
-    setupCurpInputValidation,
-    isCurpLengthValid
-} from "../../utils/form-validation.js";
 
-function sleep(ms) {
-    return new Promise(resolve => setTimeout(resolve, ms));
-}
-
-function esErrorRedFetch(error) {
-    const message = String(error?.message || "").toLowerCase();
-    return error?.name === "AbortError"
-        || (error instanceof TypeError && message.includes("failed to fetch"));
-}
-
-async function obtenerPacienteConRetry(pacienteId, retries = 1) {
-    let lastError;
-
-    for (let attempt = 0; attempt <= retries; attempt += 1) {
-        try {
-            return await obtenerPacientePorId(pacienteId);
-        } catch (error) {
-            lastError = error;
-            if (!esErrorRedFetch(error) || attempt === retries) {
-                throw error;
-            }
-            await sleep(300);
-        }
-    }
-
-    throw lastError;
-}
-
-async function cargarPerfil() {
-    try {
-        const pacienteId = obtenerPacienteIdDesdeURL();
-
-        if (!pacienteId) {
-            notifyError("Paciente no especificado");
-            return;
-        }
-
-        const data = await obtenerPacienteConRetry(pacienteId, 1);
-        setHeaderPaciente(data.name);
-        setFormularioPaciente(data);
-
-        perfilPacienteState.enfermedades = [...(data.enfermedadesCronicas || [])];
-        renderTags();
-        mostrarPerfilCargado();
-    } catch (error) {
-        if (esErrorRedFetch(error)) {
-            notifyError("No se pudo conectar al servidor. Intenta recargar en unos segundos.");
-            return;
-        }
-
-        notifyError(error.message);
-        console.error(error);
-    }
-}
-
-async function guardarCambiosPaciente(e) {
+function addDiseaseTag(e) {
     e.preventDefault();
+    const input = document.getElementById("new-disease-input");
+    const enfermedad = input.value.trim();
 
-    if (!perfilPacienteState.modoEdicion) return;
-
-    const pacienteId = obtenerPacienteIdDesdeURL();
-
-    if (!pacienteId) {
-        notifyError("Paciente no especificado");
+    if (!enfermedad) {
+        notifyError("Por favor ingresa una enfermedad");
         return;
     }
 
-    const dto = getFormularioPacienteDTO(perfilPacienteState.enfermedades);
-
-    if (!isCurpLengthValid(dto.curp)) {
-        notifyError("La CURP debe tener 18 caracteres");
+    if (perfilPacienteState.enfermedades.includes(enfermedad)) {
+        notifyError("Esta enfermedad ya está agregada");
         return;
     }
 
-    try {
-        const actualizado = await actualizarPacienteDesdeCuidador(pacienteId, dto);
+    perfilPacienteState.enfermedades.push(enfermedad);
+    input.value = "";
+    renderTags(perfilPacienteState);
+}
 
-        setHeaderPaciente(actualizado.name);
-
-        toggleEdit();
-        notifySuccess("Datos del paciente actualizados correctamente");
-
-    } catch (error) {
-        console.error(error);
-        notifyError(error.message || "No se pudo actualizar el paciente");
+function handleDiseaseActions(e) {
+    if (e.target.classList.contains("btn-remove-tag")) {
+        const enfermedad = e.target.dataset.enfermedad;
+        perfilPacienteState.enfermedades = perfilPacienteState.enfermedades.filter(
+            (disease) => disease !== enfermedad
+        );
+        renderTags(perfilPacienteState);
     }
 }
 
+export async function initPerfilPaciente() {
+    const elements = getPerfilPacienteElements();
+    
+    if (!hasRequiredPerfilPacienteElements(elements)) {
+        console.error("Perfil paciente: faltan elementos requeridos en el DOM.", elements);
+        return;
+    }
 
-export function initPerfilPaciente() {
+    // Configurar validaciones
+    setupPhoneInputValidation(elements.inputPhone);
+    setupCurpInputValidation(elements.inputCurp);
     initVisibilityButtons();
-    setupCurpInputValidation(document.getElementById("curp"));
 
-    document.getElementById("edit-btn")
-        .addEventListener("click", toggleEdit);
+    // Crear acciones con referencia al estado compartido
+    const actions = createPerfilPacienteActions({
+        elements,
+        state: perfilPacienteState
+    });
 
-    document.getElementById("toggle-phone")
-        .addEventListener("click", togglePhoneVisibility);
+    // Vincular eventos
+    elements.btnEditProfile.addEventListener("click", () => actions.alternarEdicion());
+    elements.btnCancelProfile.addEventListener("click", () => actions.cancelarEdicion());
+    elements.profileForm.addEventListener("submit", (e) => {
+        e.preventDefault();
+        actions.guardarCambios();
+    });
+    elements.inputTogglePhone.addEventListener("click", togglePhoneVisibility);
+    elements.inputToggleCurp.addEventListener("click", toggleCurpVisibility);
+    elements.btnContinueReauth.addEventListener("click", () => actions.confirmarReauth());
+    elements.btnCancelReauth.addEventListener("click", () => actions.cancelarReauth());
+    elements.diseasesContainer.addEventListener("click", handleDiseaseActions);
+    
+    // Agregar enfermedad
+    const addButton = elements.addDiseaseBox.querySelector(".btn-add-tag");
+    if (addButton) {
+        addButton.addEventListener("click", addDiseaseTag);
+    }
 
-    document.getElementById("toggle-curp")
-        .addEventListener("click", toggleCurpVisibility);
+    // Logout
+    if (elements.btnLogout) {
+        elements.btnLogout.addEventListener("click", () => logout());
+    }
 
-    document.querySelector(".btn-add-tag")
-        .addEventListener("click", addDiseaseTag);
+    closeReauthModal(elements);
 
-    document.querySelector(".btn-cancel-flat")
-        .addEventListener("click", cancelEdit);
-
-    document.getElementById("profile-form")
-        .addEventListener("submit", guardarCambiosPaciente);
-
-    document.getElementById("diseases-container")
-        .addEventListener("click", handleDiseaseActions);
-
-    cargarPerfil();
+    try {
+        await actions.cargarPerfil();
+        mostrarPerfilCargado();
+        renderTags(perfilPacienteState);
+    } catch (error) {
+        console.error("Error cargando perfil del paciente:", error);
+        notifyError(error.message || "No se pudo cargar el perfil");
+    }
 }

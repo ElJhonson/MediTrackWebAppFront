@@ -130,6 +130,40 @@
     font-weight: 600;
     border: 1px solid var(--tag-border, rgba(15, 23, 42, 0.08));
 }
+
+.condition-badge .btn-remove-tag,
+.patient-conditions .btn-remove-tag {
+    width: 20px;
+    height: 20px;
+    border: none;
+    border-radius: 50%;
+    background: rgba(15, 23, 42, 0.08);
+    color: inherit;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 13px;
+    line-height: 1;
+    font-weight: 700;
+    padding: 0;
+    margin-left: 6px;
+    transition: transform 0.15s ease, background-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.condition-badge .btn-remove-tag:hover,
+.patient-conditions .btn-remove-tag:hover {
+    background: rgba(15, 23, 42, 0.16);
+    transform: scale(1.08);
+    box-shadow: 0 0 0 1px rgba(15, 23, 42, 0.25);
+}
+
+.condition-badge .btn-remove-tag:focus-visible,
+.patient-conditions .btn-remove-tag:focus-visible {
+    outline: 2px solid #0ea5e9;
+    outline-offset: 1px;
+}
+
 .condition-empty {
     background: #f8fafc;
     color: #64748b;

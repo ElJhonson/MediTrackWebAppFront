@@ -4,23 +4,22 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Perfil del Paciente</title>
+    <title>Mi Perfil - MediTrack</title>
     <link rel="stylesheet" href="../styles/perfil-paciente/index.css">
 </head>
 
 <body>
     <div class="container">
-        <button class="btn-back-link" onclick="window.history.back()">← Volver a la lista</button>
-        <h1 class="main-title">Gestión del Paciente</h1>
+        <h1 class="main-title">Mi Perfil</h1>
 
-        <div id="loading" class="loading-state">Cargando paciente...</div>
+        <div id="loading" class="loading-state">Cargando perfil...</div>
 
         <main id="profile-card" class="profile-card hidden">
             <div class="profile-header">
-                <div class="avatar-large" id="avatar-initials"></div>
-                <h2 id="display-name" class="patient-name"></h2>
+                <div class="avatar-large" id="patientAvatar"></div>
+                <h2 id="patientName" class="patient-name"></h2>
 
-                <button id="edit-btn" class="btn-edit-outline" >Editar Perfil</button>
+                <button id="edit-btn" class="btn-edit-outline" type="button">Editar Perfil</button>
             </div>
 
             <form id="profile-form">
@@ -31,14 +30,13 @@
                     </div>
                     <div class="form-group">
                         <label>Edad</label>
-                        <input type="number" id="edad" name="edad" disabled required>
+                        <input type="number" id="edad" name="edad" disabled required min="0" max="150">
                     </div>
                     <div class="form-group">
                         <label>CURP (Privado)</label>
                         <div class="phone-input-wrapper">
                             <input type="password" id="curp" disabled maxlength="18">
-                            <button type="button" id="toggle-curp" class="btn-toggle-eye"
-                                >Ver</button>
+                            <button type="button" id="toggle-curp" class="btn-toggle-eye">Ver</button>
                         </div>
                     </div>
 
@@ -46,8 +44,7 @@
                         <label>Teléfono (Privado)</label>
                         <div class="phone-input-wrapper">
                             <input type="password" id="phoneNumber" disabled class="readonly-field">
-                            <button type="button" id="toggle-phone" class="btn-toggle-eye"
-                                >Ver</button>
+                            <button type="button" id="toggle-phone" class="btn-toggle-eye">Ver</button>
                         </div>
                     </div>
                 </div>
@@ -59,17 +56,32 @@
 
                     <div id="add-disease-box" class="add-tag-box hidden">
                         <input type="text" id="new-disease-input" placeholder="Agregar enfermedad...">
-                        <button type="button" class="btn-add-tag" >Agregar</button>
+                        <button type="button" class="btn-add-tag">Agregar</button>
                     </div>
                 </div>
 
                 <div id="actions-bar" class="footer-actions hidden">
-                    <button type="button" class="btn-cancel-flat" >Cancelar</button>
-                    <button type="submit" class="btn-save-main">Guardar Cambios</button>
+                    <button type="button" id="btn-cancel" class="btn-cancel-flat">Cancelar</button>
+                    <button type="submit" id="btn-save" class="btn-save-main">Guardar Cambios</button>
                 </div>
             </form>
         </main>
     </div>
+
+    <!-- Modal de Re-autenticación -->
+    <div class="reauth-modal hidden" id="reauthModal" aria-hidden="true">
+        <div class="reauth-dialog" role="dialog" aria-modal="true" aria-labelledby="reauthTitle">
+            <h3 class="reauth-title" id="reauthTitle">Debes iniciar sesión nuevamente</h3>
+            <p class="reauth-text">
+                Si cambias el teléfono y guardas, tendrás que iniciar sesión nuevamente. ¿Deseas continuar?
+            </p>
+            <div class="reauth-actions">
+                <button class="btn-cancel-flat" id="btnCancelReauth" type="button">Cancelar</button>
+                <button class="btn-save-main" id="btnContinueReauth" type="button">Aceptar</button>
+            </div>
+        </div>
+    </div>
+
     <script type="module" src="../js/pages/perfil-paciente.page.js"></script>
 </body>
 

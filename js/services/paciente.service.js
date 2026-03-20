@@ -7,7 +7,7 @@ const BASE_URL = `${API_BASE_URL}/pacientes`;
 
 //Obtener datos del paciente 
 export async function obtenerMisDatosPaciente() {
-    const response = await authFetch(`${BASE_URL}/misdatos`);
+    const response = await authFetch(`${BASE_URL}/perfil`);
 
     if (response.status === 401 || response.status === 403) {
         return null;
@@ -74,6 +74,27 @@ export async function desvincularCuidadorPaciente() {
             "No se pudo desvincular el cuidador"
         );
         throw new Error(msg || "No se pudo desvincular el cuidador");
+    }
+
+    return response.json();
+}
+
+//Actualizar perfil propio del paciente
+export async function actualizarMiPerfil(dto) {
+    const response = await authFetch(`${BASE_URL}/perfil`, {
+        method: "PUT",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(dto)
+    });
+
+    if (!response.ok) {
+        const msg = await extraerMensajeError(
+            response,
+            "No se pudo actualizar el perfil"
+        );
+        throw new Error(msg || "No se pudo actualizar el perfil");
     }
 
     return response.json();

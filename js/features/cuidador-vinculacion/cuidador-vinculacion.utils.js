@@ -55,6 +55,17 @@ export function normalizarInfoCuidador(paciente) {
         || ""
     );
 
+    console.groupCollapsed("[cuidador-vinculacion] normalizarInfoCuidador");
+    console.log("payload paciente:", paciente);
+    console.log("payload cuidador:", cuidador);
+    console.log("campos resueltos:", {
+        nombre,
+        telefono,
+        codigo,
+        hasCaregiver: Boolean(nombre || codigo)
+    });
+    console.groupEnd();
+
     return {
         hasCaregiver: Boolean(nombre || codigo),
         codigo,

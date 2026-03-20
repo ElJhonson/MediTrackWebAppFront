@@ -41,20 +41,20 @@ function obtenerEstiloTag(enfermedad) {
     return perfilPacienteState.coloresEnfermedad.get(key);
 }
 
-export function renderTags() {
+export function renderTags(state = perfilPacienteState) {
     const container = document.getElementById("diseases-container");
 
-    container.innerHTML = perfilPacienteState.enfermedades.map((enf, index) => {
+    container.innerHTML = state.enfermedades.map((enf, index) => {
         const estilo = obtenerEstiloTag(enf);
 
         return `
             <span class="tag"
                   style="--tag-bg:${estilo.bg};--tag-text:${estilo.text};--tag-border:${estilo.border};">
                 <span class="tag-text">${enf}</span>
-                ${perfilPacienteState.modoEdicion ? `<button type="button"
-                                         class="remove-tag"
-                                         data-index="${index}"
-                                         aria-label="Eliminar enfermedad">x</button>` : ""}
+                ${state.modoEdicion ? `<button type="button"
+                                         class="btn-remove-tag"
+                                         data-enfermedad="${enf}"
+                                         aria-label="Eliminar enfermedad">×</button>` : ""}
             </span>
         `;
     }).join("");
@@ -66,13 +66,15 @@ function removeDisease(index) {
 }
 
 export function handleDiseaseActions(e) {
-    const removeBtn = e.target.closest(".remove-tag");
+    const removeBtn = e.target.closest(".btn-remove-tag");
     if (!removeBtn) return;
 
-    const index = Number(removeBtn.dataset.index);
-    if (Number.isNaN(index)) return;
+    const enfermedad = removeBtn.dataset.enfermedad;
+    perfilPacienteState.enfermedades = perfilPacienteState.enfermedades.filter(
+        (e) => e !== enfermedad
+    );
 
-    removeDisease(index);
+    renderTags(perfilPacienteState);
 }
 
 export function addDiseaseTag() {
@@ -92,7 +94,7 @@ export function addDiseaseTag() {
     }
 
     perfilPacienteState.enfermedades.push(value);
-    renderTags();
+    renderTags(perfilPacienteState);
 
     input.value = "";
 }

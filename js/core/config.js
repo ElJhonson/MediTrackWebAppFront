@@ -23,6 +23,7 @@ export const ROUTES = Object.freeze({
     DASHBOARD_PACIENTE: "/pages/dashboard-paciente.html",
     DASHBOARD_CUIDADOR: "/pages/dashboard-cuidador.html",
     CUIDADOR_PACIENTE: "/pages/cuidador-vinculacion.html",
-    PERFIL_CUIDADOR: "/pages/perfil-cuidador.html"
+    PERFIL_CUIDADOR: "/pages/perfil-cuidador.html",
+    PERFIL_PACIENTE: "/pages/perfil-paciente.html"
 });
 

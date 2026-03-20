@@ -31,6 +31,7 @@
     line-height: 1.2;
 }
 
+.btn-remove-tag,
 .remove-tag {
     width: 20px;
     height: 20px;
@@ -42,16 +43,21 @@
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    font-size: 12px;
+    font-size: 13px;
+    line-height: 1;
     font-weight: 700;
-    transition: transform 0.15s ease, background-color 0.2s ease;
+    padding: 0;
+    transition: transform 0.15s ease, background-color 0.2s ease, box-shadow 0.2s ease;
 }
 
+.btn-remove-tag:hover,
 .remove-tag:hover {
     background: var(--perfil-remove-tag-bg-hover);
     transform: scale(1.08);
+    box-shadow: 0 0 0 1px color-mix(in srgb, var(--perfil-remove-tag-bg-hover) 65%, #000 35%);
 }
 
+.btn-remove-tag:focus-visible,
 .remove-tag:focus-visible {
     outline: 2px solid var(--perfil-focus-primary);
     outline-offset: 1px;

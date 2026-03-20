@@ -17,6 +17,10 @@ export function bindDashboardPacienteEvents(elements, handlers) {
         }
     });
 
+    elements.btnViewProfile?.addEventListener("click", () => {
+        handlers.onOpenProfile();
+    });
+
     elements.medicinasCard.addEventListener("click", () => {
         handlers.onOpenMedicinas();
     });

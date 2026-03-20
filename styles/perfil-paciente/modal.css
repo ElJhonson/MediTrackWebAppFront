@@ -1,0 +1,45 @@
+/* Reauth Modal */
+.reauth-modal {
+    position: fixed;
+    inset: 0;
+    background: rgba(15, 23, 42, 0.45);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem;
+    z-index: 130;
+}
+
+.reauth-modal:not(.hidden) {
+    display: flex;
+}
+
+.reauth-dialog {
+    width: min(460px, 100%);
+    background: var(--white);
+    border: 1px solid var(--border-soft);
+    border-radius: 14px;
+    padding: 1.05rem;
+    box-shadow: 0 12px 30px rgba(15, 23, 42, 0.2);
+}
+
+.reauth-title {
+    margin: 0;
+    font-size: 1.04rem;
+    font-weight: 700;
+    color: var(--text-dark-main);
+}
+
+.reauth-text {
+    margin: 0.65rem 0 0;
+    color: #475569;
+    font-size: 0.9rem;
+    line-height: 1.45;
+}
+
+.reauth-actions {
+    margin-top: 1rem;
+    display: flex;
+    justify-content: flex-end;
+    gap: 0.6rem;
+}

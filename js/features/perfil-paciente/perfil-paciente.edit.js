@@ -52,7 +52,7 @@ function actualizarCamposEdicion() {
 export function toggleEdit() {
     perfilPacienteState.modoEdicion = !perfilPacienteState.modoEdicion;
     actualizarCamposEdicion();
-    renderTags();
+    renderTags(perfilPacienteState);
 }
 
 export function togglePhoneVisibility() {
