@@ -15,7 +15,30 @@ import { renderTags } from "./perfil-paciente.tags.js";
 
 const PERFIL_PACIENTE_CACHE_KEY = "perfilPacienteCache";
 
+function getPacienteIdFromUrl() {
+    const params = new URLSearchParams(window.location.search);
+    const idParam = params.get("id") || params.get("pacienteId");
+    if (!idParam) return null;
+
+    const id = Number(idParam);
+    return Number.isFinite(id) && id > 0 ? id : null;
+}
+
+function isCaregiverContext() {
+    return getPacienteIdFromUrl() !== null;
+}
+
+function buildCacheKey() {
+    const pacienteId = getPacienteIdFromUrl();
+    return pacienteId
+        ? `${PERFIL_PACIENTE_CACHE_KEY}:caregiver:${pacienteId}`
+        : `${PERFIL_PACIENTE_CACHE_KEY}:self`;
+}
+
 export function createPerfilPacienteActions({ elements, state }) {
+    const caregiverMode = isCaregiverContext();
+    const perfilCacheKey = buildCacheKey();
+
     function limpiarTextoOpcional(value) {
         const text = String(value ?? "").trim();
         return text || null;
@@ -61,7 +84,7 @@ export function createPerfilPacienteActions({ elements, state }) {
 
     function leerPerfilCache() {
         try {
-            const raw = sessionStorage.getItem(PERFIL_PACIENTE_CACHE_KEY);
+            const raw = sessionStorage.getItem(perfilCacheKey);
             return raw ? JSON.parse(raw) : null;
         } catch (error) {
             console.warn("No se pudo leer cache de perfil paciente:", error);
@@ -71,7 +94,7 @@ export function createPerfilPacienteActions({ elements, state }) {
 
     function guardarPerfilCache(paciente) {
         try {
-            sessionStorage.setItem(PERFIL_PACIENTE_CACHE_KEY, JSON.stringify(paciente));
+            sessionStorage.setItem(perfilCacheKey, JSON.stringify(paciente));
         } catch (error) {
             console.warn("No se pudo guardar cache de perfil paciente:", error);
         }
@@ -174,7 +197,9 @@ export function createPerfilPacienteActions({ elements, state }) {
             console.log("Respuesta actualizar perfil paciente:", response);
             const message = response?.message || "Datos actualizados correctamente";
 
-            if (logoutAfterSave || response?.requiresReauth) {
+            const shouldLogout = !caregiverMode && (logoutAfterSave || response?.requiresReauth);
+
+            if (shouldLogout) {
                 notifySuccess(message);
                 logout();
                 return;
@@ -201,7 +226,7 @@ export function createPerfilPacienteActions({ elements, state }) {
         const dto = getPerfilPacienteDTO(elements, state.enfermedades);
         if (!validarDTO(dto)) return;
 
-        if (telefonoCambiado(dto)) {
+        if (!caregiverMode && telefonoCambiado(dto)) {
             state.dtoPendienteReauth = dto;
             openReauthModal(elements);
             return;

@@ -7,12 +7,10 @@ const BASE_URL = `${API_BASE_URL}/medicinas`;
 // Obtener medicinas de un paciente vinculado (cuidador)
 export async function obtenerMedicinasPaciente(pacienteId) {
     const response = await authFetch(`${BASE_URL}/paciente/${pacienteId}`);
-
     if (!response.ok) {
         const msg = await extraerMensajeError(response);
         throw new Error(msg || "Error al obtener las medicinas del paciente");
     }
-
     return response.json();
 }
 
@@ -22,12 +20,10 @@ export async function registrarMedicina(dto) {
         method: "POST",
         body: JSON.stringify(dto)
     });
-
     if (!response.ok) {
         const msg = await extraerMensajeError(response);
         throw new Error(msg || "Error al registrar medicina");
     }
-
     return response.json();
 }
 
@@ -39,8 +35,6 @@ export async function obtenerMisMedicinas() {
         const msg = await extraerMensajeError(response);
         throw new Error(msg || "Error real del servidor");
     }
-
-
     return response.json();
 }
 
@@ -78,7 +72,6 @@ export async function eliminarMedicina(id) {
     const response = await authFetch(`${BASE_URL}/${id}`, {
         method: "DELETE"
     });
-
     if (!response.ok) {
         const msg = await extraerMensajeError(response);
         throw new Error(msg || "Error al eliminar la medicina");
