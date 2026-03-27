@@ -1,0 +1,44 @@
+.grid-layout {
+    display: grid;
+    grid-template-columns: 300px 1fr;
+    gap: 2rem;
+    padding: 2rem 3rem;
+    max-width: 1600px;
+    margin: 0 auto;
+    align-items: start;
+}
+
+.content-area {
+    padding-top: 0;
+}
+
+.section-title {
+    margin: 0 0 1rem;
+}
+
+.section-title h2 {
+    font-size: 1.8rem;
+    font-weight: 800;
+    margin: 0;
+}
+
+.section-title p {
+    color: var(--text-gray);
+    margin: 0.2rem 0 0;
+}
+
+.elderly-controls {
+    background: var(--white);
+    padding: 20px;
+    border-radius: 20px;
+    margin-bottom: 20px;
+    box-shadow: var(--shadow);
+}
+
+.filter-tabs {
+    display: flex;
+    gap: 15px;
+    align-items: center;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+}

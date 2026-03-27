@@ -107,7 +107,8 @@ export function createCuidadorMedicinasActions({
             submitLock.setLocked(false, { isEditing });
             dom.closeModal(elements);
             await cargarMedicinasPaciente(state.pacienteId);
-            notify.success(id ? "Medicina actualizada correctamente" : "Medicina registrada correctamente");
+            notify.success(id ? "Medicina actualizada correctamente" : 
+                "Medicina registrada correctamente");
         } catch (error) {
             console.error("Error al guardar medicina:", error);
             submitLock.setLocked(false, { isEditing });

@@ -166,14 +166,13 @@ export function renderPacientes(elements, pacientesConDetalle, handlers = {}) {
             <div style="display: flex; align-items: center; width: 100%; margin-bottom: 0.8rem;">
                 <div class="patient-avatar">${initials}</div>
                 <div class="patient-info" style="flex: 1;">
-                    <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.6rem;">
+                    <div style="margin-bottom: 0.6rem;">
                         <h4 style="margin: 0;">
                             ${p.name}, 
                             <span class="patient-age-inline">
                                 ${p.edad ?? "N/A"} a\u00f1os
                             </span>
                         </h4>
-                        <span class="status-badge">Estable</span>
                     </div>
 
                     <div class="patient-conditions">
@@ -192,7 +191,7 @@ export function renderPacientes(elements, pacientesConDetalle, handlers = {}) {
                 </button>
 
                 <button class="btn-action btn-notes">
-                    Notas
+                    Recordatorios
                 </button>
 
                 <div class="patient-menu-wrap">

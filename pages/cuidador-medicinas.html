@@ -62,12 +62,16 @@
                         aria-expanded="false"
                     >
                         <div class="profile-compact">
-                            <img id="pacienteAvatar" src="https://ui-avatars.com/api/?name=--&background=0D8ABC&color=fff" alt="Avatar">
+                            <img id="pacienteAvatar" 
+                            src="https://ui-avatars.com/api/?name=--&background=0D8ABC&color=fff" alt="Avatar">
                             <div class="profile-text">
+                                <span class="patient-badge">Paciente Vinculado</span>
                                 <h3 class="patient-name-row">
                                     <span id="patientNameTitle">Paciente</span>
-                                    <svg class="patient-name-chevron" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none"
-                                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                                    <svg class="patient-name-chevron" xmlns="http://www.w3.org/2000/svg" 
+                                    width="14" height="14" viewBox="0 0 24 24" fill="none"
+                                        stroke="currentColor" stroke-width="2" stroke-linecap="round" 
+                                        stroke-linejoin="round" aria-hidden="true">
                                         <polyline points="6 9 12 15 18 9"></polyline>
                                     </svg>
                                 </h3>
@@ -96,7 +100,8 @@
 
             <div class="elderly-controls">
                 <div class="filter-tabs">
-                    <button id="btnOpenModal" class="btn-add-main btn-add-inline" type="button">+ Nueva Medicina</button>
+                    <button id="btnOpenModal" class="btn-add-main btn-add-inline" 
+                    type="button">+ Nueva Medicina</button>
                 </div>
             </div>
 
@@ -142,10 +147,12 @@
     </div>
 
     <div class="modal-overlay" id="modalDeleteConfirm">
-        <div class="modal-content modal-confirm-content" role="dialog" aria-modal="true" aria-labelledby="deleteConfirmTitle">
+        <div class="modal-content modal-confirm-content" role="dialog" 
+        aria-modal="true" aria-labelledby="deleteConfirmTitle">
             <div class="modal-header">
                 <h3 id="deleteConfirmTitle">Confirmar eliminacion</h3>
-                <button class="close-btn" id="btnCloseDeleteConfirm" type="button" aria-label="Cerrar confirmacion">&times;</button>
+                <button class="close-btn" id="btnCloseDeleteConfirm" type="button" 
+                aria-label="Cerrar confirmacion">&times;</button>
             </div>
             <p class="confirm-message">Esta accion eliminara la medicina seleccionada. ¿Deseas continuar?</p>
             <div class="confirm-actions">

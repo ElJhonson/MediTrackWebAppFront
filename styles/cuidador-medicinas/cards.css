@@ -1,0 +1,225 @@
+.glass-card {
+    background: var(--white);
+    border-radius: var(--radius-lg);
+    padding: 1rem;
+    box-shadow: var(--shadow);
+    border: 1px solid rgba(255, 255, 255, 0.5);
+}
+
+.patient-card {
+    text-align: left;
+}
+
+.patient-selector {
+    position: relative;
+}
+
+.patient-selector-btn {
+    width: 100%;
+    border: 1px solid transparent;
+    background: transparent;
+    border-radius: 14px;
+    cursor: pointer;
+    text-align: left;
+    padding: 0.35rem;
+    transition: background-color 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.patient-selector-btn:hover {
+    background: #f8fafc;
+    border-color: #e2e8f0;
+}
+
+.patient-selector-btn:focus-visible {
+    outline: none;
+    border-color: var(--primary-light);
+    box-shadow: 0 0 0 3px rgba(58, 140, 255, 0.18);
+}
+
+.profile-compact {
+    display: flex;
+    align-items: center;
+    gap: 0.9rem;
+}
+
+.profile-compact img {
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    border: 4px solid var(--primary-light);
+    flex-shrink: 0;
+}
+
+.profile-text h3 {
+    font-size: 1.03rem;
+    margin: 0;
+    font-weight: 700;
+    color: var(--text-dark-main);
+}
+
+.patient-name-row {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+}
+
+.patient-name-chevron {
+    color: var(--text-gray);
+    transition: transform 0.2s ease;
+}
+
+.patient-selector.open .patient-name-chevron {
+    transform: rotate(180deg);
+}
+
+.patient-badge {
+    display: inline-block;
+    background-color: var(--primary-light);
+    color: var(--primary);
+    font-size: 0.75rem;
+    font-weight: 600;
+    padding: 0.4rem 0.65rem;
+    border-radius: 8px;
+    margin-bottom: 0.5rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.profile-text p {
+    margin: 0.1rem 0 0;
+    color: var(--text-gray);
+    font-size: 0.83rem;
+}
+
+.patient-selector-dropdown {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: calc(100% + 8px);
+    background: var(--white);
+    border: 1px solid var(--border-soft);
+    border-radius: 12px;
+    box-shadow: 0 10px 20px rgba(15, 23, 42, 0.12);
+    padding: 0.35rem;
+    z-index: 25;
+    display: none;
+}
+
+.patient-selector.open .patient-selector-dropdown {
+    display: block;
+}
+
+.patient-option {
+    width: 100%;
+    border: none;
+    background: transparent;
+    border-radius: 9px;
+    padding: 0.55rem 0.65rem;
+    font-family: var(--font-primary);
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: var(--text-gray);
+    cursor: pointer;
+    text-align: left;
+    transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.patient-option:hover {
+    background: #f1f5f9;
+    color: var(--text-dark-main);
+}
+
+.patient-option.active {
+    background: var(--primary-light);
+    color: var(--primary);
+}
+
+.med-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 1.5rem;
+    max-height: 60vh;
+    overflow-y: auto;
+    padding: 15px;
+    border: 1px solid var(--bg-main);
+    border-radius: var(--radius-md);
+}
+
+.med-loading {
+    grid-column: 1 / -1;
+    text-align: center;
+    color: var(--text-gray);
+    font-weight: 600;
+    padding: 2rem 0;
+}
+
+.med-card {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    transition: var(--transition);
+    position: relative;
+}
+
+.med-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+}
+
+.med-card .type {
+    display: inline-block;
+    background: var(--primary-light);
+    color: var(--primary);
+    padding: 4px 12px;
+    border-radius: 8px;
+    font-size: 0.7rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    margin-bottom: 1rem;
+}
+
+.med-card h4 {
+    font-size: 1.4rem;
+    margin-bottom: 0.4rem;
+}
+
+.med-expiration {
+    font-size: 0.82rem;
+    color: #64748b;
+}
+
+.card-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 0.8rem;
+    gap: 0.6rem;
+}
+
+.registered-by {
+    font-size: 0.76rem;
+    color: var(--text-gray);
+}
+
+.card-actions {
+    display: flex;
+    gap: 0.55rem;
+    align-items: center;
+}
+
+.sidebar-quick-stats {
+    margin-top: 0.9rem;
+    padding: 0.85rem 1rem;
+}
+
+.sidebar-quick-stats h4 {
+    margin: 0 0 0.45rem;
+    font-size: 0.88rem;
+    color: var(--text-dark-main);
+}
+
+.sidebar-quick-stats p {
+    margin: 0.2rem 0;
+    font-size: 0.8rem;
+    color: var(--text-gray);
+}

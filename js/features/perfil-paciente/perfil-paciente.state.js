@@ -29,6 +29,14 @@ export function getPerfilPacienteElements() {
         profileForm: document.getElementById("profile-form"),
         patientAvatar: document.getElementById("patientAvatar"),
         patientName: document.getElementById("patientName"),
+        topbarTitle: document.getElementById("topbar-title"),
+        topbarLinkHome: document.getElementById("topbar-link-home"),
+        topbarLinkProfile: document.getElementById("topbar-link-profile"),
+        topbarLinkMedicinas: document.getElementById("topbar-link-medicinas"),
+        accountMenuWrap: document.getElementById("accountMenuWrap"),
+        accountMenuBtn: document.getElementById("accountMenuBtn"),
+        topbarPatientAvatar: document.getElementById("topbar-patient-avatar"),
+        topbarPatientName: document.getElementById("topbar-patient-name"),
         btnLogout: document.getElementById("btnLogout")
     };
 }
