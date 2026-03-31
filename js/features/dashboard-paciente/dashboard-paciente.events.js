@@ -25,6 +25,10 @@ export function bindDashboardPacienteEvents(elements, handlers) {
         handlers.onOpenMedicinas();
     });
 
+    elements.horariosCard?.addEventListener("click", () => {
+        handlers.onOpenHorarios();
+    });
+
     elements.cuidadorCard?.addEventListener("click", () => {
         handlers.onOpenCuidador();
     });

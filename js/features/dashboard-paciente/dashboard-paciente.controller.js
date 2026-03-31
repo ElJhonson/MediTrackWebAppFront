@@ -39,6 +39,9 @@ export async function initDashboardPaciente() {
         onOpenMedicinas: () => {
             window.location.href = "/pages/medicamentos.html";
         },
+        onOpenHorarios: () => {
+            window.location.href = ROUTES.ALARMAS;
+        },
         onOpenCuidador: () => {
             window.location.href = ROUTES.CUIDADOR_PACIENTE;
         },

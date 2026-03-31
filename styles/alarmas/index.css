@@ -1,0 +1,30 @@
+@import url('../variables.css');
+@import url('./topbar.css');
+@import url('./layout.css');
+@import url('./cards.css');
+@import url('./responsive.css');
+
+/* ── Variables locales ── */
+:root {
+  --radius-sm: 10px;
+  --shadow-card: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+/* ── Reset ── */
+*, *::before, *::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--font-primary), sans-serif;
+  background: var(--bg-main);
+  color: var(--text-dark-main);
+  min-height: 100vh;
+  line-height: 1.6;
+}

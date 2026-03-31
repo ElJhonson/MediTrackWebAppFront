@@ -1,0 +1,64 @@
+.topbar {
+  background: var(--white);
+  border-bottom: 1px solid var(--border-soft);
+  padding: 0 32px;
+  height: 64px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: sticky;
+  top: 0;
+  z-index: 50;
+}
+
+.topbar-title {
+  font-size: 17px;
+  font-weight: 700;
+  color: var(--brand-blue);
+}
+
+.topbar-sub {
+  font-size: 12px;
+  color: var(--text-muted);
+  margin-top: 1px;
+}
+
+.topbar-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.btn-icon {
+  position: relative;
+  width: 36px;
+  height: 36px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border-soft);
+  background: transparent;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: var(--transition);
+  color: var(--text-muted);
+}
+
+.btn-icon:hover {
+  background: var(--bg-main);
+}
+
+.btn-icon svg {
+  width: 16px;
+  height: 16px;
+}
+
+.badge-notif {
+  width: 7px;
+  height: 7px;
+  background: var(--accent-lime);
+  border-radius: 50%;
+  position: absolute;
+  top: 8px;
+  right: 8px;
+}

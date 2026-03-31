@@ -22,6 +22,7 @@ export const ROUTES = Object.freeze({
     LOGIN: "/index.html",
     DASHBOARD_PACIENTE: "/pages/dashboard-paciente.html",
     DASHBOARD_CUIDADOR: "/pages/dashboard-cuidador.html",
+    ALARMAS: "/pages/alarmas.html",
     CUIDADOR_PACIENTE: "/pages/cuidador-vinculacion.html",
     PERFIL_CUIDADOR: "/pages/perfil-cuidador.html",
     PERFIL_PACIENTE: "/pages/perfil-paciente.html"
