@@ -3,7 +3,7 @@ import { abrirModalEditar } from "./medicamentos.modal.js";
 
 const container = document.getElementById("medContainer");
 
-export function renderMeds(lista) {
+export function renderMeds(lista, alarmasConfig = []) {
     container.innerHTML = "";
 
     if (!lista || lista.length === 0) {
@@ -12,7 +12,10 @@ export function renderMeds(lista) {
     }
 
     lista.forEach((med) => {
-        // Usamos insertAdjacentHTML para que el Controller pueda manejar los clicks vía delegación
+        const tieneAlarma = alarmasConfig.some(a => a.medicinaId == med.id);
+        const reminderClass = tieneAlarma ? "btn-reminder has-alarm" : "btn-reminder";
+        const reminderTitle = tieneAlarma ? "Ver configuración de alarma" : "Configurar alarma";
+
         container.insertAdjacentHTML("beforeend", `
             <div class="med-card glass-card" data-id="${med.id}">
                 <button class="btn-delete" data-id="${med.id}" title="Eliminar">✖</button>
@@ -29,7 +32,7 @@ export function renderMeds(lista) {
                     </span>
                     <div class="card-actions">
                         <button class="btn-edit" data-id="${med.id}">✏️</button>
-                        <button class="btn-reminder" data-id="${med.id}">⏰</button>
+                        <button class="${reminderClass}" data-id="${med.id}" title="${reminderTitle}">⏰</button>
                     </div>
                 </div>
             </div>

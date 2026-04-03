@@ -1,17 +1,43 @@
 import { crearAlarmaConfig } from "../../services/alarma.service.js";
-import { medicamentosState } from "./medicamentos.state.js";
 import { notifyError, notifySuccess } from "../../core/notify.js";
 
 const modal = document.getElementById("modalAlarma");
 const form = document.getElementById("alarmaForm");
+const title = document.getElementById("modalAlarmaTitle");
+const medicinaNombreLabel = document.getElementById("modalAlarmaMedicinaNombre");
+const btnGuardar = document.getElementById("btnGuardarAlarma");
+const btnVerDetalles = document.getElementById("btnVerDetallesAlarma");
+
+function cerrarModalAlarma() {
+    modal.classList.remove("active");
+}
+
+function _mostrarModoCrear() {
+    title.textContent = "Programar recordatorio";
+    form.reset();
+    ["fechaInicio", "fechaFin", "frecuenciaHoras"].forEach(id => {
+        document.getElementById(id).disabled = false;
+    });
+    btnGuardar.style.display = "";
+    btnVerDetalles.style.display = "none";
+}
+
+function _mostrarModoVer(config) {
+    title.textContent = "Configuración de alarma";
+    document.getElementById("fechaInicio").value = config.fechaInicio?.slice(0, 16) ?? "";
+    document.getElementById("fechaFin").value = config.fechaFin?.slice(0, 16) ?? "";
+    document.getElementById("frecuenciaHoras").value = config.frecuenciaHoras;
+    ["fechaInicio", "fechaFin", "frecuenciaHoras"].forEach(id => {
+        document.getElementById(id).disabled = true;
+    });
+    btnGuardar.style.display = "none";
+    btnVerDetalles.style.display = "";
+}
 
 export function initAlarmaModal() {
-    // Cerrar modal
-    document.getElementById("btnCloseAlarma").onclick = () => {
-        modal.classList.remove("active");
-    };
+    document.getElementById("btnCloseAlarma").onclick = () => cerrarModalAlarma();
+    document.getElementById("btnCancelAlarma").onclick = () => cerrarModalAlarma();
 
-    // Manejar el envio del formulario
     form.onsubmit = async (e) => {
         e.preventDefault();
 
@@ -25,7 +51,7 @@ export function initAlarmaModal() {
         try {
             await crearAlarmaConfig(dto);
             notifySuccess("Alarma configurada con exito");
-            modal.classList.remove("active");
+            cerrarModalAlarma();
             form.reset();
         } catch (error) {
             console.error("Error al configurar alarma:", error);
@@ -34,9 +60,16 @@ export function initAlarmaModal() {
     };
 }
 
-// Funcion que llamaras desde el boton del reloj (Render)
-export function abrirModalAlarma(medicinaId) {
-    form.reset();
+// Funcion llamada desde el boton del reloj en el render
+export function abrirModalAlarma(medicinaId, medicinaNombre = "", config = null) {
     document.getElementById("alarmaMedicinaId").value = medicinaId;
+    medicinaNombreLabel.textContent = medicinaNombre;
+
+    if (config) {
+        _mostrarModoVer(config);
+    } else {
+        _mostrarModoCrear();
+    }
+
     modal.classList.add("active");
 }

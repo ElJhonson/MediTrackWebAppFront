@@ -2,6 +2,7 @@ import {
     obtenerMisMedicinas,
     eliminarMedicina
 } from "../../services/medicina.service.js";
+import { obtenerMisAlarmasConfig } from "../../services/alarma.service.js";
 import { notifyError, notifySuccess } from "../../core/notify.js";
 
 import { medicamentosState } from "./medicamentos.state.js";
@@ -37,8 +38,11 @@ export async function cargarMedicamentos() {
     container.innerHTML = `<p class="med-loading">Cargando medicamentos...</p>`;
 
     try {
-        medicamentosState.lista = await obtenerMisMedicinas();
-        renderMeds(medicamentosState.lista);
+        [medicamentosState.lista, medicamentosState.alarmasConfig] = await Promise.all([
+            obtenerMisMedicinas(),
+            obtenerMisAlarmasConfig().catch(() => [])
+        ]);
+        renderMeds(medicamentosState.lista, medicamentosState.alarmasConfig);
     } catch (error) {
         console.error("Error al cargar medicamentos:", error);
         container.innerHTML = `<p class="med-loading">No se pudieron cargar los medicamentos.</p>`;
@@ -87,8 +91,10 @@ export function initMedicamentos() {
 
         // Caso Alarma 
         if (e.target.classList.contains("btn-reminder")) {
+            const med = medicamentosState.lista.find(m => m.id == id);
+            const config = medicamentosState.alarmasConfig.find(a => a.medicinaId == id) ?? null;
             import("./medicamentos.alarma.js").then(module => {
-                module.abrirModalAlarma(id);
+                module.abrirModalAlarma(id, med?.nombre || "", config);
             });
         }
     });

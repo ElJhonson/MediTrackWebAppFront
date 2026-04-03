@@ -64,7 +64,16 @@
 .confirm-actions {
     display: flex;
     justify-content: flex-end;
+    align-items: center;
     gap: 0.65rem;
+    margin-top: 1rem;
+}
+
+.confirm-actions .btn-save {
+    width: auto;
+    margin-top: 0;
+    padding: 0.65rem 1rem;
+    font-size: 0.88rem;
 }
 
 .btn-cancel,

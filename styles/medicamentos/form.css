@@ -73,25 +73,55 @@
 }
 
 .btn-edit {
-    background: #f1f5f9;
-    color: var(--text-gray);
+    background: #fef9c3;
+    color: #854d0e;
+    box-shadow: 0 2px 6px rgba(234, 179, 8, 0.2);
 }
 
 .btn-edit:hover {
-    background: #e2e8f0;
-    color: var(--text-dark);
+    background: #fde047;
+    color: #713f12;
+    transform: scale(1.1);
+    box-shadow: 0 4px 10px rgba(234, 179, 8, 0.35);
 }
 
 .btn-reminder {
-    background: transparent;
-    color: var(--primary);
-    border: 2px solid var(--primary-light);
+    background: #dbeafe;
+    color: #1d4ed8;
+    box-shadow: 0 2px 6px rgba(0, 123, 255, 0.15);
 }
 
 .btn-reminder:hover {
     background: var(--primary);
     color: var(--white);
-    border-color: var(--primary);
+    transform: scale(1.1);
+    box-shadow: 0 4px 10px rgba(0, 123, 255, 0.35);
+}
+
+.btn-reminder.has-alarm {
+    background: #dcfce7;
+    color: #15803d;
+    box-shadow: 0 2px 6px rgba(21, 128, 61, 0.2);
+    position: relative;
+}
+
+.btn-reminder.has-alarm::after {
+    content: '';
+    position: absolute;
+    top: 4px;
+    right: 4px;
+    width: 7px;
+    height: 7px;
+    background: #16a34a;
+    border-radius: 50%;
+    border: 1.5px solid #fff;
+}
+
+.btn-reminder.has-alarm:hover {
+    background: #16a34a;
+    color: var(--white);
+    transform: scale(1.1);
+    box-shadow: 0 4px 10px rgba(21, 128, 61, 0.35);
 }
 
 .card-footer {
