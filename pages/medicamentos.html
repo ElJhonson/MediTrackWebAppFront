@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>Panel de Medicación | Medicinas</title>
+    <title>Central de Medicación | Medicinas</title>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;700&display=swap"
         rel="stylesheet">
     <link rel="stylesheet" href="../styles/medicamentos/index.css">
@@ -12,11 +12,14 @@
 <body class="dashboard-body">
 
     <header class="main-header">
-        <div class="logo">Panel de Medicación</div>
+        <div class="logo-block">
+            <div class="logo">Central de Medicación</div>
+            <div class="logo-slogan">Organiza tus medicinas y configura cuándo tomarlas.</div>
+        </div>
         <nav class="nav-links">
             <a href="dashboard-paciente.html">Inicio</a>
             <a href="medicamentos.html" class="active">Medicinas</a>
-            <a href="#">Reportes</a>
+            <a href="alarmas.html">Recordatorios</a>
         </nav>
         <div class="account-menu" id="accountMenuWrap">
             <button
@@ -43,7 +46,7 @@
                         <polyline points="16 17 21 12 16 7"></polyline>
                         <line x1="21" y1="12" x2="9" y2="12"></line>
                     </svg>
-                    <span>Cerrar sesion</span>
+                    <span>Cerrar sesión</span>
                 </button>
             </div>
         </div>
@@ -71,7 +74,6 @@
         <section class="content-area">
             <div class="section-title">
                 <h2>Mis Medicamentos</h2>
-                <p>Organiza tus medicinas y configura cuándo tomarlas.</p>
             </div>
             <div class="elderly-controls">
                 <div class="filter-tabs">

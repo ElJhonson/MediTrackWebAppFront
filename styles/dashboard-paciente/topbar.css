@@ -11,9 +11,9 @@
 
 .topbar h1 {
     font-family: var(--font-primary);
-    font-weight: 700;
-    font-size: 1.6rem;
-    color: var(--brand-blue);
+    font-weight: 600;
+    font-size: 1.5rem;
+    color: var(--primary);
 }
 
 .status {

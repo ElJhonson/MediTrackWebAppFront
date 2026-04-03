@@ -11,6 +11,29 @@
   z-index: 50;
 }
 
+/* Bloque título + slogan que reemplaza al .logo simple */
+.logo-block {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  line-height: 1.2;
+}
+
+.logo-slogan {
+  font-size: 0.82rem;
+  font-weight: 400;
+  color: var(--text-gray);
+  max-width: 340px;
+  margin-top: 4px;
+}
+
+/* Nav con un solo enlace centrado en el espacio disponible */
+.nav-links--center {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
 .topbar-title {
   font-size: 17px;
   font-weight: 700;

@@ -1,7 +1,6 @@
 import { escapeHtml } from "./cuidador-vinculacion.utils.js";
 
 export function renderSinCuidador(caregiverPanel, caregiverStatus) {
-    caregiverStatus.textContent = "Sin cuidador vinculado";
     caregiverPanel.innerHTML = `
         <article class="caregiver-card">
             <div class="caregiver-header">
@@ -38,7 +37,6 @@ export function renderSinCuidador(caregiverPanel, caregiverStatus) {
 }
 
 export function renderConCuidador(caregiverPanel, caregiverStatus, cuidadorInfo) {
-    caregiverStatus.textContent = `Cuidador vinculado: ${cuidadorInfo.nombre}`;
     caregiverPanel.innerHTML = `
         <article class="caregiver-card">
             <div class="caregiver-header">
@@ -70,7 +68,6 @@ export function renderConCuidador(caregiverPanel, caregiverStatus, cuidadorInfo)
 }
 
 export function renderErrorState(caregiverPanel, caregiverStatus) {
-    caregiverStatus.textContent = "No se pudo cargar la informacion";
     caregiverPanel.innerHTML = `
         <article class="caregiver-card">
             <div class="caregiver-header">

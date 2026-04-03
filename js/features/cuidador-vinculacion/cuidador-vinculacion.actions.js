@@ -144,7 +144,6 @@ export function createCuidadorVinculacionActions({
     }
 
     async function cargarEstadoCuidador() {
-        caregiverStatus.textContent = "Cargando informacion del cuidador...";
 
         try {
             const paciente = await obtenerMisDatosPaciente();
