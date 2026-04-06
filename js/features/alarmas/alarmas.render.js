@@ -162,6 +162,58 @@ function buildDetailHtml(a) {
     </div>`;
 }
 
+function buildDetailEditHtml(a) {
+  const opts = [1,2,3,4,6,8,10,12]
+    .map(h => `<option value="${h}"${a.frecHoras === h ? " selected" : ""}>Cada ${h} hora${h > 1 ? "s" : ""}</option>`)
+    .join("");
+
+  return `
+    <div class="detail-content">
+      <div class="detail-content-inner">
+        <div class="detail-head">
+          <div class="detail-head-name">${a.medName}</div>
+          <span class="status-badge status-editing">Editando</span>
+        </div>
+        <div class="alarm-edit-form">
+          <div class="edit-form-group">
+            <label class="edit-label">Fecha y Hora de Inicio</label>
+            <input type="datetime-local" id="editFechaInicio" class="edit-input" value="${a.inicio}" required>
+          </div>
+          <div class="edit-form-group">
+            <label class="edit-label">Fecha y Hora de Fin</label>
+            <input type="datetime-local" id="editFechaFin" class="edit-input" value="${a.fin}" required>
+          </div>
+          <div class="edit-form-group">
+            <label class="edit-label">Frecuencia</label>
+            <select id="editFrecuencia" class="edit-input" required>
+              ${opts}
+            </select>
+          </div>
+        </div>
+      </div>
+      <div class="detail-action-bar">
+        <button class="btn-detail btn-cancel-edit" data-action="cancel-edit" data-id="${a.id}">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+          </svg>
+          Cancelar
+        </button>
+        <button class="btn-detail btn-save-edit" data-action="save-edit" data-id="${a.id}">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="20 6 9 17 4 12"/>
+          </svg>
+          Actualizar alarma
+        </button>
+      </div>
+    </div>`;
+}
+
+export function renderDetailEdit(alarm) {
+  const panel = document.getElementById("detailPanel");
+  if (!panel) return;
+  panel.innerHTML = buildDetailEditHtml(alarm);
+}
+
 export function renderDetail() {
   const panel = document.getElementById("detailPanel");
   if (!panel) return;

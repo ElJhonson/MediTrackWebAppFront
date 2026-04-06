@@ -1,0 +1,38 @@
+/* ── Formulario de edición inline en panel detalle ── */
+.alarm-edit-form {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.edit-form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.edit-label {
+  font-size: 10.5px;
+  font-weight: 600;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.edit-input {
+  padding: 9px 12px;
+  border: 1.5px solid var(--border-soft);
+  border-radius: 8px;
+  font-size: 13px;
+  font-family: var(--font-primary);
+  color: var(--text-dark-main);
+  background: var(--white);
+  outline: none;
+  transition: border-color 0.15s;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.edit-input:focus {
+  border-color: var(--primary);
+}

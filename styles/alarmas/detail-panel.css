@@ -1,0 +1,79 @@
+/* ── Panel detalle: contenido ── */
+.detail-content {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  overflow: hidden;
+}
+
+.detail-content-inner {
+  flex: 1;
+  overflow-y: auto;
+  padding: 18px 22px 10px;
+}
+
+.detail-content-inner::-webkit-scrollbar { width: 4px; }
+.detail-content-inner::-webkit-scrollbar-track { background: transparent; }
+.detail-content-inner::-webkit-scrollbar-thumb { background: var(--border-soft); border-radius: 99px; }
+
+.detail-head {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 16px;
+  flex-wrap: wrap;
+}
+
+.detail-head-name {
+  font-size: 17px;
+  font-weight: 700;
+  color: var(--text-dark-main);
+  flex: 1;
+  min-width: 0;
+}
+
+/* ── Grid de info (2 cols) ── */
+.detail-info-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-bottom: 16px;
+}
+
+.detail-info-box {
+  padding: 12px 14px;
+  border: 1.5px solid var(--border-soft);
+  border-radius: 10px;
+  background: var(--bg-main);
+}
+
+.detail-info-label {
+  font-size: 10px;
+  font-weight: 600;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 4px;
+}
+
+.detail-info-val {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-dark-main);
+}
+
+/* ── Próximas tomas ── */
+.detail-nexts-label {
+  font-size: 10.5px;
+  font-weight: 700;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  margin-bottom: 10px;
+}
+
+.detail-nexts-pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}

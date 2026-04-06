@@ -1,5 +1,6 @@
 import { crearAlarmaConfig } from "../../services/alarma.service.js";
 import { notifyError, notifySuccess } from "../../core/notify.js";
+import { medicamentosState } from "./medicamentos.state.js";
 
 const modal = document.getElementById("modalAlarma");
 const form = document.getElementById("alarmaForm");
@@ -49,7 +50,25 @@ export function initAlarmaModal() {
         };
 
         try {
-            await crearAlarmaConfig(dto);
+            const nuevaConfig = await crearAlarmaConfig(dto);
+
+            // Actualizar estado local para que el ícono refleje la alarma sin recargar
+            const medicinaId = dto.medicinaId;
+            const yaExiste = medicamentosState.alarmasConfig.findIndex(a => a.medicinaId == medicinaId);
+            const configGuardada = nuevaConfig ?? { ...dto };
+            if (yaExiste >= 0) {
+                medicamentosState.alarmasConfig[yaExiste] = configGuardada;
+            } else {
+                medicamentosState.alarmasConfig.push(configGuardada);
+            }
+
+            // Actualizar visualmente solo el botón de esa tarjeta
+            const btn = document.querySelector(`.btn-reminder[data-id="${medicinaId}"]`);
+            if (btn) {
+                btn.classList.add("has-alarm");
+                btn.title = "Ver configuración de alarma";
+            }
+
             notifySuccess("Alarma configurada con exito");
             cerrarModalAlarma();
             form.reset();

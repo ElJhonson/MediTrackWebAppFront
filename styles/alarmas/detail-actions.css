@@ -1,0 +1,76 @@
+/* ── Barra de acciones fija al fondo ── */
+.detail-action-bar {
+  flex-shrink: 0;
+  padding: 12px 20px 20px;
+  border-top: 1.5px solid var(--border-soft);
+  display: flex;
+  gap: 7px;
+  background: var(--white);
+  justify-content: flex-start;
+}
+
+.btn-detail {
+  flex: none;
+  padding: 7px 14px;
+  border: 1.5px solid var(--border-soft);
+  border-radius: 8px;
+  background: transparent;
+  font-size: 11.5px;
+  font-weight: 600;
+  color: var(--text-dark-main);
+  cursor: pointer;
+  transition: border-color 0.15s, background 0.15s, color 0.15s;
+  font-family: var(--font-primary);
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.btn-detail svg {
+  width: 13px;
+  height: 13px;
+  flex-shrink: 0;
+}
+
+.btn-detail:hover {
+  background: var(--bg-main);
+  border-color: #cbd5e1;
+}
+
+.btn-detail.btn-edit {
+  color: var(--primary);
+  border-color: var(--primary-light);
+}
+
+.btn-detail.btn-edit:hover {
+  background: var(--primary-light);
+}
+
+.btn-detail.btn-toggle {
+  color: var(--primary);
+  border-color: var(--primary-light);
+}
+
+.btn-detail.btn-toggle:hover {
+  background: var(--primary-light);
+}
+
+.btn-detail.btn-delete:hover {
+  background: var(--danger-light);
+  border-color: #fecaca;
+  color: var(--danger);
+}
+
+.btn-detail.btn-save-edit {
+  color: var(--white);
+  background: var(--primary);
+  border-color: var(--primary);
+}
+
+.btn-detail.btn-save-edit:hover {
+  opacity: 0.9;
+}
+
+.btn-detail.btn-cancel-edit {
+  color: var(--text-muted);
+}

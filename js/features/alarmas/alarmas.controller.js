@@ -1,7 +1,7 @@
 import { alarmasState } from "./alarmas.state.js";
 import { normalizeAlarm } from "./alarmas.utils.js";
 import { renderAlarms } from "./alarmas.render.js";
-import { obtenerMisAlarmasConfig } from "../../services/alarma.service.js";
+import { obtenerMisAlarmasConfig, actualizarAlarmaConfig } from "../../services/alarma.service.js";
 
 export function showToast(msg = "Operacion exitosa") {
   const t = document.getElementById("toast");
@@ -42,4 +42,19 @@ export function deleteAlarm(id) {
   if (alarmasState.selectedId === id) alarmasState.selectedId = null;
   renderAlarms();
   showToast("Alarma eliminada");
+}
+
+export async function updateAlarm(id, dto) {
+  try {
+    const updated = await actualizarAlarmaConfig(id, dto);
+    const idx = alarmasState.alarms.findIndex(a => Number(a.id) === Number(id));
+    if (idx >= 0) {
+      alarmasState.alarms[idx] = normalizeAlarm(updated ?? { ...dto, id });
+    }
+    renderAlarms();
+    showToast("Alarma actualizada");
+  } catch (error) {
+    console.error("Error al actualizar alarma:", error);
+    showToast("Error al actualizar la alarma");
+  }
 }
