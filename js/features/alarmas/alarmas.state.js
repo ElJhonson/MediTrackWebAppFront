@@ -8,6 +8,8 @@ export const medNames = {
 
 export const alarmasState = {
   alarms: [],
+  todayAlarms: [],
+  medsCount: 0,
   selectedId: null,
   currentFilter: "all",
   searchQuery: ""

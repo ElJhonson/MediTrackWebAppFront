@@ -43,13 +43,24 @@ async function _handleSaveEdit(id) {
 
   if (!inicio || !fin || !frecHoras) return;
 
-  if (!confirm("¿Estás seguro de que deseas actualizar esta configuración de alarma?")) return;
+  const btn = document.querySelector(`[data-action="save-edit"][data-id="${id}"]`);
+  if (btn) {
+    btn.disabled = true;
+    btn.textContent = "Actualizando...";
+  }
 
-  await updateAlarm(id, {
-    medicinaId:      Number(alarm.medId),
-    fechaInicio:     inicio,
-    fechaFin:        fin,
-    frecuenciaHoras: frecHoras
-  });
+  try {
+    await updateAlarm(id, {
+      medicinaId:      Number(alarm.medId),
+      fechaInicio:     inicio,
+      fechaFin:        fin,
+      frecuenciaHoras: frecHoras
+    });
+  } catch {
+    if (btn) {
+      btn.disabled = false;
+      btn.textContent = "Actualizar";
+    }
+  }
 }
 

@@ -72,7 +72,7 @@
       </div>
       <div class="stat-card">
         <div class="stat-label">Medicamentos</div>
-        <div class="stat-value" id="statMeds">5</div>
+        <div class="stat-value" id="statMeds">—</div>
         <div class="stat-sub"><span class="stat-dot" style="background:#84cc16"></span>Registrados</div>
         <div class="stat-bar"><div class="stat-bar-fill" style="width:100%"></div></div>
       </div>
@@ -119,6 +119,21 @@
       <polyline points="20 6 9 17 4 12"/>
     </svg>
     <span id="toastMsg">Alarma creada exitosamente</span>
+  </div>
+
+  <!-- Modal confirmación eliminar alarma -->
+  <div class="modal-overlay" id="modalDeleteAlarm">
+    <div class="modal-content modal-confirm-content" role="dialog" aria-modal="true" aria-labelledby="deleteAlarmTitle">
+      <div class="modal-header">
+        <h3 id="deleteAlarmTitle">Confirmar eliminación</h3>
+        <button class="close-btn" id="btnCloseDeleteAlarm" type="button" aria-label="Cerrar">&times;</button>
+      </div>
+      <p class="confirm-message">Esta acción eliminará la alarma seleccionada. ¿Deseas continuar?</p>
+      <div class="confirm-actions">
+        <button class="btn-cancel" id="btnCancelDeleteAlarm" type="button">Cancelar</button>
+        <button class="btn-danger" id="btnConfirmDeleteAlarm" type="button">Eliminar</button>
+      </div>
+    </div>
   </div>
 
   <script type="module" src="../js/pages/alarmas.page.js"></script>

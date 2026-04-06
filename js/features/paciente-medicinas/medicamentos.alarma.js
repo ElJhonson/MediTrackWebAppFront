@@ -33,6 +33,8 @@ function _mostrarModoVer(config) {
     });
     btnGuardar.style.display = "none";
     btnVerDetalles.style.display = "";
+    const configId = config.id ?? config.configId ?? "";
+    btnVerDetalles.href = `/pages/alarmas.html${configId ? "?id=" + configId : ""}`;
 }
 
 export function initAlarmaModal() {

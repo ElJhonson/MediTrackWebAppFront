@@ -1,5 +1,5 @@
 import { alarmasState } from "./alarmas.state.js";
-import { alarmaStatus, getNextTimes, fmt, fmtShort, countToday } from "./alarmas.utils.js";
+import { alarmaStatus, fmt, fmtShort } from "./alarmas.utils.js";
 
 const STATUS_LABEL = { active: "Activo", paused: "Pausado", ended: "Finalizado" };
 
@@ -28,9 +28,7 @@ export function updateStats() {
   }
   document.getElementById("barActive").style.width = total ? (active / total * 100) + "%" : "0%";
 
-  const today = alarmasState.alarms.reduce(
-    (s, a) => s + (alarmaStatus(a) === "active" ? countToday(a) : 0), 0
-  );
+  const today = alarmasState.todayAlarms.length;
   const todayEl    = document.getElementById("statToday");
   const todaySubEl = document.getElementById("statTodaySub");
   if (today === 0) {
@@ -44,9 +42,13 @@ export function updateStats() {
   }
   document.getElementById("barToday").style.width = today ? Math.min(100, today * 10) + "%" : "0%";
 
-  const nexts = alarmasState.alarms
-    .filter(a => alarmaStatus(a) === "active")
-    .flatMap(a => getNextTimes(a, 1).map(t => ({ t, name: a.medName })))
+  const now = new Date();
+  const nexts = alarmasState.todayAlarms
+    .filter(t => new Date(t.fechaHora) >= now)
+    .map(t => ({
+      t: new Date(t.fechaHora),
+      name: t.medicinaNombre
+    }))
     .sort((a, b) => a.t - b.t);
 
   if (nexts.length) {
@@ -56,6 +58,8 @@ export function updateStats() {
     document.getElementById("statNext").textContent    = "—";
     document.getElementById("statNextMed").textContent = "Sin alarmas";
   }
+
+  document.getElementById("statMeds").textContent = alarmasState.medsCount || "—";
 }
 
 function buildAlarmItemHtml(a) {
@@ -83,13 +87,26 @@ function buildAlarmItemHtml(a) {
     </div>`;
 }
 
+const ESTADO_LABEL = {
+  PENDIENTE: "Pendiente",
+  TOMADA:    "Tomada",
+  OMITIDA:   "Omitida"
+};
+
 function buildDetailHtml(a) {
   const st    = alarmaStatus(a);
-  const nexts = getNextTimes(a);
   const total = countTotal(a);
 
-  const pillsHtml = nexts.length
-    ? nexts.map(d => `<span class="next-pill">${fmt(d)}</span>`).join("")
+  const tomasHoy = alarmasState.todayAlarms.filter(
+    t => Number(t.alarmaConfigId) === Number(a.id)
+  );
+
+  const pillsHtml = tomasHoy.length
+    ? tomasHoy.map(t => {
+        const hora = new Date(t.fechaHora).toLocaleTimeString("es-MX", { hour: "2-digit", minute: "2-digit" });
+        const label = ESTADO_LABEL[t.estado] ?? t.estado ?? "";
+        return `<span class="next-pill">${hora}${label ? " · " + label : ""}</span>`;
+      }).join("")
     : `<div class="no-next">
         <div class="no-next-icon">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -99,7 +116,7 @@ function buildDetailHtml(a) {
             <line x1="3" y1="10" x2="21" y2="10"/>
           </svg>
         </div>
-        <span class="no-next-text">Sin próximas tomas configuradas</span>
+        <span class="no-next-text">Sin tomas programadas para hoy</span>
       </div>`;
 
   const pauseIcon = st === "active"
@@ -132,7 +149,7 @@ function buildDetailHtml(a) {
             <div class="detail-info-val">${total} toma${total !== 1 ? "s" : ""}</div>
           </div>
         </div>
-        <div class="detail-nexts-label">Próximas tomas</div>
+        <div class="detail-nexts-label">Tomas de hoy</div>
         <div class="detail-nexts-pills">${pillsHtml}</div>
       </div>
       <div class="detail-action-bar">
