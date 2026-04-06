@@ -80,7 +80,6 @@ function buildAlarmItemHtml(a) {
           <div class="alarm-item-dates">${fmtShort(new Date(a.inicio))} → ${fmtShort(new Date(a.fin))}</div>
         </div>
         <div class="alarm-item-badges">
-          <span class="status-badge ${st}">${STATUS_LABEL[st]}</span>
           <span class="freq-pill">Cada ${a.frecHoras}h</span>
         </div>
       </div>
@@ -119,11 +118,6 @@ function buildDetailHtml(a) {
         <span class="no-next-text">Sin tomas programadas para hoy</span>
       </div>`;
 
-  const pauseIcon = st === "active"
-    ? '<rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/>'
-    : '<polygon points="5 3 19 12 5 21 5 3"/>';
-  const pauseLabel = st === "active" ? "Pausar" : "Activar";
-
   return `
     <div class="detail-content">
       <div class="detail-content-inner">
@@ -159,12 +153,6 @@ function buildDetailHtml(a) {
             <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/>
           </svg>
           Editar
-        </button>
-        <button class="btn-detail btn-toggle" data-action="toggle" data-id="${a.id}">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            ${pauseIcon}
-          </svg>
-          ${pauseLabel}
         </button>
         <button class="btn-detail btn-delete" data-action="delete" data-id="${a.id}">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -278,7 +266,6 @@ export function renderAlarms() {
   let filtered = [...alarmasState.alarms];
 
   if (alarmasState.currentFilter === "active") filtered = filtered.filter(a => alarmaStatus(a) === "active");
-  if (alarmasState.currentFilter === "paused") filtered = filtered.filter(a => alarmaStatus(a) !== "active");
   if (alarmasState.searchQuery) filtered = filtered.filter(a => a.medName.toLowerCase().includes(alarmasState.searchQuery.toLowerCase()));
 
   if (!filtered.length) {

@@ -67,15 +67,6 @@ export async function loadMedsCountFromApi() {
   }
 }
 
-export function toggleAlarm(id) {
-  const a = alarmasState.alarms.find(x => Number(x.id) === Number(id));
-  if (a) {
-    a.activo = !a.activo;
-    renderAlarms();
-    showToast(a.activo ? "Alarma activada" : "Alarma pausada");
-  }
-}
-
 export async function deleteAlarm(id) {
   if (!_deleteModal) return;
   const confirmed = await _deleteModal.open();

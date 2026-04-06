@@ -1,0 +1,60 @@
+/* ── Contenedor de sección ── */
+.ds-section {
+  background: var(--white);
+  border-radius: 14px;
+  padding: 1.4rem 1.6rem;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.07);
+  margin-bottom: 0.5rem;
+  max-height: 420px;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: var(--border-soft) transparent;
+}
+
+/* ── Títulos de sub-sección ── */
+.ds-subsection-title {
+  font-family: var(--font-primary);
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  margin: 2rem 0 0.75rem;
+  letter-spacing: 0.01em;
+  text-transform: uppercase;
+  font-size: 0.78rem;
+}
+
+/* ── Dos columnas ── */
+.ds-two-col {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  margin-top: 0;
+}
+
+.ds-col {
+  min-width: 0;
+}
+
+/* ── Responsive ── */
+@media (max-width: 768px) {
+  .ds-metrics {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 640px) {
+  .ds-two-col {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 480px) {
+  .ds-metrics {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .ds-toma-card,
+  .ds-med-row {
+    flex-wrap: wrap;
+  }
+}

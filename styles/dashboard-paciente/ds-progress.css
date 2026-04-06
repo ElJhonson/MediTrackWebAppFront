@@ -1,0 +1,44 @@
+/* ── Barra de progreso ── */
+.ds-progress-wrap {
+  margin-bottom: 1.2rem;
+}
+
+.ds-progress-info {
+  display: flex;
+  justify-content: space-between;
+  font-family: var(--font-primary);
+  font-size: 0.82rem;
+  color: var(--text-muted);
+  margin-bottom: 0.45rem;
+}
+
+.ds-progress-bar-bg {
+  height: 8px;
+  background: var(--bg-main);
+  border-radius: 99px;
+  overflow: hidden;
+  margin-bottom: 0.75rem;
+}
+
+.ds-progress-bar-fill {
+  height: 100%;
+  background: var(--btn-add-bg);
+  border-radius: 99px;
+  transition: width 0.4s ease;
+}
+
+/* ── Pills de hora ── */
+.ds-pills-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.ds-pill {
+  font-family: var(--font-primary);
+  font-size: 0.72rem;
+  font-weight: 600;
+  padding: 3px 10px;
+  border-radius: 99px;
+  border: 1px solid;
+}

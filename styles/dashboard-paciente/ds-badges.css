@@ -1,0 +1,26 @@
+/* ── Badge genérico ── */
+.ds-badge {
+  font-family: var(--font-primary);
+  font-size: 0.7rem;
+  font-weight: 700;
+  padding: 3px 9px;
+  border-radius: 99px;
+  border: 1px solid;
+  white-space: nowrap;
+}
+
+/* ── Enlace "Ver todas" ── */
+.ds-ver-todas {
+  display: block;
+  text-align: right;
+  margin-top: 0.75rem;
+  font-family: var(--font-primary);
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--primary);
+  text-decoration: none;
+}
+
+.ds-ver-todas:hover {
+  text-decoration: underline;
+}

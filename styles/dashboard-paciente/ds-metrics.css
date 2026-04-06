@@ -1,0 +1,30 @@
+/* ── Fila de métricas ── */
+.ds-metrics {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1rem;
+  margin-top: 2rem;
+}
+
+.ds-metric-card {
+  background: var(--white);
+  border-radius: 12px;
+  padding: 1.1rem 1rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+  text-align: center;
+}
+
+.ds-metric-value {
+  font-family: var(--font-primary);
+  font-size: 2rem;
+  font-weight: 700;
+  line-height: 1;
+  margin-bottom: 0.35rem;
+}
+
+.ds-metric-label {
+  font-family: var(--font-primary);
+  font-size: 0.78rem;
+  font-weight: 500;
+  color: var(--text-muted);
+}

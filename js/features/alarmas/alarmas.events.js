@@ -1,6 +1,6 @@
 import { alarmasState } from "./alarmas.state.js";
 import { renderAlarms, renderDetail, renderDetailEdit } from "./alarmas.render.js";
-import { toggleAlarm, deleteAlarm, updateAlarm } from "./alarmas.controller.js";
+import { deleteAlarm, updateAlarm } from "./alarmas.controller.js";
 
 export function bindUiEvents() {
   document.querySelectorAll(".tab-btn").forEach(tab => {
@@ -22,7 +22,6 @@ export function bindUiEvents() {
     const btn = e.target.closest("[data-action]");
     if (!btn) return;
     const id = Number(btn.dataset.id);
-    if (btn.dataset.action === "toggle")      toggleAlarm(id);
     if (btn.dataset.action === "delete")      deleteAlarm(id);
     if (btn.dataset.action === "edit") {
       const alarm = alarmasState.alarms.find(a => Number(a.id) === id);

@@ -12,6 +12,7 @@ import {
     getDashboardPacienteElements,
     hasRequiredDashboardPacienteElements
 } from "./dashboard-paciente.state.js";
+import { initDailySection } from "./dashboard-paciente.daily.js";
 
 export async function initDashboardPaciente() {
     const elements = getDashboardPacienteElements();
@@ -49,6 +50,7 @@ export async function initDashboardPaciente() {
     });
 
     await cargarDatosPacienteEnHeader(elements, name);
+    initDailySection();
 }
 
 async function cargarDatosPacienteEnHeader(elements, fallbackName) {
