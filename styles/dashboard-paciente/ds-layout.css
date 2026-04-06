@@ -14,13 +14,11 @@
 /* ── Títulos de sub-sección ── */
 .ds-subsection-title {
   font-family: var(--font-primary);
-  font-size: 1rem;
-  font-weight: 600;
-  color: var(--text-muted);
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: var(--text-dark-main);
   margin: 2rem 0 0.75rem;
-  letter-spacing: 0.01em;
-  text-transform: uppercase;
-  font-size: 0.78rem;
+  letter-spacing: -0.01em;
 }
 
 /* ── Dos columnas ── */

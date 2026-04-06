@@ -2,7 +2,7 @@
 .service-card {
     background-color: #ffffff;
     border-radius: 14px;
-    padding: 1.8rem 1.5rem;
+    padding: 2.4rem 2rem;
     box-shadow: 0 6px 18px rgba(0,0,0,0.08);
     cursor: pointer;
     transition: transform 0.2s, box-shadow 0.2s;
@@ -16,15 +16,15 @@
 
 /* Iconos */
 .service-card .icon {
-    font-size: 2.5rem;
-    margin-bottom: 0.8rem;
+    font-size: 3rem;
+    margin-bottom: 1rem;
 }
 
 /* Títulos */
 .service-card h3 {
     font-family: var(--font-primary);
     font-weight: 600;
-    font-size: 1.1rem;
+    font-size: 1.25rem;
     margin-bottom: 0.4rem;
 }
 
@@ -40,4 +40,3 @@
 .reminders { border-top: 6px solid #FFC107; }
 .schedules { border-top: 6px solid var(--btn-add-bg); }
 .caregiver { border-top: 6px solid #FF7043; }
-.history   { border-top: 6px solid #42A5F5; }
