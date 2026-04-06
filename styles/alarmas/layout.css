@@ -1,61 +1,75 @@
 /* ── Contenido principal ── */
+body {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.main-header {
+  flex-shrink: 0;
+}
+
 .content {
-  padding: 28px 32px;
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  padding: 22px 28px;
+  overflow: hidden;
 }
 
 /* ── Stats row ── */
 .stats-row {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: 14px;
-  margin-bottom: 28px;
+  gap: 12px;
+  flex-shrink: 0;
 }
 
 .stat-card {
   background: var(--white);
   border: 1px solid var(--border-soft);
-  border-radius: var(--radius-lg);
-  padding: 18px 20px;
-  transition: var(--transition);
-}
-
-.stat-card:hover {
-  box-shadow: var(--shadow-card);
-  transform: translateY(-1px);
+  border-radius: var(--radius-md);
+  padding: 15px 18px;
 }
 
 .stat-label {
-  font-size: 11.5px;
+  font-size: 10.5px;
   font-weight: 600;
   color: var(--text-muted);
-  letter-spacing: 0.04em;
+  letter-spacing: 0.05em;
   text-transform: uppercase;
-  margin-bottom: 8px;
+  margin-bottom: 6px;
 }
 
 .stat-value {
-  font-size: 28px;
+  font-size: 26px;
   font-weight: 700;
   color: var(--text-dark-main);
   line-height: 1;
 }
 
 .stat-sub {
-  font-size: 11.5px;
+  font-size: 11px;
   color: var(--text-muted);
-  margin-top: 6px;
+  margin-top: 5px;
+  display: flex;
+  align-items: center;
+  gap: 5px;
 }
 
 .stat-dot {
   display: inline-block;
-  width: 7px;
-  height: 7px;
+  width: 6px;
+  height: 6px;
   border-radius: 50%;
-  margin-right: 5px;
+  flex-shrink: 0;
 }
 
 .stat-bar {
-  height: 4px;
+  height: 3px;
   background: var(--border-soft);
   border-radius: 99px;
   margin-top: 10px;
@@ -64,15 +78,144 @@
 
 .stat-bar-fill {
   height: 100%;
-  background: var(--accent-lime);
+  background: var(--primary);
   border-radius: 99px;
   transition: width 0.5s ease;
 }
 
-/* ── Layout columna única ── */
-.two-col {
+/* ── Layout maestro-detalle ── */
+.list-detail-layout {
   display: grid;
-  grid-template-columns: 1fr;
-  gap: 20px;
-  align-items: start;
+  grid-template-columns: 35% 1px 1fr;
+  flex: 1;
+  min-height: 0;
+  background: var(--white);
+  border: 1px solid var(--border-soft);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+}
+
+/* ── Panel izquierdo: lista ── */
+.list-panel {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.list-panel-head {
+  padding: 18px 18px 14px;
+  flex-shrink: 0;
+  border-bottom: 1px solid var(--border-soft);
+}
+
+.list-panel-title {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--text-dark-main);
+  margin-bottom: 2px;
+}
+
+.list-panel-sub {
+  font-size: 11.5px;
+  color: var(--text-muted);
+  margin-bottom: 13px;
+}
+
+.filters-row {
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+}
+
+.tabs {
+  display: flex;
+  gap: 5px;
+}
+
+.tab-btn {
+  padding: 5px 13px;
+  border-radius: 99px;
+  border: 1.5px solid var(--border-soft);
+  background: transparent;
+  font-size: 11.5px;
+  font-weight: 600;
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: var(--transition);
+  font-family: var(--font-primary);
+}
+
+.tab-btn:hover {
+  color: var(--text-dark-main);
+  background: var(--bg-main);
+}
+
+.tab-btn.active {
+  background: var(--primary);
+  color: var(--white);
+  border-color: var(--primary);
+}
+
+.search-box {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  padding: 7px 11px;
+  border: 1.5px solid var(--border-soft);
+  border-radius: 8px;
+  background: var(--bg-main);
+  transition: var(--transition);
+}
+
+.search-box:focus-within {
+  border-color: var(--primary);
+  background: var(--white);
+}
+
+.search-box svg {
+  width: 13px;
+  height: 13px;
+  color: var(--text-muted);
+  flex-shrink: 0;
+}
+
+.search-box input {
+  border: none;
+  background: transparent;
+  font-family: var(--font-primary);
+  font-size: 12.5px;
+  color: var(--text-dark-main);
+  outline: none;
+  width: 100%;
+}
+
+.search-box input::placeholder {
+  color: var(--placeholder);
+}
+
+/* ── Lista de items ── */
+.alarm-list {
+  flex: 1;
+  overflow-y: auto;
+  padding: 10px 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+
+.alarm-list::-webkit-scrollbar { width: 4px; }
+.alarm-list::-webkit-scrollbar-track { background: transparent; }
+.alarm-list::-webkit-scrollbar-thumb { background: var(--border-soft); border-radius: 99px; }
+
+/* ── Divisor vertical ── */
+.panel-divider {
+  background: var(--border-soft);
+  flex-shrink: 0;
+}
+
+/* ── Panel derecho: detalle ── */
+.detail-panel {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
 }

@@ -5,6 +5,10 @@ export function fmt(d) {
          d.toLocaleTimeString("es-MX", { hour: "2-digit", minute: "2-digit" });
 }
 
+export function fmtShort(d) {
+  return d.toLocaleDateString("es-MX", { day: "2-digit", month: "short" });
+}
+
 export function toLocal(d) {
   return new Date(d.getTime() - d.getTimezoneOffset() * 60000).toISOString().slice(0, 16);
 }

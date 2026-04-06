@@ -8,7 +8,7 @@ export const medNames = {
 
 export const alarmasState = {
   alarms: [],
-  expandedId: null,
+  selectedId: null,
   currentFilter: "all",
   searchQuery: ""
 };

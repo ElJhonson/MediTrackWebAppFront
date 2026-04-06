@@ -39,7 +39,7 @@ export function toggleAlarm(id) {
 export function deleteAlarm(id) {
   if (!confirm("¿Eliminar esta configuracion de alarma?")) return;
   alarmasState.alarms = alarmasState.alarms.filter(x => Number(x.id) !== Number(id));
-  if (alarmasState.expandedId === id) alarmasState.expandedId = null;
+  if (alarmasState.selectedId === id) alarmasState.selectedId = null;
   renderAlarms();
   showToast("Alarma eliminada");
 }

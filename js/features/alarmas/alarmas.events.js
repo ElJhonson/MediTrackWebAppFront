@@ -8,7 +8,7 @@ export function bindUiEvents() {
       document.querySelectorAll(".tab-btn").forEach(x => x.classList.remove("active"));
       tab.classList.add("active");
       alarmasState.currentFilter = tab.dataset.filter;
-      alarmasState.expandedId = null;
+      alarmasState.selectedId = null;
       renderAlarms();
     });
   });
@@ -18,12 +18,12 @@ export function bindUiEvents() {
     renderAlarms();
   });
 
-  document.getElementById("alarmList").addEventListener("click", e => {
-    const btn = e.target.closest(".btn-action");
+  document.getElementById("detailPanel").addEventListener("click", e => {
+    const btn = e.target.closest("[data-action]");
     if (!btn) return;
-    e.stopPropagation();
     const id = Number(btn.dataset.id);
     if (btn.dataset.action === "toggle") toggleAlarm(id);
     if (btn.dataset.action === "delete") deleteAlarm(id);
   });
 }
+

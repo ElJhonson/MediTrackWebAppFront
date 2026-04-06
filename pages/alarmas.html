@@ -56,13 +56,13 @@
       <div class="stat-card">
         <div class="stat-label">Alarmas activas</div>
         <div class="stat-value" id="statActive">0</div>
-        <div class="stat-sub"><span class="stat-dot" style="background:#84cc16"></span>En curso</div>
+        <div class="stat-sub" id="statActiveSub"><span class="stat-dot" style="background:var(--primary)"></span>En curso</div>
         <div class="stat-bar"><div class="stat-bar-fill" id="barActive" style="width:0%"></div></div>
       </div>
       <div class="stat-card">
         <div class="stat-label">Tomas hoy</div>
         <div class="stat-value" id="statToday">0</div>
-        <div class="stat-sub"><span class="stat-dot" style="background:#007bff"></span>Programadas</div>
+        <div class="stat-sub" id="statTodaySub"><span class="stat-dot" style="background:#007bff"></span>Programadas</div>
         <div class="stat-bar"><div class="stat-bar-fill" id="barToday" style="width:0%;background:#007bff"></div></div>
       </div>
       <div class="stat-card">
@@ -78,27 +78,14 @@
       </div>
     </div>
 
-    <!-- Lista de recordatorios -->
-    <div class="two-col">
+    <!-- Layout maestro-detalle -->
+    <div class="list-detail-layout">
 
-      <!-- Lista de recordatorios -->
-      <div class="card">
-        <div class="card-header">
-          <div class="card-header-icon">
-            <svg viewBox="0 0 24 24" fill="none" stroke="#1f3d32" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
-              <line x1="16" y1="2" x2="16" y2="6"/>
-              <line x1="8" y1="2" x2="8" y2="6"/>
-              <line x1="3" y1="10" x2="21" y2="10"/>
-            </svg>
-          </div>
-          <div style="flex:1">
-            <div class="card-header-title">Mis recordatorios</div>
-            <div class="card-header-sub">Haz clic en una tarjeta para ver el detalle</div>
-          </div>
-        </div>
-        <div class="card-body">
-
+      <!-- Panel izquierdo: lista -->
+      <section class="list-panel">
+        <div class="list-panel-head">
+          <div class="list-panel-title">Mis recordatorios</div>
+          <div class="list-panel-sub">Selecciona un item para ver el detalle</div>
           <div class="filters-row">
             <div class="tabs">
               <button class="tab-btn active" data-filter="all">Todos</button>
@@ -113,11 +100,15 @@
               <input type="text" id="searchInput" placeholder="Buscar medicamento..." />
             </div>
           </div>
-
-          <div class="alarm-list" id="alarmList"></div>
-
         </div>
-      </div>
+        <div class="alarm-list" id="alarmList"></div>
+      </section>
+
+      <!-- Divisor vertical -->
+      <div class="panel-divider"></div>
+
+      <!-- Panel derecho: detalle -->
+      <section class="detail-panel" id="detailPanel"></section>
 
     </div>
   </div>
