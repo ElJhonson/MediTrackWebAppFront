@@ -77,8 +77,11 @@ export function createCuidadorMedicinasActions({
         dom.setMedicinasLoading(elements);
 
         try {
-            state.lista = await data.obtenerMedicinasPorPaciente(pacienteId);
-            dom.renderMedicinas(elements, state.lista);
+            [state.lista, state.alarmasConfig] = await Promise.all([
+                data.obtenerMedicinasPorPaciente(pacienteId),
+                data.obtenerAlarmasConfigPaciente(Number(state.pacienteId) || pacienteId).catch(() => [])
+            ]);
+            dom.renderMedicinas(elements, state.lista, state.alarmasConfig);
             dom.renderQuickStats(elements, state.lista);
         } catch (error) {
             console.error("Error al cargar medicinas:", error);
@@ -90,6 +93,37 @@ export function createCuidadorMedicinasActions({
 
     async function guardarDesdeFormulario() {
         if (submitLock.isLocked()) return;
+
+        const fields = [
+            { el: elements.name,           valid: !!elements.name.value.trim() },
+            { el: elements.expirationDate,  valid: !!elements.expirationDate.value }
+        ];
+
+        let hasError = false;
+        fields.forEach(({ el, valid }) => {
+            el.classList.toggle("input-error", !valid);
+            let errMsg = el.parentElement.querySelector(".field-error-msg");
+            if (!valid) {
+                hasError = true;
+                if (!errMsg) {
+                    errMsg = document.createElement("span");
+                    errMsg.className = "field-error-msg";
+                    errMsg.textContent = "Este campo es obligatorio";
+                    el.parentElement.appendChild(errMsg);
+                }
+                el.addEventListener("input", function clear() {
+                    if (el.value.trim()) {
+                        el.classList.remove("input-error");
+                        errMsg?.remove();
+                        el.removeEventListener("input", clear);
+                    }
+                });
+            } else if (errMsg) {
+                errMsg.remove();
+            }
+        });
+
+        if (hasError) return;
 
         const id = elements.editId.value;
         const dto = dom.getFormPayload(elements);

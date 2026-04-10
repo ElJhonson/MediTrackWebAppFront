@@ -67,5 +67,44 @@
 .confirm-actions {
     display: flex;
     justify-content: flex-end;
+    align-items: center;
     gap: 0.65rem;
+    margin-top: 1rem;
+}
+
+.confirm-actions .btn-save {
+    width: auto;
+    margin-top: 0;
+    padding: 0.65rem 1rem;
+    font-size: 0.88rem;
+}
+
+.btn-cancel,
+.btn-danger {
+    border-radius: 10px;
+    padding: 0.65rem 1rem;
+    font-family: var(--font-primary);
+    font-size: 0.88rem;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+.btn-cancel {
+    background: #f1f5f9;
+    color: var(--text-gray);
+    border: none;
+}
+
+.btn-cancel:hover {
+    background: #e2e8f0;
+}
+
+.btn-danger {
+    border: none;
+    background: var(--danger);
+    color: var(--white);
+}
+
+.btn-danger:hover {
+    background: var(--danger-dark);
 }

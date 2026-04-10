@@ -2,6 +2,7 @@ export const cuidadorMedicinasState = {
     pacienteId: null,
     pacienteNombre: "Paciente",
     lista: [],
+    alarmasConfig: [],
     pacientes: [],
     cuidadorNombre: "Cuidador"
 };
@@ -35,7 +36,20 @@ export function getCuidadorMedicinasElements() {
         editId: document.getElementById("editId"),
         name: document.getElementById("name"),
         dosageForm: document.getElementById("dosageForm"),
-        expirationDate: document.getElementById("expirationDate")
+        expirationDate: document.getElementById("expirationDate"),
+        // Alarm modal
+        modalAlarma: document.getElementById("modalAlarma"),
+        alarmaForm: document.getElementById("alarmaForm"),
+        modalAlarmaTitle: document.getElementById("modalAlarmaTitle"),
+        modalAlarmaMedicinaNombre: document.getElementById("modalAlarmaMedicinaNombre"),
+        alarmaMedicinaId: document.getElementById("alarmaMedicinaId"),
+        alarmaFechaInicio: document.getElementById("fechaInicio"),
+        alarmaFechaFin: document.getElementById("fechaFin"),
+        alarmaFrecuenciaHoras: document.getElementById("frecuenciaHoras"),
+        btnCloseAlarma: document.getElementById("btnCloseAlarma"),
+        btnCancelAlarma: document.getElementById("btnCancelAlarma"),
+        btnGuardarAlarma: document.getElementById("btnGuardarAlarma"),
+        btnVerDetallesAlarma: document.getElementById("btnVerDetallesAlarma")
     };
 }
 

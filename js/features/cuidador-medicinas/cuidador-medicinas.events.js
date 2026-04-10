@@ -24,6 +24,10 @@ export function bindCuidadorMedicinasEvents(elements, handlers) {
             handlers.onCloseModal();
         }
 
+        if (event.target === elements.modalAlarma) {
+            handlers.onCloseAlarmaModal();
+        }
+
         if (event.target === elements.modalDeleteConfirm) {
             handlers.onDeleteConfirmChoice(false);
         }
@@ -34,6 +38,7 @@ export function bindCuidadorMedicinasEvents(elements, handlers) {
             handlers.onCloseAccountMenu();
             handlers.onClosePatientSelector();
             handlers.onCloseModal();
+            handlers.onCloseAlarmaModal();
             handlers.onDeleteConfirmChoice(false);
         }
     });
@@ -96,7 +101,8 @@ export function bindCuidadorMedicinasEvents(elements, handlers) {
         }
 
         if (button.classList.contains("btn-reminder")) {
-            handlers.onReminderInfo();
+            handlers.onReminderClick(id);
+            return;
         }
     });
 }

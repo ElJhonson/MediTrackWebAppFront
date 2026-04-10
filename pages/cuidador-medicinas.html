@@ -17,7 +17,7 @@
         <nav class="nav-links">
             <a href="dashboard-cuidador.html">Inicio</a>
             <a href="cuidador-medicinas.html" class="active">Medicinas</a>
-            <a href="#">Reportes</a>
+            <a href="#">Recordatorios</a>
         </nav>
 
         <div class="account-menu" id="accountMenuWrap">
@@ -117,7 +117,7 @@
                 <h3 id="modalTitle">Registrar Medicina</h3>
                 <button class="close-btn" id="btnCloseModal">&times;</button>
             </div>
-            <form id="medForm">
+            <form id="medForm" novalidate>
                 <input type="hidden" id="editId">
 
                 <div class="form-group">
@@ -159,6 +159,49 @@
                 <button class="btn-cancel" id="btnCancelDelete" type="button">Cancelar</button>
                 <button class="btn-danger" id="btnConfirmDelete" type="button">Eliminar</button>
             </div>
+        </div>
+    </div>
+
+    <!-- Modal para configurar alarma de la medicina -->
+    <div class="modal-overlay" id="modalAlarma">
+        <div class="glass-card modal-content">
+            <div class="modal-header">
+                <div>
+                    <h3 id="modalAlarmaTitle">Programar recordatorio</h3>
+                    <p id="modalAlarmaMedicinaNombre" class="confirm-message"></p>
+                </div>
+                <button class="close-btn" id="btnCloseAlarma" type="button">&times;</button>
+            </div>
+            <form id="alarmaForm" novalidate>
+                <input type="hidden" id="alarmaMedicinaId">
+
+                <div class="form-group">
+                    <label>Fecha y Hora de Inicio</label>
+                    <input type="datetime-local" id="fechaInicio">
+                </div>
+                <div class="form-group">
+                    <label>Fecha y Hora de Fin</label>
+                    <input type="datetime-local" id="fechaFin">
+                </div>
+                <div class="form-group">
+                    <label>Frecuencia</label>
+                    <select id="frecuenciaHoras">
+                        <option value="1">Cada 1 hora</option>
+                        <option value="2">Cada 2 horas</option>
+                        <option value="3">Cada 3 horas</option>
+                        <option value="4">Cada 4 horas</option>
+                        <option value="6">Cada 6 horas</option>
+                        <option value="8" selected>Cada 8 horas</option>
+                        <option value="10">Cada 10 horas</option>
+                        <option value="12">Cada 12 horas</option>
+                    </select>
+                </div>
+                <div class="confirm-actions">
+                    <button class="btn-cancel" id="btnCancelAlarma" type="button">Cancelar</button>
+                    <a id="btnVerDetallesAlarma" href="/pages/alarmas.html" class="btn-save" style="display:none; text-decoration:none;">Ver Detalles</a>
+                    <button type="submit" id="btnGuardarAlarma" class="btn-save">Guardar alarma</button>
+                </div>
+            </form>
         </div>
     </div>
 

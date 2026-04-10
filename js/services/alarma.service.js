@@ -25,14 +25,18 @@ export async function crearAlarmaConfig(dto) {
 /**
  * Obtener configuraciones de alarma del paciente actual
  */
-export async function obtenerMisAlarmasConfig() {
-    const response = await authFetch(`${BASE_URL}/mias`);
-
+export async function obtenerMisAlarmasConfig(pacienteId = null) {
+    const numericId = pacienteId != null ? Number(pacienteId) : null;
+    const hasValidId = numericId !== null && Number.isFinite(numericId) && numericId > 0;
+    const url = hasValidId
+        ? `${BASE_URL}/mias?pacienteId=${numericId}`
+        : `${BASE_URL}/mias`;
+    
+    const response = await authFetch(url);
     if (!response.ok) {
         const msg = await extraerMensajeError(response);
         throw new Error(msg || "Error al obtener alarmas");
     }
-
     return response.json();
 }
 
@@ -40,28 +44,32 @@ export async function obtenerMisAlarmasConfig() {
  * Obtener configuraciones de alarma por medicina
  * @param {number|string} medicinaId
  */
-export async function obtenerAlarmasPorMedicina(medicinaId) {
-    const response = await authFetch(`${BASE_URL}/medicina/${medicinaId}`);
+export async function obtenerAlarmasPorMedicina(medicinaId, pacienteId = null) {
+    const url = pacienteId
+        ? `${BASE_URL}/medicina/${medicinaId}?pacienteId=${pacienteId}`
+        : `${BASE_URL}/medicina/${medicinaId}`;
 
+    const response = await authFetch(url);
     if (!response.ok) {
         const msg = await extraerMensajeError(response);
         throw new Error(msg || "Error al obtener alarmas por medicina");
     }
-
     return response.json();
 }
 
 /**
  * Obtener alarmas del dia del paciente actual
  */
-export async function obtenerAlarmasDelDia() {
-    const response = await authFetch(`${BASE_URL}/hoy`);
+export async function obtenerAlarmasDelDia(pacienteId = null) {
+    const url = pacienteId
+        ? `${BASE_URL}/hoy?pacienteId=${pacienteId}`
+        : `${BASE_URL}/hoy`;
 
+    const response = await authFetch(url);
     if (!response.ok) {
         const msg = await extraerMensajeError(response);
         throw new Error(msg || "Error al obtener alarmas del dia");
     }
-
     return response.json();
 }
 

@@ -9,6 +9,7 @@ import {
     obtenerPacientePorId,
     obtenerPacientesDelCuidador
 } from "../../services/cuidador.service.js";
+import { obtenerMisAlarmasConfig } from "../../services/alarma.service.js";
 
 export async function obtenerPacientesVinculados() {
     return obtenerPacientesDelCuidador();
@@ -39,4 +40,13 @@ export async function actualizarMedicinaPaciente(id, dto) {
 
 export async function eliminarMedicinaPaciente(id) {
     return eliminarMedicinaService(id);
+}
+
+export async function obtenerAlarmasConfigPaciente(pacienteId) {
+    const id = Number(pacienteId);
+    if (!id || !Number.isFinite(id) || id <= 0) {
+        console.warn("[cuidador-medicinas] obtenerAlarmasConfigPaciente: pacienteId inv\u00e1lido:", pacienteId);
+        return [];
+    }
+    return obtenerMisAlarmasConfig(id);
 }

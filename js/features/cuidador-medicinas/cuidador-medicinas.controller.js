@@ -1,5 +1,5 @@
 import { logout } from "../../core/auth.js";
-import { notifyError, notifyInfo, notifySuccess } from "../../core/notify.js";
+import { notifyError, notifySuccess } from "../../core/notify.js";
 import * as data from "./cuidador-medicinas.data.js";
 import {
     bindCuidadorMedicinasEvents
@@ -11,6 +11,7 @@ import {
     hasRequiredCuidadorMedicinasElements
 } from "./cuidador-medicinas.state.js";
 import { createCuidadorMedicinasActions } from "./cuidador-medicinas.actions.js";
+import { createCuidadorAlarmaModule } from "./cuidador-medicinas.alarma.js";
 
 export async function initCuidadorMedicinasPage() {
     const elements = getCuidadorMedicinasElements();
@@ -36,10 +37,19 @@ export async function initCuidadorMedicinasPage() {
 
     actions.setTopbarData();
 
+    const alarmaModule = createCuidadorAlarmaModule({
+        elements,
+        state,
+        notify: { error: notifyError, success: notifySuccess },
+        onAlarmaGuardada: () => dom.renderMedicinas(elements, state.lista, state.alarmasConfig)
+    });
+    alarmaModule.init();
+
     bindCuidadorMedicinasEvents(elements, {
         onCloseAccountMenu: () => dom.closeAccountMenu(elements),
         onClosePatientSelector: () => dom.closePatientSelector(elements),
         onCloseModal: () => dom.closeModal(elements),
+        onCloseAlarmaModal: () => alarmaModule.cerrar(),
         onDeleteConfirmChoice: (confirmado) => dom.responderConfirmacionEliminacion(elements, confirmado),
         onLogout: () => logout(),
         onChangePaciente: async (pacienteId) => actions.cambiarPaciente(pacienteId),
@@ -47,7 +57,10 @@ export async function initCuidadorMedicinasPage() {
         onSubmitForm: async () => actions.guardarDesdeFormulario(),
         onEditMedicina: async (id, button) => actions.abrirEdicion(id, button),
         onDeleteMedicina: async (id) => actions.eliminarMedicina(id),
-        onReminderInfo: () => notifyInfo("La configuracion de recordatorios se realiza desde el panel del paciente.")
+        onReminderClick: (id) => {
+            const med = state.lista.find(m => String(m.id) === String(id));
+            alarmaModule.abrir(Number(id), med?.nombre || "");
+        }
     });
 
     await actions.bootstrapPacientes();

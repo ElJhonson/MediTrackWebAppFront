@@ -67,7 +67,7 @@ export function renderPatientSelectorDropdown(elements, state) {
     });
 }
 
-export function renderMedicinas(elements, lista) {
+export function renderMedicinas(elements, lista, alarmasConfig = []) {
     elements.medContainer.innerHTML = "";
 
     if (!Array.isArray(lista) || lista.length === 0) {
@@ -76,9 +76,11 @@ export function renderMedicinas(elements, lista) {
     }
 
     lista.forEach((med) => {
-        const reminderActive = isReminderActive(med);
-        const reminderClass = reminderActive ? "btn-reminder active" : "btn-reminder";
-        const reminderTitle = reminderActive ? "Recordatorio activo" : "Recordatorio inactivo";
+        const tieneAlarma = Array.isArray(alarmasConfig)
+            ? alarmasConfig.some(a => Number(a.medicinaId) === Number(med.id))
+            : isReminderActive(med);
+        const reminderClass = tieneAlarma ? "btn-reminder has-alarm" : "btn-reminder";
+        const reminderTitle = tieneAlarma ? "Ver configuración de alarma" : "Configurar alarma";
 
         const card = document.createElement("div");
         card.className = "med-card glass-card";
@@ -116,6 +118,7 @@ export function openCreateModal(elements) {
     elements.modalTitle.textContent = "Registrar Medicina";
     elements.medForm.reset();
     elements.editId.value = "";
+    _clearFieldErrors(elements);
     setFormFieldsEnabled(elements, true);
     elements.modalMed.classList.add("active");
 }
@@ -135,6 +138,7 @@ export function fillEditModal(elements, med) {
     elements.name.value = med.nombre || "";
     setDosageFormValue(elements, med.dosageForm || "Tableta");
     elements.expirationDate.value = normalizeDateForInput(med.expirationDate);
+    _clearFieldErrors(elements);
     setFormFieldsEnabled(elements, true);
     elements.modalMed.classList.add("active");
 }
@@ -207,6 +211,13 @@ function setFormFieldsEnabled(elements, enabled) {
     elements.name.disabled = !enabled;
     elements.dosageForm.disabled = !enabled;
     elements.expirationDate.disabled = !enabled;
+}
+
+function _clearFieldErrors(elements) {
+    [elements.name, elements.expirationDate].forEach(el => {
+        el.classList.remove("input-error");
+        el.parentElement.querySelector(".field-error-msg")?.remove();
+    });
 }
 
 function isReminderActive(med = {}) {

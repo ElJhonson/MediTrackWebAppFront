@@ -159,6 +159,9 @@
     justify-content: space-between;
     transition: var(--transition);
     position: relative;
+    background: linear-gradient(150deg, #ffffff 55%, #eef6ff 100%);
+    border-top: 4px solid var(--primary);
+    box-shadow: 0 10px 30px rgba(0, 123, 255, 0.08);
 }
 
 .med-card:hover {
