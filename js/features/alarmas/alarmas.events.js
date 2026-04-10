@@ -36,11 +36,46 @@ async function _handleSaveEdit(id) {
   const alarm = alarmasState.alarms.find(a => Number(a.id) === id);
   if (!alarm) return;
 
-  const inicio    = document.getElementById("editFechaInicio")?.value;
-  const fin       = document.getElementById("editFechaFin")?.value;
-  const frecHoras = Number(document.getElementById("editFrecuencia")?.value);
+  const inicioEl  = document.getElementById("editFechaInicio");
+  const finEl     = document.getElementById("editFechaFin");
+  const frecEl    = document.getElementById("editFrecuencia");
 
-  if (!inicio || !fin || !frecHoras) return;
+  const inicio    = inicioEl?.value;
+  const fin       = finEl?.value;
+  const frecHoras = Number(frecEl?.value);
+
+  const fields = [
+    { el: inicioEl, valid: !!inicio },
+    { el: finEl,    valid: !!fin },
+    { el: frecEl,   valid: !!frecHoras }
+  ];
+
+  let hasError = false;
+  fields.forEach(({ el, valid }) => {
+    if (!el) return;
+    el.classList.toggle("input-error", !valid);
+    let errMsg = el.parentElement.querySelector(".edit-field-error");
+    if (!valid) {
+      hasError = true;
+      if (!errMsg) {
+        errMsg = document.createElement("span");
+        errMsg.className = "edit-field-error";
+        errMsg.textContent = "Este campo es obligatorio";
+        el.parentElement.appendChild(errMsg);
+      }
+      el.addEventListener("input", function clear() {
+        if (el.value) {
+          el.classList.remove("input-error");
+          errMsg?.remove();
+          el.removeEventListener("input", clear);
+        }
+      }, { once: false });
+    } else if (errMsg) {
+      errMsg.remove();
+    }
+  });
+
+  if (hasError) return;
 
   const btn = document.querySelector(`[data-action="save-edit"][data-id="${id}"]`);
   if (btn) {

@@ -17,7 +17,10 @@ function _mostrarModoCrear() {
     title.textContent = "Programar recordatorio";
     form.reset();
     ["fechaInicio", "fechaFin", "frecuenciaHoras"].forEach(id => {
-        document.getElementById(id).disabled = false;
+        const el = document.getElementById(id);
+        el.disabled = false;
+        el.classList.remove("input-error");
+        el.parentElement.querySelector(".field-error-msg")?.remove();
     });
     btnGuardar.style.display = "";
     btnVerDetalles.style.display = "none";
@@ -44,11 +47,55 @@ export function initAlarmaModal() {
     form.onsubmit = async (e) => {
         e.preventDefault();
 
+        const inicioEl = document.getElementById("fechaInicio");
+        const finEl    = document.getElementById("fechaFin");
+        const frecEl   = document.getElementById("frecuenciaHoras");
+
+        const fields = [
+            { el: inicioEl, valid: !!inicioEl?.value },
+            { el: finEl,    valid: !!finEl?.value },
+            { el: frecEl,   valid: !!frecEl?.value }
+        ];
+
+        let hasError = false;
+        fields.forEach(({ el, valid }) => {
+            if (!el) return;
+            el.classList.toggle("input-error", !valid);
+            let errMsg = el.parentElement.querySelector(".field-error-msg");
+            if (!valid) {
+                hasError = true;
+                if (!errMsg) {
+                    errMsg = document.createElement("span");
+                    errMsg.className = "field-error-msg";
+                    errMsg.textContent = "Este campo es obligatorio";
+                    el.parentElement.appendChild(errMsg);
+                }
+                el.addEventListener("input", function clear() {
+                    if (el.value) {
+                        el.classList.remove("input-error");
+                        errMsg?.remove();
+                        el.removeEventListener("input", clear);
+                    }
+                });
+                el.addEventListener("change", function clearSel() {
+                    if (el.value) {
+                        el.classList.remove("input-error");
+                        errMsg?.remove();
+                        el.removeEventListener("change", clearSel);
+                    }
+                });
+            } else if (errMsg) {
+                errMsg.remove();
+            }
+        });
+
+        if (hasError) return;
+
         const dto = {
             medicinaId: Number(document.getElementById("alarmaMedicinaId").value),
-            fechaInicio: document.getElementById("fechaInicio").value,
-            fechaFin: document.getElementById("fechaFin").value,
-            frecuenciaHoras: Number(document.getElementById("frecuenciaHoras").value)
+            fechaInicio: inicioEl.value,
+            fechaFin: finEl.value,
+            frecuenciaHoras: Number(frecEl.value)
         };
 
         try {

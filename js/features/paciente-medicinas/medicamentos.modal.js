@@ -34,6 +34,7 @@ export function initMedicamentosModal() {
         modalTitle.innerText = "Registrar Medicina";
         form.reset();
         editIdInput.value = "";
+        _clearFieldErrors();
         setSubmitState(false, false);
         modal.classList.add("active");
     };
@@ -47,6 +48,37 @@ export function initMedicamentosModal() {
         e.preventDefault();
 
         if (medicamentosState.guardando) return;
+
+        const fields = [
+            { el: nameInput,           valid: !!nameInput.value.trim() },
+            { el: expirationDateInput, valid: !!expirationDateInput.value }
+        ];
+
+        let hasError = false;
+        fields.forEach(({ el, valid }) => {
+            el.classList.toggle("input-error", !valid);
+            let errMsg = el.parentElement.querySelector(".field-error-msg");
+            if (!valid) {
+                hasError = true;
+                if (!errMsg) {
+                    errMsg = document.createElement("span");
+                    errMsg.className = "field-error-msg";
+                    errMsg.textContent = "Este campo es obligatorio";
+                    el.parentElement.appendChild(errMsg);
+                }
+                el.addEventListener("input", function clear() {
+                    if (el.value.trim()) {
+                        el.classList.remove("input-error");
+                        errMsg?.remove();
+                        el.removeEventListener("input", clear);
+                    }
+                });
+            } else if (errMsg) {
+                errMsg.remove();
+            }
+        });
+
+        if (hasError) return;
 
         const id = editIdInput.value;
         const isEditing = Boolean(id);
@@ -96,6 +128,7 @@ export function abrirModalEditar(med) {
     expirationDateInput.value =
         med.expirationDate.split("T")[0];
 
+    _clearFieldErrors();
     setSubmitState(false, true);
 
     modal.classList.add("active");
@@ -103,4 +136,11 @@ export function abrirModalEditar(med) {
 
 function setSubmitState(isSubmitting, isEditing) {
     submitLock.setLocked(isSubmitting, { isEditing });
+}
+
+function _clearFieldErrors() {
+    [nameInput, expirationDateInput].forEach(el => {
+        el.classList.remove("input-error");
+        el.parentElement.querySelector(".field-error-msg")?.remove();
+    });
 }

@@ -36,3 +36,14 @@
 .edit-input:focus {
   border-color: var(--primary);
 }
+
+.edit-input.input-error {
+  border-color: #ef4444;
+  background: #fff5f5;
+}
+
+.edit-field-error {
+  font-size: 11px;
+  color: #ef4444;
+  margin-top: 2px;
+}
