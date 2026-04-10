@@ -7,11 +7,15 @@ import {
     obtenerPacientePorId,
     desvincularPacienteDelCuidador
 } from "../../services/cuidador.service.js";
+import { obtenerAlarmasDelDia } from "../../services/alarma.service.js";
+import { obtenerMedicinasPaciente } from "../../services/medicina.service.js";
 import { conRetry, esErrorRedFetch } from "./dashboard-cuidador.utils.js";
 import {
     closeUnlinkConfirmModal,
     cerrarModal,
     renderPacientes,
+    renderSidebarStats,
+    renderSidebarStatsAsync,
     setRegisterFormLocked,
     setUnlinkConfirmationLocked,
     setPacientesLoading
@@ -90,6 +94,10 @@ export async function cargarPacientes(elements, handlers = {}) {
         );
 
         renderPacientes(elements, pacientesConDetalle, handlers);
+        renderSidebarStats(elements, pacientesConDetalle);
+
+        // Carga asíncrona de stats que requieren llamadas extra
+        _cargarStatsAsync(elements, pacientesConDetalle);
     } catch (error) {
         elements.patientContainer.innerHTML = "";
 
@@ -125,6 +133,57 @@ export async function registrarPacienteDesdeFormulario(elements, handlers = {}) 
         notifyError(error.message || "Error al registrar paciente");
         setRegisterFormLocked(elements, false);
     }
+}
+
+async function _cargarStatsAsync(elements, pacientes) {
+    if (!pacientes.length) {
+        renderSidebarStatsAsync(elements, { tomasVencidas: "0", tomasProximas: "0", medsPorVencer: "0" });
+        return;
+    }
+
+    const now = new Date();
+    const endOfDay = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 23, 59, 59);
+
+    const [todayResults, medsResults] = await Promise.all([
+        Promise.all(
+            pacientes.map(p =>
+                obtenerAlarmasDelDia(p.id).catch(() => [])
+            )
+        ),
+        Promise.all(
+            pacientes.map(p =>
+                obtenerMedicinasPaciente(p.id).catch(() => [])
+            )
+        )
+    ]);
+
+    let tomasVencidas = 0;
+    let tomasProximas = 0;
+    todayResults.forEach(tomas => {
+        (Array.isArray(tomas) ? tomas : []).forEach(t => {
+            if (t.estado !== "PENDIENTE") return;
+            const hora = new Date(t.fechaHora);
+            if (hora < now) tomasVencidas++;
+            else if (hora <= endOfDay) tomasProximas++;
+        });
+    });
+
+    let medsPorVencer = 0;
+    medsResults.forEach(lista => {
+        (Array.isArray(lista) ? lista : []).forEach(med => {
+            if (!med.expirationDate) return;
+            const exp = new Date(med.expirationDate);
+            if (Number.isNaN(exp.getTime())) return;
+            const limite = new Date(now.getFullYear(), now.getMonth(), now.getDate() + 30, 23, 59, 59);
+            if (exp >= now && exp <= limite) medsPorVencer++;
+        });
+    });
+
+    renderSidebarStatsAsync(elements, {
+        tomasVencidas: String(tomasVencidas),
+        tomasProximas: String(tomasProximas),
+        medsPorVencer: String(medsPorVencer)
+    });
 }
 
 export async function desvincularPacienteDesdeDashboard(elements, paciente, handlers = {}) {

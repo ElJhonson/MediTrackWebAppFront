@@ -23,7 +23,12 @@ export function getDashboardElements() {
         btnCloseUnlinkConfirm: document.getElementById("btnCloseUnlinkConfirm"),
         btnCancelUnlink: document.getElementById("btnCancelUnlink"),
         btnConfirmUnlink: document.getElementById("btnConfirmUnlink"),
-        unlinkConfirmMessage: document.getElementById("unlinkConfirmMessage")
+        unlinkConfirmMessage: document.getElementById("unlinkConfirmMessage"),
+        statTotalPacientes: document.getElementById("statTotalPacientes"),
+        statConCondiciones: document.getElementById("statConCondiciones"),
+        statTomasVencidas:  document.getElementById("statTomasVencidas"),
+        statTomasProximas:  document.getElementById("statTomasProximas"),
+        statMedsPorVencer:  document.getElementById("statMedsPorVencer")
     };
 }
 

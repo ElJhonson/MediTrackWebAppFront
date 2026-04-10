@@ -53,6 +53,19 @@ function _sectionSkeleton(id) {
     </div>`;
 }
 
+function _sortMedicinasPorVencimiento(medicinas = []) {
+  return [...medicinas].sort((a, b) => {
+    const fechaA = new Date(a.expirationDate ?? a.fechaFin ?? 0).getTime();
+    const fechaB = new Date(b.expirationDate ?? b.fechaFin ?? 0).getTime();
+
+    if (Number.isNaN(fechaA) && Number.isNaN(fechaB)) return 0;
+    if (Number.isNaN(fechaA)) return 1;
+    if (Number.isNaN(fechaB)) return -1;
+
+    return fechaA - fechaB;
+  });
+}
+
 // ── Metrics ───────────────────────────────────────────────────────────────────
 
 function _renderMetrics(alarmas, medicinas) {
@@ -194,12 +207,78 @@ function _renderMedicamentosActivos(medicinas) {
   el.innerHTML = `<div class="ds-med-list">${rows}</div>`;
 }
 
+function _renderMedicamentosPorVencer(medicinas) {
+  const el = document.getElementById("medicamentosPorVencerContent");
+  if (!el) return;
+
+  const porVencer = _sortMedicinasPorVencimiento(
+    medicinas.filter(m => {
+      const dias = _diasRestantes(m.expirationDate ?? m.fechaFin);
+      return dias !== null && dias >= 0 && dias <= 30;
+    })
+  ).slice(0, 6);
+
+  if (!porVencer.length) {
+    el.innerHTML = `
+      <div class="ds-empty ds-empty-compact">
+        <div class="ds-empty-icon">OK</div>
+        <p>No hay medicinas proximas a vencer en los siguientes 30 dias.</p>
+      </div>`;
+    return;
+  }
+
+  const rows = porVencer
+    .map(m => {
+      const dias = _diasRestantes(m.expirationDate ?? m.fechaFin);
+      const fecha = new Date(m.expirationDate ?? m.fechaFin);
+      const fechaTexto = Number.isNaN(fecha.getTime())
+        ? "Fecha no disponible"
+        : fecha.toLocaleDateString("es-MX");
+      const estado = dias <= 7 ? "Urgente" : "Proximo";
+      const estadoClass = dias <= 7 ? "is-urgent" : "is-warning";
+      const diasTexto = dias === 0
+        ? "Vence hoy"
+        : `Vence en ${dias} dia${dias !== 1 ? "s" : ""}`;
+
+      return `
+        <div class="ds-exp-row">
+          <div class="ds-exp-info">
+            <div class="ds-exp-name">${m.nombre || "Medicamento"}</div>
+            <div class="ds-exp-meta">${fechaTexto}${m.dosageForm ? ` · ${m.dosageForm}` : ""}</div>
+          </div>
+          <div class="ds-exp-side">
+            <span class="ds-badge ${estadoClass}">${estado}</span>
+            <span class="ds-exp-days">${diasTexto}</span>
+          </div>
+        </div>`;
+    })
+    .join("");
+
+  const total = medicinas.filter(m => {
+    const dias = _diasRestantes(m.expirationDate ?? m.fechaFin);
+    return dias !== null && dias >= 0 && dias <= 30;
+  }).length;
+
+  const verMas = total > porVencer.length
+    ? `<a class="ds-ver-todas" href="${ROUTES.MEDICAMENTOS}">Ver todas (${total}) -></a>`
+    : "";
+
+  el.innerHTML = `
+    <div class="ds-exp-summary">
+      <strong>${total}</strong>
+      <span>medicinas por vencer en 30 dias</span>
+    </div>
+    <div class="ds-exp-list">${rows}</div>
+    ${verMas}`;
+}
+
 // ── Entry point ───────────────────────────────────────────────────────────────
 
 export async function initDailySection() {
   _metricsSkeleton();
   _sectionSkeleton("tomasHoyContent");
   _sectionSkeleton("medicamentosActivosContent");
+  _sectionSkeleton("medicamentosPorVencerContent");
 
   const [alarmas, medicinas] = await Promise.all([
     obtenerAlarmasDelDia().catch(() => []),
@@ -209,4 +288,5 @@ export async function initDailySection() {
   _renderMetrics(alarmas, medicinas);
   _renderTomasHoy(alarmas);
   _renderMedicamentosActivos(medicinas);
+  _renderMedicamentosPorVencer(medicinas);
 }

@@ -24,13 +24,23 @@
 /* ── Dos columnas ── */
 .ds-two-col {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) minmax(280px, 0.85fr);
   gap: 16px;
   margin-top: 0;
+  align-items: start;
 }
 
 .ds-col {
   min-width: 0;
+}
+
+.ds-col-sidebar {
+  position: sticky;
+  top: 1.5rem;
+}
+
+.ds-section-sidebar {
+  max-height: 520px;
 }
 
 /* ── Responsive ── */
@@ -43,6 +53,10 @@
 @media (max-width: 640px) {
   .ds-two-col {
     grid-template-columns: 1fr;
+  }
+
+  .ds-col-sidebar {
+    position: static;
   }
 }
 

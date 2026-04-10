@@ -18,7 +18,7 @@ function _mostrarModoCrear(elements) {
     elements.btnVerDetallesAlarma.style.display = "none";
 }
 
-function _mostrarModoVer(elements, config) {
+function _mostrarModoVer(elements, config, pacienteId) {
     elements.modalAlarmaTitle.textContent = "Configuración de alarma";
     _clearAlarmaErrors(elements);
     elements.alarmaFechaInicio.value = config.fechaInicio?.slice(0, 16) ?? "";
@@ -30,7 +30,11 @@ function _mostrarModoVer(elements, config) {
     elements.btnGuardarAlarma.style.display = "none";
     elements.btnVerDetallesAlarma.style.display = "";
     const configId = config.id ?? config.configId ?? "";
-    elements.btnVerDetallesAlarma.href = `/pages/alarmas.html${configId ? "?id=" + configId : ""}`;
+    const params = new URLSearchParams();
+    if (pacienteId) params.set("pacienteId", pacienteId);
+    if (configId)   params.set("id", configId);
+    const qs = params.toString();
+    elements.btnVerDetallesAlarma.href = `/pages/cuidador-alarmas.html${qs ? "?" + qs : ""}`;
 }
 
 export function createCuidadorAlarmaModule({ elements, state, notify, onAlarmaGuardada }) {
@@ -134,7 +138,7 @@ export function createCuidadorAlarmaModule({ elements, state, notify, onAlarmaGu
 
         const config = state.alarmasConfig.find(a => Number(a.medicinaId) === Number(medicinaId));
         if (config) {
-            _mostrarModoVer(elements, config);
+            _mostrarModoVer(elements, config, state.pacienteId);
         } else {
             _mostrarModoCrear(elements);
         }

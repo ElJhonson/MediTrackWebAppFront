@@ -3,21 +3,24 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>MediTrack — Recordatorios</title>
-  <link rel="stylesheet" href="../styles/alarmas/index.css" />
+  <title>MediTrack — Recordatorios del Paciente</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../styles/cuidador-alarmas/index.css" />
 </head>
 <body>
 
   <!-- ── Topbar ── -->
   <header class="main-header">
     <div class="logo-block">
-      <div class="logo">Gestión de Horarios Médicos</div>
-      <div class="logo-slogan">Organiza tus tomas y mantén tu bienestar bajo control.</div>
+      <div class="logo">Gestión de Recordatorios</div>
+      <div class="logo-slogan">Supervisa y gestiona los horarios médicos del paciente vinculado.</div>
     </div>
     <nav class="nav-links nav-links--center">
-      <a href="dashboard-paciente.html">Inicio</a>
-      <a href="alarmas.html" class="active">Recordatorios</a>
-      <a href="medicamentos.html">Medicamentos</a>
+      <a href="dashboard-cuidador.html">Inicio</a>
+      <a href="cuidador-medicinas.html">Medicinas</a>
+      <a href="cuidador-alarmas.html" class="active">Recordatorios</a>
     </nav>
     <div class="account-menu" id="accountMenuWrap">
       <button
@@ -27,8 +30,8 @@
         aria-haspopup="menu"
         aria-expanded="false"
       >
-        <span class="account-avatar" id="alarmas-user-avatar" aria-hidden="true"></span>
-        <span id="alarmas-user-name"></span>
+        <span class="account-avatar" id="cuidadorAvatar" aria-hidden="true"></span>
+        <span id="cuidadorName"></span>
         <svg class="account-arrow" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none"
           stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
           <polyline points="6 9 12 15 18 9"></polyline>
@@ -48,6 +51,34 @@
     </div>
   </header>
 
+  <!-- ── Barra de contexto del paciente ── -->
+  <div class="patient-context-bar">
+    <div class="patient-context-left">
+      <div class="patient-context-avatar" id="patientContextAvatar" aria-hidden="true"></div>
+      <div class="patient-context-info">
+        <span class="patient-context-label">Paciente:</span>
+        <span class="patient-context-name" id="patientContextName">Cargando...</span>
+      </div>
+    </div>
+    <p class="patient-context-notice">Estás gestionando los recordatorios de tu paciente. Los cambios afectan su cuenta.</p>
+    <div class="patient-selector-wrap" id="patientSelectorWrap">
+      <button
+        class="patient-selector-btn"
+        id="patientSelectorBtn"
+        type="button"
+        aria-haspopup="listbox"
+        aria-expanded="false"
+      >
+        Cambiar paciente
+        <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none"
+          stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <polyline points="6 9 12 15 18 9"></polyline>
+        </svg>
+      </button>
+      <div class="patient-selector-dropdown" id="patientSelectorDropdown" role="listbox"></div>
+    </div>
+  </div>
+
   <!-- ── Contenido principal ── -->
   <div class="content">
 
@@ -56,10 +87,8 @@
       <div class="stat-card">
         <div class="stat-label">Alarmas activas</div>
         <div class="stat-value" id="statActive">0</div>
-        <div class="stat-sub" id="statActiveSub"><span class="stat-dot" 
-          style="background:var(--primary)"></span>En curso</div>
-        <div class="stat-bar"><div class="stat-bar-fill" id="barActive" 
-          style="width:0%"></div></div>
+        <div class="stat-sub" id="statActiveSub"><span class="stat-dot" style="background:var(--primary)"></span>En curso</div>
+        <div class="stat-bar"><div class="stat-bar-fill" id="barActive" style="width:0%"></div></div>
       </div>
       <div class="stat-card">
         <div class="stat-label">Tomas hoy</div>
@@ -86,13 +115,12 @@
       <!-- Panel izquierdo: lista -->
       <section class="list-panel">
         <div class="list-panel-head">
-          <div class="list-panel-title">Mis recordatorios</div>
+          <div class="list-panel-title">Recordatorios del paciente</div>
           <div class="list-panel-sub">Selecciona un item para ver el detalle</div>
           <div class="filters-row">
             <div class="tabs">
               <button class="tab-btn active" data-filter="all">Todos</button>
               <button class="tab-btn" data-filter="active">Activos</button>
-
             </div>
             <div class="search-box">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -120,7 +148,7 @@
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
       <polyline points="20 6 9 17 4 12"/>
     </svg>
-    <span id="toastMsg">Alarma creada exitosamente</span>
+    <span id="toastMsg">Operación exitosa</span>
   </div>
 
   <!-- Modal confirmación eliminar alarma -->
@@ -130,17 +158,15 @@
         <h3 id="deleteAlarmTitle">Confirmar eliminación</h3>
         <button class="close-btn" id="btnCloseDeleteAlarm" type="button" aria-label="Cerrar">&times;</button>
       </div>
-      <p class="confirm-message">Esta acción eliminará la alarma seleccionada. 
+      <p class="confirm-message">Esta acción eliminará la alarma del paciente.
         ¿Deseas continuar?</p>
       <div class="confirm-actions">
-        <button class="btn-cancel" id="btnCancelDeleteAlarm" 
-        type="button">Cancelar</button>
-        <button class="btn-danger" id="btnConfirmDeleteAlarm" 
-        type="button">Eliminar</button>
+        <button class="btn-cancel" id="btnCancelDeleteAlarm" type="button">Cancelar</button>
+        <button class="btn-danger" id="btnConfirmDeleteAlarm" type="button">Eliminar</button>
       </div>
     </div>
   </div>
 
-  <script type="module" src="../js/pages/alarmas.page.js"></script>
+  <script type="module" src="../js/pages/cuidador-alarmas.page.js"></script>
 </body>
-</html> 
+</html>

@@ -43,3 +43,86 @@
   color: var(--text-muted);
   margin-top: 2px;
 }
+
+.ds-exp-summary {
+  display: flex;
+  align-items: baseline;
+  gap: 0.45rem;
+  margin-bottom: 1rem;
+  color: var(--text-muted);
+  font-family: var(--font-primary);
+  font-size: 0.82rem;
+}
+
+.ds-exp-summary strong {
+  font-size: 1.75rem;
+  line-height: 1;
+  color: var(--text-dark-main);
+}
+
+.ds-exp-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.ds-exp-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 0.75rem;
+  padding: 0.85rem 0.95rem;
+  border: 1px solid var(--border-soft);
+  border-radius: 12px;
+  background: linear-gradient(180deg, #fffdf7 0%, #ffffff 100%);
+}
+
+.ds-exp-info {
+  min-width: 0;
+  flex: 1;
+}
+
+.ds-exp-name {
+  font-family: var(--font-primary);
+  font-size: 0.92rem;
+  font-weight: 700;
+  color: var(--text-dark-main);
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.ds-exp-meta {
+  margin-top: 0.2rem;
+  color: var(--text-muted);
+  font-size: 0.78rem;
+}
+
+.ds-exp-side {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 0.35rem;
+  flex-shrink: 0;
+}
+
+.ds-exp-days {
+  color: var(--text-muted);
+  font-size: 0.76rem;
+  white-space: nowrap;
+}
+
+.ds-badge.is-warning {
+  background: #fef3c7;
+  color: #92400e;
+  border-color: #fde68a;
+}
+
+.ds-badge.is-urgent {
+  background: #fee2e2;
+  color: #b91c1c;
+  border-color: #fecaca;
+}
+
+.ds-empty-compact {
+  min-height: 180px;
+}

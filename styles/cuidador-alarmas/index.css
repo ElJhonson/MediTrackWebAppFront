@@ -1,0 +1,196 @@
+@import url('../variables.css');
+@import url('../medicamentos/header.css');
+@import url('../alarmas/topbar.css');
+@import url('../alarmas/layout.css');
+@import url('../alarmas/cards.css');
+@import url('../alarmas/modal.css');
+@import url('../alarmas/responsive.css');
+
+/* ── Reset ── */
+*, *::before, *::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: var(--font-primary), sans-serif;
+  background: var(--bg-main);
+  color: var(--text-dark-main);
+  min-height: 100vh;
+  line-height: 1.6;
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  overflow: hidden;
+}
+
+/* ── Barra de contexto del paciente ── */
+.patient-context-bar {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: var(--white);
+  border-bottom: 1px solid var(--border-soft);
+  padding: 8px 28px;
+  gap: 12px;
+}
+
+.patient-context-left {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.patient-context-avatar {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: var(--primary-light);
+  color: var(--primary);
+  font-size: 12px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.patient-context-info {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+}
+
+.patient-context-label {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.patient-context-name {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--text-dark-main);
+}
+
+/* ── Selector de paciente ── */
+.patient-context-notice {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 11.5px;
+  font-weight: 500;
+  color: var(--text-muted);
+  text-align: center;
+  pointer-events: none;
+  white-space: nowrap;
+}
+
+.patient-selector-wrap {
+  position: relative;
+}
+
+.patient-selector-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  font-family: var(--font-primary);
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--primary);
+  background: var(--primary-light);
+  border: 1px solid rgba(0, 123, 255, 0.25);
+  border-radius: 8px;
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.patient-selector-btn:hover {
+  background: #c8e3ff;
+}
+
+.patient-selector-wrap.open .patient-selector-btn svg {
+  transform: rotate(180deg);
+}
+
+.patient-selector-dropdown {
+  display: none;
+  position: absolute;
+  top: calc(100% + 6px);
+  right: 0;
+  background: var(--white);
+  border: 1px solid var(--border-soft);
+  border-radius: 10px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+  min-width: 180px;
+  z-index: 200;
+  overflow: hidden;
+}
+
+.patient-selector-wrap.open .patient-selector-dropdown {
+  display: block;
+}
+
+.patient-option {
+  display: block;
+  width: 100%;
+  padding: 10px 14px;
+  background: transparent;
+  border: none;
+  text-align: left;
+  font-family: var(--font-primary);
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text-dark-main);
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+.patient-option:hover {
+  background: var(--bg-main);
+}
+
+.patient-option.active {
+  background: var(--primary-light);
+  color: var(--primary);
+  font-weight: 700;
+}
+
+/* ── Ajuste del contenido para la barra extra ── */
+.content {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  padding: 22px 28px;
+  overflow: hidden;
+}
+
+/* ── Loading state en la lista ── */
+.alarm-list-loading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 48px 24px;
+  color: var(--text-muted);
+  font-size: 13px;
+}
+
+.alarm-list-loading svg {
+  width: 36px;
+  height: 36px;
+  stroke: var(--primary);
+  opacity: 0.5;
+}

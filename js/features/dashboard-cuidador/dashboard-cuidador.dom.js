@@ -137,6 +137,22 @@ function solicitarConfirmacionDesvincular(elements, pacienteNombre) {
     return getUnlinkConfirmation(elements).open();
 }
 
+export function renderSidebarStats(elements, pacientes) {
+    const total = pacientes.length;
+    const conCondiciones = pacientes.filter(
+        p => Array.isArray(p.enfermedadesCronicas) && p.enfermedadesCronicas.length > 0
+    ).length;
+
+    if (elements.statTotalPacientes) elements.statTotalPacientes.textContent = total || "0";
+    if (elements.statConCondiciones) elements.statConCondiciones.textContent = conCondiciones || "0";
+}
+
+export function renderSidebarStatsAsync(elements, { tomasVencidas, tomasProximas, medsPorVencer }) {
+    if (elements.statTomasVencidas) elements.statTomasVencidas.textContent = tomasVencidas;
+    if (elements.statTomasProximas) elements.statTomasProximas.textContent = tomasProximas;
+    if (elements.statMedsPorVencer) elements.statMedsPorVencer.textContent = medsPorVencer;
+}
+
 export function renderPacientes(elements, pacientesConDetalle, handlers = {}) {
     ensurePatientMenuDismissBehavior(elements);
 
@@ -216,6 +232,12 @@ export function renderPacientes(elements, pacientesConDetalle, handlers = {}) {
             .addEventListener("click", () => {
                 const patientName = encodeURIComponent(p.name || "Paciente");
                 window.location.href = `../../pages/cuidador-medicinas.html?pacienteId=${p.id}&pacienteNombre=${patientName}`;
+            });
+
+        card.querySelector(".btn-notes")
+            .addEventListener("click", () => {
+                const patientName = encodeURIComponent(p.name || "Paciente");
+                window.location.href = `../../pages/cuidador-alarmas.html?pacienteId=${p.id}&pacienteNombre=${patientName}`;
             });
 
         const conditionsDiv = card.querySelector(".patient-conditions");

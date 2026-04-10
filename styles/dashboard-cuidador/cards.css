@@ -358,6 +358,66 @@
     color: var(--danger-dark);
 }
 
+/* Sidebar — tarjetas de estadísticas reales */
+.stat-summary-card {
+    background: var(--white);
+    border-radius: 14px;
+    padding: 1.4rem 1.5rem;
+    box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+    margin-bottom: 1.2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    border-left: 5px solid transparent;
+}
+
+.stat-summary--blue   { border-left-color: var(--primary); }
+.stat-summary--green  { border-left-color: #4CAF50; }
+.stat-summary--orange { border-left-color: #f59e0b; }
+.stat-summary--red    { border-left-color: var(--danger); }
+
+.stat-summary-value-row {
+    display: flex;
+    align-items: baseline;
+    gap: 4px;
+}
+
+.stat-sub-val {
+    font-family: var(--font-primary);
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--text-dark-main);
+    line-height: 1;
+}
+
+.stat-sub-val--muted {
+    color: var(--text-muted);
+    font-size: 1.5rem;
+}
+
+.stat-sub-sep {
+    font-family: var(--font-primary);
+    font-size: 1.4rem;
+    font-weight: 400;
+    color: var(--text-muted);
+    line-height: 1;
+}
+
+.stat-summary-value {
+    font-family: var(--font-primary);
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--text-dark-main);
+    line-height: 1;
+}
+
+.stat-summary-label {
+    font-family: var(--font-primary);
+    font-size: 0.82rem;
+    font-weight: 500;
+    color: var(--text-muted);
+}
+
 /* Sidebar Estilo tarjetas originales */
 .service-card {
     background-color: #ffffff;

@@ -86,16 +86,28 @@
 
 
             <aside class="sidebar-stats">
-                <div class="service-card schedules">
-                    <div class="icon">📅</div>
-                    <h3>Calendario Global</h3>
-                    <p>Ver todas las citas</p>
+                <div class="stat-summary-card stat-summary--blue">
+                    <div class="stat-summary-value" id="statTotalPacientes">—</div>
+                    <div class="stat-summary-label">Pacientes vinculados</div>
                 </div>
 
-                <div class="service-card history">
-                    <div class="icon">📊</div>
-                    <h3>Reportes Médicos</h3>
-                    <p>Exportar PDF semanal</p>
+                <div class="stat-summary-card stat-summary--green">
+                    <div class="stat-summary-value" id="statConCondiciones">—</div>
+                    <div class="stat-summary-label">Con condiciones crónicas</div>
+                </div>
+
+                <div class="stat-summary-card stat-summary--red">
+                    <div class="stat-summary-value-row">
+                        <span class="stat-sub-val" id="statTomasVencidas">—</span>
+                        <span class="stat-sub-sep">/</span>
+                        <span class="stat-sub-val stat-sub-val--muted" id="statTomasProximas">—</span>
+                    </div>
+                    <div class="stat-summary-label">Tomas vencidas / próximas hoy</div>
+                </div>
+
+                <div class="stat-summary-card stat-summary--orange">
+                    <div class="stat-summary-value" id="statMedsPorVencer">—</div>
+                    <div class="stat-summary-label">Medicamentos por vencer (30 días)</div>
                 </div>
             </aside>
 
