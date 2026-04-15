@@ -1,5 +1,5 @@
 import { logout } from "../../core/auth.js";
-import { setupPhoneInputValidation } from "../../utils/form-validation.js";
+import { setupPhoneInputValidation, applySpanishValidationMessages } from "../../utils/form-validation.js";
 import { notifyError } from "../../core/notify.js";
 import { renderPerfilCuidadorError, closeReauthModal } from "./perfil-cuidador.dom.js";
 import { bindPerfilCuidadorEvents } from "./perfil-cuidador.events.js";
@@ -18,6 +18,7 @@ export async function initPerfilCuidador() {
     }
 
     setupPhoneInputValidation(elements.inputPhone);
+    applySpanishValidationMessages(elements.caregiverProfileForm);
     setTopbarData(elements);
 
     const actions = createPerfilCuidadorActions({ elements });

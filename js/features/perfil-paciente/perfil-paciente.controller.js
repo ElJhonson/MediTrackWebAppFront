@@ -1,5 +1,5 @@
 import { logout } from "../../core/auth.js";
-import { setupPhoneInputValidation, setupCurpInputValidation } from "../../utils/form-validation.js";
+import { setupPhoneInputValidation, setupCurpInputValidation, applySpanishValidationMessages } from "../../utils/form-validation.js";
 import { notifyError } from "../../core/notify.js";
 import { perfilPacienteState, getPerfilPacienteElements, hasRequiredPerfilPacienteElements } from "./perfil-paciente.state.js";
 import { createPerfilPacienteActions } from "./perfil-paciente.actions.js";
@@ -95,6 +95,7 @@ export async function initPerfilPaciente() {
     // Configurar validaciones
     setupPhoneInputValidation(elements.inputPhone);
     setupCurpInputValidation(elements.inputCurp);
+    applySpanishValidationMessages(elements.profileForm);
     initVisibilityButtons();
     setTopbarTitle(elements);
     setTopbarNavigation(elements);

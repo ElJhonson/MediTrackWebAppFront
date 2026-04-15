@@ -53,12 +53,23 @@ export function applySpanishValidationMessages(targetForm) {
             if (field.id === "phoneNumber") {
                 const digits = sanitizePhoneValue(field.value);
                 if (digits.length !== PHONE_DIGITS) {
-                    field.setCustomValidity("El numero de telefono debe tener 10 digitos.");
+                    field.setCustomValidity("El número de teléfono debe tener 10 dígitos.");
                     return;
                 }
             }
 
-            field.setCustomValidity("Valor no valido.");
+            if (field.type === "password" || field.id.toLowerCase().includes("password")) {
+                if (field.validity.tooShort) {
+                    field.setCustomValidity("La contraseña debe tener al menos 8 caracteres.");
+                    return;
+                }
+                if (field.validity.patternMismatch) {
+                    field.setCustomValidity("La contraseña debe tener mayúscula, minúscula y número.");
+                    return;
+                }
+            }
+
+            field.setCustomValidity("Valor no válido.");
         });
 
         field.addEventListener("input", () => {

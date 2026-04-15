@@ -47,6 +47,8 @@ export function initAlarmaModal() {
     form.onsubmit = async (e) => {
         e.preventDefault();
 
+        if (form.dataset.submitting === "true") return;
+
         const inicioEl = document.getElementById("fechaInicio");
         const finEl    = document.getElementById("fechaFin");
         const frecEl   = document.getElementById("frecuenciaHoras");
@@ -91,6 +93,11 @@ export function initAlarmaModal() {
 
         if (hasError) return;
 
+        form.dataset.submitting = "true";
+        btnGuardar.disabled = true;
+        const originalText = btnGuardar.textContent;
+        btnGuardar.textContent = "Guardando...";
+
         const dto = {
             medicinaId: Number(document.getElementById("alarmaMedicinaId").value),
             fechaInicio: inicioEl.value,
@@ -124,6 +131,10 @@ export function initAlarmaModal() {
         } catch (error) {
             console.error("Error al configurar alarma:", error);
             notifyError(error.message || "Hubo un error al guardar la alarma.");
+        } finally {
+            delete form.dataset.submitting;
+            btnGuardar.disabled = false;
+            btnGuardar.textContent = originalText;
         }
     };
 }

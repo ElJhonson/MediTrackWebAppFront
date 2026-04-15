@@ -51,6 +51,8 @@ export function createCuidadorAlarmaModule({ elements, state, notify, onAlarmaGu
         elements.alarmaForm.onsubmit = async (e) => {
             e.preventDefault();
 
+            if (elements.alarmaForm.dataset.submitting === "true") return;
+
             const inicioEl = elements.alarmaFechaInicio;
             const finEl    = elements.alarmaFechaFin;
             const frecEl   = elements.alarmaFrecuenciaHoras;
@@ -94,6 +96,11 @@ export function createCuidadorAlarmaModule({ elements, state, notify, onAlarmaGu
 
             if (hasError) return;
 
+            elements.alarmaForm.dataset.submitting = "true";
+            const originalText = elements.btnGuardarAlarma.textContent;
+            elements.btnGuardarAlarma.disabled = true;
+            elements.btnGuardarAlarma.textContent = "Guardando...";
+
             const dto = {
                 medicinaId: Number(elements.alarmaMedicinaId.value),
                 pacienteId: Number(state.pacienteId),
@@ -101,9 +108,6 @@ export function createCuidadorAlarmaModule({ elements, state, notify, onAlarmaGu
                 fechaFin: finEl.value,
                 frecuenciaHoras: Number(frecEl.value)
             };
-
-            elements.btnGuardarAlarma.disabled = true;
-            elements.btnGuardarAlarma.textContent = "Guardando...";
 
             try {
                 const nuevaConfig = await crearAlarmaConfig(dto);
@@ -124,8 +128,9 @@ export function createCuidadorAlarmaModule({ elements, state, notify, onAlarmaGu
                 console.error("Error al configurar alarma:", error);
                 notify.error(error.message || "Hubo un error al guardar la alarma.");
             } finally {
+                delete elements.alarmaForm.dataset.submitting;
                 elements.btnGuardarAlarma.disabled = false;
-                elements.btnGuardarAlarma.textContent = "Guardar alarma";
+                elements.btnGuardarAlarma.textContent = originalText;
             }
         };
     }
