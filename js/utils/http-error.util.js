@@ -69,10 +69,22 @@ function pareceHtml(raw) {
     return text.startsWith("<!doctype") || text.startsWith("<html") || text.startsWith("<body");
 }
 
+
 export function normalizarMensajeError(data) {
     if (typeof data === "string") return limpiarMensaje(data);
     if (!data || typeof data !== "object") return "";
 
+    // 🔥 PRIMERO manejar errores de validación
+    if (data.errors && typeof data.errors === "object") {
+        const valores = Object.values(data.errors);
+
+        for (const val of valores) {
+            const limpio = limpiarMensaje(val);
+            if (limpio && !esMensajeGenerico(limpio)) return limpio;
+        }
+    }
+
+    // 🔽 DESPUÉS los genéricos
     const candidatos = [
         data.mensaje,
         data.message,
@@ -85,11 +97,6 @@ export function normalizarMensajeError(data) {
     for (const candidato of candidatos) {
         const limpio = limpiarMensaje(candidato);
         if (limpio && !esMensajeGenerico(limpio)) return limpio;
-    }
-
-    if (Array.isArray(data.errors) && data.errors.length > 0) {
-        const limpio = obtenerMensajeRecursivo(data.errors[0]);
-        if (limpio) return limpio;
     }
 
     return obtenerMensajeRecursivo(data);
