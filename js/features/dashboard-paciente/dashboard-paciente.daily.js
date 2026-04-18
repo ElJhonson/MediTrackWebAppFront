@@ -4,7 +4,7 @@ import { ROUTES } from "../../core/config.js";
 
 const ESTADO = {
   TOMADA:   { bg: "#dcfce7", color: "#166534", border: "#bbf7d0", label: "Tomada"   },
-  PROXIMA:  { bg: "#fef3c7", color: "#92400e", border: "#fde68a", label: "Próxima"  },
+  PROXIMA:  { bg: "#eff6ff", color: "#1d4ed8", border: "#bfdbfe", label: "Pendiente"  },
   ATRASADA: { bg: "#fee2e2", color: "#b91c1c", border: "#fecaca", label: "Atrasada" },
   OMITIDA:  { bg: "#fee2e2", color: "#b91c1c", border: "#fecaca", label: "Omitida"  }
 };

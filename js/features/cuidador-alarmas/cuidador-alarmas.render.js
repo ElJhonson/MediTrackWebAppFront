@@ -106,7 +106,10 @@ function buildDetailHtml(a) {
     ? tomasHoy.map(t => {
         const hora  = new Date(t.fechaHora).toLocaleTimeString("es-MX", { hour: "2-digit", minute: "2-digit" });
         const label = ESTADO_LABEL[t.estado] ?? t.estado ?? "";
-        return `<span class="next-pill">${hora}${label ? " · " + label : ""}</span>`;
+        let extraClass = "";
+        if (t.estado === "TOMADA") extraClass = " next-pill-tomada";
+        else if (t.estado === "OMITIDA") extraClass = " next-pill-omitida";
+        return `<span class="next-pill${extraClass}">${hora}${label ? " · " + label : ""}</span>`;
       }).join("")
     : `<div class="no-next">
         <div class="no-next-icon">
