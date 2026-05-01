@@ -157,3 +157,130 @@ body.medicamentos-page {
     color: var(--text-dark-main);
     line-height: 1.6;
 }
+
+/* ========================================
+   GLOBAL RESPONSIVE STYLES
+   ======================================== */
+
+/* Mobile Menu Button */
+.mobile-menu-btn {
+  display: none;
+  background: none;
+  border: 1px solid var(--border-soft);
+  border-radius: 6px;
+  font-size: 20px;
+  padding: 4px 10px;
+  color: var(--text-dark-main);
+  cursor: pointer;
+  margin-right: 10px;
+}
+
+/* Master Detail Back Button */
+.mobile-back-btn {
+  display: none;
+  background: transparent;
+  border: none;
+  color: var(--primary);
+  font-size: 14px;
+  font-weight: 600;
+  padding: 10px 15px;
+  cursor: pointer;
+  align-items: center;
+  gap: 5px;
+  width: 100%;
+  text-align: left;
+  border-bottom: 1px solid var(--border-soft);
+}
+
+@media (max-width: 1024px) {
+  /* Tablet Grids */
+  .stats-row { grid-template-columns: repeat(2, 1fr) !important; }
+  .ds-two-col { grid-template-columns: 1fr 1fr !important; }
+}
+
+@media (max-width: 768px) {
+  /* Mobile Modals */
+  .modal-content, .modal-confirm-content {
+    width: 95% !important;
+    margin: 0 auto;
+    padding: 20px !important;
+  }
+  
+  /* Form Inputs and Buttons */
+  .form-group input, .form-group select, .form-actions button {
+    width: 100% !important;
+  }
+  .form-actions {
+    flex-direction: column !important;
+  }
+  
+  /* Stats Grids */
+  .stats-row { grid-template-columns: 1fr !important; }
+  .ds-two-col { grid-template-columns: 1fr !important; }
+  .services { grid-template-columns: 1fr !important; }
+  .h-stat-compact { flex-direction: column !important; gap: 8px; align-items: flex-start !important; }
+
+  /* Navbars */
+  .nav-links, .nav-links--center {
+    display: none !important;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: var(--white);
+    flex-direction: column;
+    padding: 15px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    transform: none !important;
+    z-index: 100;
+  }
+  .nav-links.open, .nav-links--center.open {
+    display: flex !important;
+  }
+  .mobile-menu-btn {
+    display: block !important;
+  }
+
+  /* Master Detail Layout */
+  .list-detail-layout {
+    grid-template-columns: 1fr !important;
+  }
+  .list-detail-layout .detail-panel {
+    display: none !important;
+  }
+  .list-detail-layout.show-detail .list-panel {
+    display: none !important;
+  }
+  .list-detail-layout.show-detail .panel-divider {
+    display: none !important;
+  }
+  .list-detail-layout.show-detail .detail-panel {
+    display: flex !important;
+  }
+  .mobile-back-btn {
+    display: flex !important;
+  }
+
+  /* History Panel */
+  .history-nav { flex-direction: column; gap: 10px; }
+  
+  /* Touch target size */
+  button, select { min-height: 44px; }
+
+  /* Additional Mobile Adjustments */
+  .form-grid {
+    grid-template-columns: 1fr !important;
+  }
+  .footer-actions, .reauth-actions {
+    flex-direction: column !important;
+  }
+  .footer-actions button, .reauth-actions button {
+    width: 100% !important;
+  }
+  .container {
+    padding: 10px !important;
+  }
+  .profile-card {
+    padding: 20px !important;
+  }
+}

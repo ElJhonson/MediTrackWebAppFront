@@ -291,6 +291,11 @@ export function renderAlarms() {
       item.addEventListener("click", () => {
         const id = parseInt(item.dataset.id);
         alarmasState.selectedId = alarmasState.selectedId === id ? null : id;
+        if (alarmasState.selectedId) {
+            document.querySelector('.list-detail-layout')?.classList.add('show-detail');
+        } else {
+            document.querySelector('.list-detail-layout')?.classList.remove('show-detail');
+        }
         renderAlarms();
       });
     });
