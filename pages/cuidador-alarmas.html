@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -9,6 +10,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="../styles/cuidador-alarmas/index.css" />
 </head>
+
 <body>
 
   <!-- ── Topbar ── -->
@@ -23,17 +25,12 @@
       <a href="cuidador-alarmas.html" class="active">Recordatorios</a>
     </nav>
     <div class="account-menu" id="accountMenuWrap">
-      <button
-        class="account-menu-btn"
-        id="accountMenuBtn"
-        type="button"
-        aria-haspopup="menu"
-        aria-expanded="false"
-      >
+      <button class="account-menu-btn" id="accountMenuBtn" type="button" aria-haspopup="menu" aria-expanded="false">
         <span class="account-avatar" id="cuidadorAvatar" aria-hidden="true"></span>
         <span id="cuidadorName"></span>
-        <svg class="account-arrow" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none"
-          stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <svg class="account-arrow" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24"
+          fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+          aria-hidden="true">
           <polyline points="6 9 12 15 18 9"></polyline>
         </svg>
       </button>
@@ -60,15 +57,11 @@
         <span class="patient-context-name" id="patientContextName">Cargando...</span>
       </div>
     </div>
-    <p class="patient-context-notice">Estás gestionando los recordatorios de tu paciente. Los cambios afectan su cuenta.</p>
+    <p class="patient-context-notice">Estás gestionando los recordatorios de tu paciente. Los cambios afectan su cuenta.
+    </p>
     <div class="patient-selector-wrap" id="patientSelectorWrap">
-      <button
-        class="patient-selector-btn"
-        id="patientSelectorBtn"
-        type="button"
-        aria-haspopup="listbox"
-        aria-expanded="false"
-      >
+      <button class="patient-selector-btn" id="patientSelectorBtn" type="button" aria-haspopup="listbox"
+        aria-expanded="false">
         Cambiar paciente
         <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none"
           stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
@@ -87,14 +80,20 @@
       <div class="stat-card">
         <div class="stat-label">Alarmas activas</div>
         <div class="stat-value" id="statActive">0</div>
-        <div class="stat-sub" id="statActiveSub"><span class="stat-dot" style="background:var(--primary)"></span>En curso</div>
-        <div class="stat-bar"><div class="stat-bar-fill" id="barActive" style="width:0%"></div></div>
+        <div class="stat-sub" id="statActiveSub"><span class="stat-dot" style="background:var(--primary)"></span>En
+          curso</div>
+        <div class="stat-bar">
+          <div class="stat-bar-fill" id="barActive" style="width:0%"></div>
+        </div>
       </div>
       <div class="stat-card">
         <div class="stat-label">Tomas hoy</div>
         <div class="stat-value" id="statToday">0</div>
-        <div class="stat-sub" id="statTodaySub"><span class="stat-dot" style="background:#007bff"></span>Programadas</div>
-        <div class="stat-bar"><div class="stat-bar-fill" id="barToday" style="width:0%;background:#007bff"></div></div>
+        <div class="stat-sub" id="statTodaySub"><span class="stat-dot" style="background:#007bff"></span>Programadas
+        </div>
+        <div class="stat-bar">
+          <div class="stat-bar-fill" id="barToday" style="width:0%;background:#007bff"></div>
+        </div>
       </div>
       <div class="stat-card">
         <div class="stat-label">Próxima alarma</div>
@@ -105,7 +104,9 @@
         <div class="stat-label">Medicamentos</div>
         <div class="stat-value" id="statMeds">—</div>
         <div class="stat-sub"><span class="stat-dot" style="background:#84cc16"></span>Registrados</div>
-        <div class="stat-bar"><div class="stat-bar-fill" style="width:100%"></div></div>
+        <div class="stat-bar">
+          <div class="stat-bar-fill" style="width:100%"></div>
+        </div>
       </div>
     </div>
 
@@ -121,17 +122,83 @@
             <div class="tabs">
               <button class="tab-btn active" data-filter="all">Todos</button>
               <button class="tab-btn" data-filter="active">Activos</button>
+              <button class="tab-btn" data-filter="history">Historial</button>
             </div>
             <div class="search-box">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <circle cx="11" cy="11" r="8"/>
-                <line x1="21" y1="21" x2="16.65" y2="16.65"/>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                stroke-linejoin="round">
+                <circle cx="11" cy="11" r="8" />
+                <line x1="21" y1="21" x2="16.65" y2="16.65" />
               </svg>
               <input type="text" id="searchInput" placeholder="Buscar medicamento..." />
             </div>
           </div>
         </div>
         <div class="alarm-list" id="alarmList"></div>
+        <div class="history-content" id="historyContent" style="display: none;">
+          <div class="history-nav">
+            <button class="h-nav-btn" id="btnPrevWeek" aria-label="Semana anterior">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                stroke-linejoin="round">
+                <polyline points="15 18 9 12 15 6"></polyline>
+              </svg>
+            </button>
+            <div class="h-nav-date">
+              <span id="historyDateRange">Cargando...</span>
+              <div class="h-nav-picker">
+                <button class="h-icon-btn" id="btnCustomDate" aria-label="Seleccionar fecha">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                    stroke-linejoin="round">
+                    <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                    <line x1="16" y1="2" x2="16" y2="6"></line>
+                    <line x1="8" y1="2" x2="8" y2="6"></line>
+                    <line x1="3" y1="10" x2="21" y2="10"></line>
+                  </svg>
+                </button>
+                <input type="date" id="historyDatePicker" />
+              </div>
+            </div>
+            <button class="h-nav-btn" id="btnNextWeek" aria-label="Semana siguiente">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                stroke-linejoin="round">
+                <polyline points="9 18 15 12 9 6"></polyline>
+              </svg>
+            </button>
+          </div>
+
+          <div class="history-stats" id="historyStatsContainer" style="display: none;">
+            <div class="h-stat-compact">
+              <span class="h-stat-item">✅ <span id="hStatTomadas">0</span> Tomadas</span>
+              <span class="h-stat-item">❌ <span id="hStatOmitidas">0</span> Omitidas</span>
+              <span class="h-stat-item">⏳ <span id="hStatPendientes">0</span> Pendientes</span>
+            </div>
+            <div class="h-progress-container">
+              <div class="h-progress-header">
+                <span>Adherencia</span>
+                <span id="hAdherenceText">0%</span>
+              </div>
+              <div class="h-progress">
+                <div class="h-progress-bar bg-green" id="hAdherenceBar" style="width: 0%"></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="history-list" id="historyList"></div>
+
+          <div class="history-empty" id="historyEmpty" style="display: none;">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
+              stroke-linejoin="round">
+              <circle cx="12" cy="12" r="10"></circle>
+              <line x1="12" y1="8" x2="12" y2="12"></line>
+              <line x1="12" y1="16" x2="12.01" y2="16"></line>
+            </svg>
+            <p>Sin registros en este periodo</p>
+          </div>
+          <div class="history-loading" id="historyLoading" style="display: none;">
+            <div class="h-spinner"></div>
+            <p>Cargando historial...</p>
+          </div>
+        </div>
       </section>
 
       <!-- Divisor vertical -->
@@ -145,8 +212,9 @@
 
   <!-- Toast de notificación -->
   <div class="toast" id="toast">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-      <polyline points="20 6 9 17 4 12"/>
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"
+      stroke-linejoin="round">
+      <polyline points="20 6 9 17 4 12" />
     </svg>
     <span id="toastMsg">Operación exitosa</span>
   </div>
@@ -168,6 +236,7 @@
   </div>
 
   <script type="module" src="../js/pages/cuidador-alarmas.page.js"></script>
-<script type="module" src="../js/core/layout.js"></script>
+  <script type="module" src="../js/core/layout.js"></script>
 </body>
+
 </html>

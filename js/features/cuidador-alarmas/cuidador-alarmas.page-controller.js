@@ -108,8 +108,8 @@ async function cambiarPaciente(pacienteId) {
   cuidadorAlarmasState.currentFilter  = "all";
 
   // Resetear UI de filtros
-  document.querySelectorAll(".tab-btn").forEach(t => t.classList.remove("active"));
-  document.querySelector(".tab-btn[data-filter='all']")?.classList.add("active");
+  const tabTodos = document.querySelector(".tab-btn[data-filter='all']");
+  if (tabTodos) tabTodos.click();
   const searchEl = document.getElementById("searchInput");
   if (searchEl) searchEl.value = "";
 

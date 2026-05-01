@@ -1,15 +1,35 @@
 import { cuidadorAlarmasState } from "./cuidador-alarmas.state.js";
 import { renderAlarms, renderDetail, renderDetailEdit } from "./cuidador-alarmas.render.js";
 import { deleteAlarm, updateAlarm } from "./cuidador-alarmas.controller.js";
+import { initHistoryView } from "./cuidador-alarmas.history.js";
 
 export function bindUiEvents() {
   document.querySelectorAll(".tab-btn").forEach(tab => {
     tab.addEventListener("click", () => {
       document.querySelectorAll(".tab-btn").forEach(x => x.classList.remove("active"));
       tab.classList.add("active");
-      cuidadorAlarmasState.currentFilter = tab.dataset.filter;
+      const filter = tab.dataset.filter;
+      cuidadorAlarmasState.currentFilter = filter;
       cuidadorAlarmasState.selectedId = null;
-      renderAlarms();
+
+      const layout = document.querySelector(".list-detail-layout");
+      const alarmList = document.getElementById("alarmList");
+      const searchBox = document.querySelector(".search-box");
+      const historyContent = document.getElementById("historyContent");
+
+      if (filter === "history") {
+        layout?.classList.add("show-history");
+        if(alarmList) alarmList.style.display = "none";
+        if(searchBox) searchBox.style.display = "none";
+        if(historyContent) historyContent.style.display = "flex";
+        initHistoryView();
+      } else {
+        layout?.classList.remove("show-history");
+        if(alarmList) alarmList.style.display = "flex";
+        if(searchBox) searchBox.style.display = "flex";
+        if(historyContent) historyContent.style.display = "none";
+        renderAlarms();
+      }
     });
   });
 
