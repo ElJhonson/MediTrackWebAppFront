@@ -123,3 +123,30 @@ export async function eliminarAlarmaConfig(id) {
         throw new Error(msg || "Error al eliminar la alarma");
     }
 }
+
+/**
+ * Obtener el historial de tomas de alarma
+ * @param {number|string} pacienteId (opcional)
+ * @param {string} fechaInicio YYYY-MM-DD (opcional)
+ * @param {string} fechaFin YYYY-MM-DD (opcional)
+ */
+export async function obtenerHistorial(pacienteId = null, fechaInicio = null, fechaFin = null) {
+    let url = `${BASE_URL}/historial`;
+    const params = new URLSearchParams();
+    
+    if (pacienteId) params.append("pacienteId", pacienteId);
+    if (fechaInicio) params.append("fechaInicio", fechaInicio);
+    if (fechaFin) params.append("fechaFin", fechaFin);
+    
+    const queryString = params.toString();
+    if (queryString) {
+        url += `?${queryString}`;
+    }
+
+    const response = await authFetch(url);
+    if (!response.ok) {
+        const msg = await extraerMensajeError(response);
+        throw new Error(msg || "Error al obtener historial");
+    }
+    return response.json();
+}

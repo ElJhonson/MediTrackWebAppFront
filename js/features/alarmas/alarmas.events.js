@@ -1,15 +1,36 @@
 import { alarmasState } from "./alarmas.state.js";
 import { renderAlarms, renderDetail, renderDetailEdit } from "./alarmas.render.js";
 import { deleteAlarm, updateAlarm } from "./alarmas.controller.js";
+import { initHistoryView } from "./alarmas.history.js";
 
 export function bindUiEvents() {
   document.querySelectorAll(".tab-btn").forEach(tab => {
     tab.addEventListener("click", () => {
       document.querySelectorAll(".tab-btn").forEach(x => x.classList.remove("active"));
       tab.classList.add("active");
-      alarmasState.currentFilter = tab.dataset.filter;
+      
+      const filter = tab.dataset.filter;
+      alarmasState.currentFilter = filter;
       alarmasState.selectedId = null;
-      renderAlarms();
+      
+      const layout = document.querySelector(".list-detail-layout");
+      const alarmList = document.getElementById("alarmList");
+      const searchBox = document.querySelector(".search-box");
+      const historyContent = document.getElementById("historyContent");
+
+      if (filter === "history") {
+        layout.classList.add("show-history");
+        alarmList.style.display = "none";
+        searchBox.style.display = "none";
+        historyContent.style.display = "flex";
+        initHistoryView();
+      } else {
+        layout.classList.remove("show-history");
+        alarmList.style.display = "flex";
+        searchBox.style.display = "flex";
+        historyContent.style.display = "none";
+        renderAlarms();
+      }
     });
   });
 

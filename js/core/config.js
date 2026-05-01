@@ -1,6 +1,6 @@
-export const API_BASE_URL = "https://meditrackwebappback.onrender.com";
+//export const API_BASE_URL = "https://meditrackwebappback.onrender.com";
 
-//export const API_BASE_URL = "http://localhost:8080";
+export const API_BASE_URL = "http://localhost:8080";
 
 export const AUTH_ENDPOINTS = {
     LOGIN: `${API_BASE_URL}/auth/acceder`
@@ -28,4 +28,3 @@ export const ROUTES = Object.freeze({
     PERFIL_CUIDADOR: "/pages/perfil-cuidador.html",
     PERFIL_PACIENTE: "/pages/perfil-paciente.html"
 });
-
