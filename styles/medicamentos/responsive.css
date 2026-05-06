@@ -1,253 +1,305 @@
 /* ════════════════════════════════════════════
-   RESPONSIVE — Medicamentos (mobile-first)
+   RESPONSIVE — Medicamentos
    ════════════════════════════════════════════ */
 
+/* ── Tablet ── */
 @media (max-width: 1024px) {
-  .grid-layout {
-    grid-template-columns: 1fr;
-  }
+    .grid-layout {
+        grid-template-columns: 1fr;
+    }
 
-  .main-header {
-    flex-wrap: wrap;
-    gap: 0.75rem;
-    padding: 1rem;
-  }
+    .main-header {
+        flex-wrap: wrap;
+        gap: 0.75rem;
+        padding: 1rem;
+    }
 
-  .main-header .nav-links {
-    order: 3;
-    width: 100%;
-    display: flex;
-    justify-content: space-between;
-  }
+    .main-header .nav-links {
+        order: 3;
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+    }
 
-  .main-header .nav-links a {
-    margin: 0;
-  }
+    .main-header .nav-links a {
+        margin: 0;
+    }
 
-  .account-menu-btn {
-    min-width: 160px;
-  }
+    .account-menu-btn {
+        min-width: 160px;
+    }
 
-  .sidebar {
-    display: none;
-  }
+    .sidebar {
+        display: none;
+    }
+
+    .med-grid,
+    .med-container-scroll {
+        grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+        max-height: none;
+    }
 }
 
-/* ── Mobile: página de medicamentos ── */
+/* ── Mobile ── */
 @media (max-width: 600px) {
 
-  /* Body scrolleable */
-  body {
-    overflow-y: auto;
-    height: auto;
-  }
+    /* Body scrolleable */
+    body,
+    body.dashboard-body {
+        overflow-y: auto;
+        height: auto;
+        min-height: 100vh;
+    }
 
-  /* ── Cards de medicamentos: 1 columna, layout horizontal ── */
-  .med-grid,
-  .medications-grid,
-  .cards-grid {
-    display: flex !important;
-    flex-direction: column !important;
-    gap: 10px !important;
-  }
+    /* Header */
+    .main-header {
+        padding: 0.75rem 1rem;
+    }
 
-  /* Cada card: fila horizontal en mobile */
-  .med-card,
-  .medication-card,
-  .medicine-card {
-    display: flex !important;
-    flex-direction: row !important;
-    align-items: center !important;
-    padding: 12px 14px !important;
-    border-radius: 12px !important;
-    gap: 12px !important;
-    position: relative;
-  }
+    .logo { font-size: 1.1rem; }
+    .logo-slogan { display: none; }
 
-  /* Ícono/badge tipo a la izquierda */
-  .med-card .card-type,
-  .med-card .badge,
-  .med-card .pill-type,
-  .medication-card .card-type,
-  .medication-card .badge {
-    flex-shrink: 0;
-    font-size: 9px !important;
-  }
+    /* Layout */
+    .grid-layout {
+        padding: 1rem;
+        gap: 1rem;
+    }
 
-  /* Info central */
-  .med-card .card-body,
-  .med-card .card-info,
-  .medication-card .card-body {
-    flex: 1;
-    min-width: 0;
-  }
+    .section-title { margin-bottom: 1rem; }
+    .section-title h2 { font-size: 1.3rem; }
 
-  .med-card h3,
-  .medication-card h3,
-  .medicine-card h3,
-  .med-card .med-name,
-  .medication-card .med-name {
-    font-size: 15px !important;
-    font-weight: 700 !important;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-  }
+    /* ── Controls / tabs más compactos ── */
+    .elderly-controls {
+        padding: 14px;
+        border-radius: 14px;
+        margin-bottom: 12px;
+    }
 
-  .med-card .expiry,
-  .med-card .expires,
-  .medication-card .expiry {
-    font-size: 11px !important;
-  }
+    .filter-tabs {
+        gap: 8px;
+        margin-bottom: 12px;
+        flex-wrap: wrap;
+    }
 
-  /* Botón X de eliminar: esquina superior derecha */
-  .med-card .btn-delete,
-  .med-card .close-btn,
-  .med-card button[aria-label="eliminar"],
-  .medication-card .btn-delete {
-    position: absolute !important;
-    top: 8px !important;
-    right: 8px !important;
-    width: 22px !important;
-    height: 22px !important;
-    font-size: 12px !important;
-  }
+    .tab-btn {
+        padding: 9px 16px;
+        font-size: 0.85rem;
+    }
 
-  /* Acciones (editar + alarma): fila al fondo */
-  .med-card .card-actions,
-  .med-card .actions,
-  .medication-card .card-actions {
-    display: flex !important;
-    flex-direction: row !important;
-    gap: 6px !important;
-    margin-top: 0 !important;
-    flex-shrink: 0;
-  }
+    .btn-add-inline {
+        padding: 9px 18px;
+        font-size: 0.85rem;
+    }
 
-  .med-card .card-actions button,
-  .med-card .actions button,
-  .medication-card .card-actions button {
-    width: 32px !important;
-    height: 32px !important;
-    border-radius: 8px !important;
-    display: flex !important;
-    align-items: center !important;
-    justify-content: center !important;
-  }
+    /* ── Med grid: 1 columna ── */
+    .med-grid,
+    .med-container-scroll {
+        display: flex;
+        flex-direction: column;
+        max-height: none;
+        overflow-y: visible;
+        gap: 10px;
+        padding: 4px 2px;
+        border: none;
+        /* anula el grid */
+        grid-template-columns: unset;
+    }
 
-  /* ── Modales: ocupan más pantalla ── */
-  .modal-overlay {
-    align-items: flex-end !important;   /* sheet desde abajo en mobile */
-    padding: 0;
-  }
+    /* ── Cada med-card: layout vertical limpio ── */
+    .med-card {
+        display: flex;
+        flex-direction: column;
+        padding: 14px 14px 12px;
+        border-radius: 14px;
+        border-top: 3px solid var(--primary);
+        /* desactiva hover transform en mobile */
+        transform: none !important;
+    }
 
-  .modal-content {
-    width: 100% !important;
-    max-width: 100% !important;
-    border-radius: 18px 18px 0 0 !important;
-    padding: 20px 18px 32px !important;
-    max-height: 92vh;
-    overflow-y: auto;
-  }
+    .med-card:hover {
+        transform: none !important;
+        box-shadow: 0 10px 30px rgba(0, 123, 255, 0.08);
+    }
 
-  /* ── Inputs de fecha/hora: visibles y usables ── */
-  input[type="datetime-local"],
-  input[type="date"],
-  input[type="time"] {
-    width: 100% !important;
-    padding: 11px 12px !important;
-    border: 1.5px solid #cbd5e1 !important;
-    border-radius: 9px !important;
-    font-size: 14px !important;
-    font-family: inherit !important;
-    color: #0f172a !important;
-    background: #f8fafc !important;
-    box-sizing: border-box !important;
-    -webkit-appearance: none !important;
-    appearance: none !important;
-    display: block !important;
-    min-height: 46px !important;
-  }
+    /* Badge "TABLETA" */
+    .med-card .type {
+        font-size: 0.65rem;
+        padding: 3px 9px;
+        margin-bottom: 6px;
+        align-self: flex-start;
+    }
 
-  input[type="datetime-local"]:focus,
-  input[type="date"]:focus,
-  input[type="time"]:focus {
-    border-color: #2563eb !important;
-    background: #fff !important;
-    outline: none !important;
-  }
+    /* Nombre */
+    .med-card h4 {
+        font-size: 1.1rem;
+        margin-bottom: 3px;
+    }
 
-  /* Select de frecuencia */
-  select {
-    width: 100% !important;
-    padding: 11px 12px !important;
-    border: 1.5px solid #cbd5e1 !important;
-    border-radius: 9px !important;
-    font-size: 14px !important;
-    font-family: inherit !important;
-    background: #f8fafc !important;
-    color: #0f172a !important;
-    -webkit-appearance: none !important;
-    appearance: none !important;
-    min-height: 46px !important;
-    box-sizing: border-box !important;
-  }
+    /* Texto secundario dentro de la card */
+    .med-card p,
+    .med-card small {
+        font-size: 0.78rem;
+    }
 
-  /* Labels de formulario */
-  .modal-content label,
-  .modal-content .form-label,
-  .modal-content .field-label {
-    font-size: 11px !important;
-    font-weight: 600 !important;
-    color: #64748b !important;
-    text-transform: uppercase !important;
-    letter-spacing: 0.05em !important;
-    display: block !important;
-    margin-bottom: 5px !important;
-  }
+    /* Footer: texto a la izq, botones a la der */
+    .card-footer {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-top: 10px;
+        gap: 8px;
+    }
 
-  /* Grupos de campo */
-  .modal-content .form-group,
-  .modal-content .field-group,
-  .modal-content .input-group {
-    margin-bottom: 14px !important;
-  }
+    /* Botones de acción: tamaño táctil */
+    .card-actions {
+        gap: 8px;
+        flex-shrink: 0;
+    }
 
-  /* Botones del modal */
-  .confirm-actions,
-  .modal-actions,
-  .modal-content .actions {
-    display: flex !important;
-    gap: 8px !important;
-    margin-top: 18px !important;
-  }
+    .card-actions button {
+        width: 40px;
+        height: 40px;
+        border-radius: 10px;
+        padding: 0;
+        font-size: 1.1rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex: none;
+    }
 
-  .btn-cancel,
-  .btn-danger,
-  .modal-content .btn-save,
-  .modal-content button[type="submit"] {
-    flex: 1 !important;
-    padding: 13px 16px !important;
-    font-size: 14px !important;
-    border-radius: 10px !important;
-    min-height: 48px !important;
-  }
+    /* Botón eliminar: reposicionado para no solapar nombre */
+    .btn-delete {
+        top: 8px;
+        right: 8px;
+        font-size: 15px;
+    }
 
-  /* Botón guardar full-width si está solo */
-  .modal-content .btn-save:only-child,
-  .modal-content button[type="submit"]:only-child {
-    width: 100% !important;
-  }
+    /* ── Modal: sheet desde abajo ── */
+    .modal-overlay {
+        align-items: flex-end;
+    }
+
+    .modal-content,
+    .modal-confirm-content {
+        width: 100%;
+        max-width: 100%;
+        border-radius: 20px 20px 0 0;
+        padding: 0 18px 36px;
+        max-height: 90vh;
+        overflow-y: auto;
+        /* sobreescribe la animación de scale */
+        animation: sheetUp 0.3s ease-out;
+    }
+
+    @keyframes sheetUp {
+        from { transform: translateY(40px); opacity: 0; }
+        to   { transform: translateY(0);   opacity: 1; }
+    }
+
+    /* Handle del sheet */
+    .modal-content::before,
+    .modal-confirm-content::before {
+        content: '';
+        display: block;
+        width: 40px;
+        height: 4px;
+        background: #cbd5e1;
+        border-radius: 99px;
+        margin: 14px auto 18px;
+    }
+
+    .modal-header {
+        margin-bottom: 1.25rem;
+    }
+
+    .modal-header h3 {
+        font-size: 1.05rem;
+    }
+
+    /* ── Fix inputs de fecha en Safari iOS ──
+       Sin estos estilos el campo aparece vacío/gris en Safari mobile */
+    .form-group input,
+    .form-group select {
+        padding: 0.85rem 1rem;
+        border-radius: 12px;
+        border: 2px solid #e2e8f0;
+        font-size: 0.95rem;
+        background: #f8fafc;
+        color: #0f172a;
+        width: 100%;
+        box-sizing: border-box;
+        display: block;
+        min-height: 50px;
+        -webkit-appearance: none;
+        appearance: none;
+    }
+
+    /* Fuerza el texto del campo de fecha a ser visible en Safari */
+    .form-group input[type="datetime-local"]::-webkit-datetime-edit,
+    .form-group input[type="date"]::-webkit-datetime-edit,
+    .form-group input[type="datetime-local"]::-webkit-datetime-edit-fields-wrapper,
+    .form-group input[type="date"]::-webkit-datetime-edit-fields-wrapper {
+        color: #0f172a;
+        padding: 0;
+        display: flex;
+        align-items: center;
+    }
+
+    .form-group input[type="datetime-local"]::-webkit-calendar-picker-indicator,
+    .form-group input[type="date"]::-webkit-calendar-picker-indicator {
+        opacity: 0.5;
+        cursor: pointer;
+    }
+
+    .form-group input:focus,
+    .form-group select:focus {
+        border-color: var(--primary);
+        background: #fff;
+        outline: none;
+    }
+
+    .form-group label {
+        font-size: 0.75rem;
+        margin-bottom: 0.4rem;
+    }
+
+    .form-group { margin-bottom: 1rem; }
+
+    /* Botón guardar */
+    .btn-save {
+        padding: 0.95rem;
+        font-size: 0.95rem;
+        border-radius: 12px;
+        margin-top: 0.75rem;
+    }
+
+    /* Acciones del confirm modal en fila */
+    .confirm-actions {
+        flex-direction: row;
+        justify-content: stretch;
+        gap: 8px;
+        margin-top: 1.25rem;
+    }
+
+    .confirm-actions .btn-cancel,
+    .confirm-actions .btn-danger,
+    .confirm-actions .btn-save {
+        flex: 1;
+        padding: 0.85rem;
+        font-size: 0.9rem;
+        border-radius: 12px;
+        text-align: center;
+        width: auto;
+        margin-top: 0;
+    }
 }
 
 /* ── Mobile muy pequeño ── */
 @media (max-width: 380px) {
-  .modal-content {
-    padding: 16px 14px 28px !important;
-  }
-
-  .med-card h3,
-  .medication-card h3 {
-    font-size: 14px !important;
-  }
+    .tab-btn,
+    .btn-add-inline  { padding: 8px 12px; font-size: 0.8rem; }
+    .med-card h4     { font-size: 1rem; }
+    .modal-content,
+    .modal-confirm-content { padding: 0 14px 28px; }
 }
