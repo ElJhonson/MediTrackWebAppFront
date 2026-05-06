@@ -2,174 +2,128 @@
    RESPONSIVE — Mobile-first
    ════════════════════════════════════════════ */
 
-/* ── Tablet ancho: stats en 2 cols, layout ajustado ── */
+/* ── Tablet ancho ── */
 @media (max-width: 1100px) {
-  .stats-row {
-    grid-template-columns: repeat(2, 1fr);
-  }
-
-  .list-detail-layout {
-    grid-template-columns: 38% 1px 1fr;
-  }
+  .stats-row { grid-template-columns: repeat(2, 1fr); }
+  .list-detail-layout { grid-template-columns: 38% 1px 1fr; }
 }
 
-/* ── Tablet estrecho: maestro-detalle apilado verticalmente ── */
+/* ── Tablet estrecho: maestro-detalle apilado ── */
 @media (max-width: 800px) {
   .list-detail-layout {
     grid-template-columns: 1fr;
-    grid-template-rows: auto;      /* sin altura fija, el contenido manda */
-    overflow: visible;
+    grid-template-rows: 1fr 1px 340px;
   }
-
-  /* El divisor vertical pasa a ser horizontal */
   .panel-divider {
     height: 1px;
     width: auto;
   }
-
-  /* La lista ocupa todo el ancho */
-  .list-panel {
-    min-height: 260px;
-    max-height: 50vh;
-  }
-
-  /* El panel de detalle se convierte en un sheet al fondo */
-  .detail-panel {
-    border-top: 2px solid var(--border-soft);
-    border-radius: 0 0 var(--radius-lg) var(--radius-lg);
-    max-height: 400px;
-  }
-
-  /* Indicador de arrastre (drag handle) encima del panel detalle */
-  .detail-panel::before {
-    content: '';
-    display: block;
-    width: 36px;
-    height: 4px;
-    background: var(--border-soft);
-    border-radius: 99px;
-    margin: 10px auto 0;
-    flex-shrink: 0;
-  }
-
-  /* El contenido interior del detalle puede hacer scroll */
-  .detail-content-inner {
-    padding: 12px 16px;
-  }
-
-  /* Grid de info del detalle: 2 cols en tablet */
-  .detail-info-grid {
-    grid-template-columns: 1fr 1fr;
-  }
 }
 
-/* ── Mobile: ajustes globales de espaciado ── */
+/* ── Mobile ── */
 @media (max-width: 600px) {
-  /* Contenedor principal */
+  /* Layout general: permite scroll normal de página */
   .content {
     padding: 10px 12px;
     gap: 10px;
+    overflow-y: auto;
+    height: auto;
   }
 
-  /* Topbar */
+  body {
+    overflow-y: auto;
+    height: auto;
+  }
+
+  /* Topbar sticky */
   .topbar {
     padding: 0 16px;
-    height: 56px;
+    height: 52px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
   }
 
-  .topbar-sub {
-    display: none;          /* ocultamos subtítulo en pantallas muy pequeñas */
-  }
+  .logo-slogan { display: none; }
+  .topbar-sub  { display: none; }
 
-  .logo-slogan {
-    display: none;
-  }
-
-  /* Stats: 2×2 en mobile */
+  /* ── Stats: franja horizontal con scroll, tarjetas mini ── */
   .stats-row {
-    grid-template-columns: repeat(2, 1fr);
+    display: flex;
+    flex-direction: row;
+    overflow-x: auto;
     gap: 8px;
+    padding-bottom: 4px;
+    flex-shrink: 0;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
   }
+  .stats-row::-webkit-scrollbar { display: none; }
 
   .stat-card {
-    padding: 12px 14px;
-  }
-
-  .stat-value {
-    font-size: 22px;
-  }
-
-  /* Layout maestro-detalle en mobile */
-  .list-detail-layout {
+    min-width: 130px;
+    flex-shrink: 0;
+    padding: 10px 13px;
     border-radius: var(--radius-md);
-    overflow: visible;           /* permite que el sheet se expanda */
   }
 
-  /* Panel lista: altura fija para dejar ver el detalle */
-  .list-panel {
-    max-height: 45vh;
-    min-height: 220px;
+  .stat-label  { font-size: 9px; margin-bottom: 3px; }
+  .stat-value  { font-size: 20px; line-height: 1; }
+  .stat-sub    { font-size: 9.5px; margin-top: 3px; }
+  .stat-bar    { margin-top: 7px; }
+
+  /* ── Maestro-detalle: stack vertical sin altura fija ── */
+  .list-detail-layout {
+    display: flex;
+    flex-direction: column;
+    height: auto;
+    overflow: visible;
+    border-radius: var(--radius-md);
   }
+
+  .panel-divider { height: 1px; width: auto; }
+
+  /* Lista: se expande con el contenido */
+  .list-panel { min-height: 0; overflow: visible; }
 
   .list-panel-head {
     padding: 12px 14px 10px;
+    border-radius: var(--radius-md) var(--radius-md) 0 0;
   }
 
-  .list-panel-title {
-    font-size: 13px;
+  .list-panel-title { font-size: 13px; }
+  .list-panel-sub   { font-size: 11px; margin-bottom: 10px; }
+
+  .tab-btn { padding: 4px 10px; font-size: 11px; }
+
+  /* Lista interna SIN scroll interno: se expande */
+  .alarm-list {
+    overflow: visible;
+    max-height: none;
+    padding: 8px 10px;
+    gap: 6px;
   }
 
-  /* Tabs más compactos en mobile */
-  .tab-btn {
-    padding: 4px 10px;
-    font-size: 11px;
-  }
+  .alarm-item          { padding: 10px 11px; }
+  .alarm-item-icon     { width: 34px; height: 34px; border-radius: 8px; }
+  .alarm-item-icon svg { width: 18px; height: 18px; }
+  .alarm-item-name     { font-size: 12px; }
+  .alarm-item-dates    { font-size: 10px; }
 
-  /* Items de alarma más compactos */
-  .alarm-item {
-    padding: 10px 11px;
-  }
-
-  .alarm-item-icon {
-    width: 34px;
-    height: 34px;
-    border-radius: 8px;
-  }
-
-  .alarm-item-icon svg {
-    width: 18px;
-    height: 18px;
-  }
-
-  .alarm-item-name {
-    font-size: 12px;
-  }
-
-  .alarm-item-dates {
-    font-size: 10px;
-  }
-
-  /* Panel detalle en mobile: sheet compacto */
+  /* Panel detalle: se expande hacia abajo */
   .detail-panel {
-    max-height: 360px;
+    overflow: visible;
+    border-top: 1px solid var(--border-soft);
     border-radius: 0 0 var(--radius-md) var(--radius-md);
   }
 
-  .detail-content-inner {
-    padding: 10px 14px;
-  }
+  .detail-content        { height: auto; overflow: visible; }
+  .detail-content-inner  { overflow: visible; padding: 12px 14px; }
 
-  /* Grid info del detalle: 2 cols en mobile */
-  .detail-info-grid {
-    grid-template-columns: 1fr 1fr;
-    gap: 7px;
-  }
+  .detail-info-grid      { grid-template-columns: 1fr 1fr; gap: 7px; }
+  .detail-info-box       { padding: 10px 12px; }
 
-  .detail-info-box {
-    padding: 10px 12px;
-  }
-
-  /* Barra de acciones: botones en fila envolvente */
+  /* Acciones */
   .detail-action-bar {
     padding: 10px 14px 14px;
     flex-wrap: wrap;
@@ -184,42 +138,16 @@
     justify-content: center;
   }
 
-  /* Toast en mobile: abajo centrado */
-  .toast {
-    bottom: 16px;
-    right: 12px;
-    left: 12px;
-    justify-content: center;
-  }
+  /* Toast */
+  .toast { bottom: 16px; right: 12px; left: 12px; justify-content: center; }
 
-  /* Modal en mobile: ocupa más pantalla */
-  .modal-content {
-    max-width: 95vw;
-    border-radius: 14px;
-  }
+  /* Modal */
+  .modal-content { max-width: 95vw; border-radius: 14px; }
 }
 
-/* ── Mobile muy pequeño (≤400px) ── */
+/* ── Mobile muy pequeño ── */
 @media (max-width: 400px) {
-  .stats-row {
-    grid-template-columns: 1fr 1fr;
-    gap: 6px;
-  }
-
-  .stat-value {
-    font-size: 20px;
-  }
-
-  .list-panel {
-    max-height: 40vh;
-  }
-
-  .detail-panel {
-    max-height: 300px;
-  }
-
-  .tab-btn {
-    padding: 3px 8px;
-    font-size: 10.5px;
-  }
+  .stat-card  { min-width: 115px; }
+  .stat-value { font-size: 18px; }
+  .tab-btn    { padding: 3px 8px; font-size: 10.5px; }
 }
