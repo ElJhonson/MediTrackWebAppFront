@@ -33,8 +33,7 @@
         display: none;
     }
 
-    .med-grid,
-    .med-container-scroll {
+    .med-grid {
         grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
         max-height: none;
     }
@@ -43,17 +42,18 @@
 /* ── Mobile ── */
 @media (max-width: 600px) {
 
-    /* Body scrolleable */
+    /* Body scrolleable — neutraliza el overflow:hidden del layout de alarmas */
     body,
     body.dashboard-body {
-        overflow-y: auto;
-        height: auto;
+        overflow-y: auto !important;
+        height: auto !important;
         min-height: 100vh;
     }
 
-    /* Header */
+    /* Header compacto */
     .main-header {
         padding: 0.75rem 1rem;
+        gap: 0.5rem;
     }
 
     .logo { font-size: 1.1rem; }
@@ -65,20 +65,19 @@
         gap: 1rem;
     }
 
-    .section-title { margin-bottom: 1rem; }
+    .section-title { margin-bottom: 0.75rem; }
     .section-title h2 { font-size: 1.3rem; }
 
-    /* ── Controls / tabs más compactos ── */
+    /* Controls */
     .elderly-controls {
-        padding: 14px;
+        padding: 12px 14px;
         border-radius: 14px;
         margin-bottom: 12px;
     }
 
     .filter-tabs {
         gap: 8px;
-        margin-bottom: 12px;
-        flex-wrap: wrap;
+        margin-bottom: 0;
     }
 
     .tab-btn {
@@ -92,114 +91,129 @@
     }
 
     /* ── Med grid: 1 columna ── */
-    .med-grid,
-    .med-container-scroll {
+    .med-grid {
         display: flex;
         flex-direction: column;
+        gap: 10px;
         max-height: none;
         overflow-y: visible;
-        gap: 10px;
-        padding: 4px 2px;
+        padding: 4px 0;
         border: none;
-        /* anula el grid */
-        grid-template-columns: unset;
     }
 
-    /* ── Cada med-card: layout vertical limpio ── */
-    .med-card {
-        display: flex;
-        flex-direction: column;
-        padding: 14px 14px 12px;
+    /* ── Med card: layout vertical, padding corregido ──
+       .glass-card tiene padding:2rem, lo sobreescribimos aquí */
+    .med-card.glass-card {
+        padding: 14px 14px 12px;      /* sobreescribe el 2rem de .glass-card */
         border-radius: 14px;
         border-top: 3px solid var(--primary);
-        /* desactiva hover transform en mobile */
-        transform: none !important;
+        display: flex;
+        flex-direction: column;
+        transform: none !important;   /* sin hover lift en mobile */
     }
 
-    .med-card:hover {
+    .med-card.glass-card:hover {
         transform: none !important;
         box-shadow: 0 10px 30px rgba(0, 123, 255, 0.08);
     }
 
-    /* Badge "TABLETA" */
+    /* Badge tipo */
     .med-card .type {
         font-size: 0.65rem;
         padding: 3px 9px;
-        margin-bottom: 6px;
-        align-self: flex-start;
+        margin-bottom: 5px;
+        display: inline-block;
     }
 
     /* Nombre */
     .med-card h4 {
-        font-size: 1.1rem;
-        margin-bottom: 3px;
+        font-size: 1.05rem;
+        margin-bottom: 2px;
     }
 
-    /* Texto secundario dentro de la card */
-    .med-card p,
-    .med-card small {
-        font-size: 0.78rem;
+    /* Texto expira */
+    .med-card > div > p {
+        font-size: 0.75rem !important;
     }
 
-    /* Footer: texto a la izq, botones a la der */
+    /* Botón eliminar: ya está absolute top:10 right:10, solo reducimos tamaño */
+    .med-card .btn-delete {
+        font-size: 13px;
+        top: 10px;
+        right: 10px;
+    }
+
+    /* Footer: texto izq, botones der */
     .card-footer {
+        margin-top: 10px;
         display: flex;
         justify-content: space-between;
         align-items: center;
-        margin-top: 10px;
         gap: 8px;
     }
 
-    /* Botones de acción: tamaño táctil */
+    .registered-by {
+        font-size: 0.75rem;
+        color: #64748b;
+        flex: 1;
+        min-width: 0;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    /* Botones de acción: táctiles 40×40 */
     .card-actions {
+        display: flex;
         gap: 8px;
         flex-shrink: 0;
     }
 
-    .card-actions button {
+    .card-actions .btn-edit,
+    .card-actions .btn-reminder {
         width: 40px;
         height: 40px;
         border-radius: 10px;
         padding: 0;
-        font-size: 1.1rem;
+        font-size: 1rem;
         display: flex;
         align-items: center;
         justify-content: center;
         flex: none;
+        transform: none !important;  /* sin scale hover en mobile */
     }
 
-    /* Botón eliminar: reposicionado para no solapar nombre */
-    .btn-delete {
-        top: 8px;
-        right: 8px;
-        font-size: 15px;
+    .card-actions .btn-edit:hover,
+    .card-actions .btn-reminder:hover {
+        transform: none !important;
     }
 
-    /* ── Modal: sheet desde abajo ── */
+    /* ════════════════════════════
+       MODALES: sheet desde abajo
+       ════════════════════════════ */
+
     .modal-overlay {
         align-items: flex-end;
     }
 
-    .modal-content,
-    .modal-confirm-content {
+    /* .glass-card dentro del modal también tiene padding:2rem — sobreescribir */
+    .modal-overlay .glass-card.modal-content {
         width: 100%;
         max-width: 100%;
         border-radius: 20px 20px 0 0;
-        padding: 0 18px 36px;
+        padding: 0 18px 36px;         /* sobreescribe el 2rem de .glass-card */
         max-height: 90vh;
         overflow-y: auto;
-        /* sobreescribe la animación de scale */
         animation: sheetUp 0.3s ease-out;
     }
 
     @keyframes sheetUp {
         from { transform: translateY(40px); opacity: 0; }
-        to   { transform: translateY(0);   opacity: 1; }
+        to   { transform: translateY(0);    opacity: 1; }
     }
 
-    /* Handle del sheet */
-    .modal-content::before,
-    .modal-confirm-content::before {
+    /* Handle visual del sheet */
+    .modal-overlay .glass-card.modal-content::before {
         content: '';
         display: block;
         width: 40px;
@@ -214,36 +228,41 @@
     }
 
     .modal-header h3 {
-        font-size: 1.05rem;
+        font-size: 1rem;
     }
 
-    /* ── Fix inputs de fecha en Safari iOS ──
-       Sin estos estilos el campo aparece vacío/gris en Safari mobile */
+    /* ════════════════════════════
+       INPUTS — fix Safari iOS
+       Los datetime-local aparecen vacíos en Safari sin estos estilos
+       ════════════════════════════ */
+
     .form-group input,
     .form-group select {
         padding: 0.85rem 1rem;
         border-radius: 12px;
-        border: 2px solid #e2e8f0;
         font-size: 0.95rem;
-        background: #f8fafc;
-        color: #0f172a;
-        width: 100%;
+        min-height: 50px;
         box-sizing: border-box;
         display: block;
-        min-height: 50px;
+        width: 100%;
         -webkit-appearance: none;
         appearance: none;
+        color: #0f172a;
+        background: #f8fafc;
+        border: 2px solid #e2e8f0;
     }
 
-    /* Fuerza el texto del campo de fecha a ser visible en Safari */
     .form-group input[type="datetime-local"]::-webkit-datetime-edit,
-    .form-group input[type="date"]::-webkit-datetime-edit,
+    .form-group input[type="date"]::-webkit-datetime-edit {
+        color: #0f172a;
+        display: flex;
+        align-items: center;
+        padding: 0;
+    }
+
     .form-group input[type="datetime-local"]::-webkit-datetime-edit-fields-wrapper,
     .form-group input[type="date"]::-webkit-datetime-edit-fields-wrapper {
         color: #0f172a;
-        padding: 0;
-        display: flex;
-        align-items: center;
     }
 
     .form-group input[type="datetime-local"]::-webkit-calendar-picker-indicator,
@@ -259,12 +278,14 @@
         outline: none;
     }
 
+    .form-group {
+        margin-bottom: 1rem;
+    }
+
     .form-group label {
         font-size: 0.75rem;
         margin-bottom: 0.4rem;
     }
-
-    .form-group { margin-bottom: 1rem; }
 
     /* Botón guardar */
     .btn-save {
@@ -274,7 +295,7 @@
         margin-top: 0.75rem;
     }
 
-    /* Acciones del confirm modal en fila */
+    /* Acciones del confirm modal */
     .confirm-actions {
         flex-direction: row;
         justify-content: stretch;
@@ -297,9 +318,7 @@
 
 /* ── Mobile muy pequeño ── */
 @media (max-width: 380px) {
-    .tab-btn,
-    .btn-add-inline  { padding: 8px 12px; font-size: 0.8rem; }
-    .med-card h4     { font-size: 1rem; }
-    .modal-content,
-    .modal-confirm-content { padding: 0 14px 28px; }
+    .btn-add-inline { padding: 8px 12px; font-size: 0.8rem; }
+    .med-card h4    { font-size: 0.95rem; }
+    .modal-overlay .glass-card.modal-content { padding: 0 14px 28px; }
 }
