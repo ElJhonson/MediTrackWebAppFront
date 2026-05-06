@@ -1,24 +1,225 @@
+/* ════════════════════════════════════════════
+   RESPONSIVE — Mobile-first
+   ════════════════════════════════════════════ */
+
+/* ── Tablet ancho: stats en 2 cols, layout ajustado ── */
 @media (max-width: 1100px) {
-  .stats-row { grid-template-columns: repeat(2, 1fr); }
-  .list-detail-layout { grid-template-columns: 38% 1px 1fr; }
+  .stats-row {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .list-detail-layout {
+    grid-template-columns: 38% 1px 1fr;
+  }
 }
 
+/* ── Tablet estrecho: maestro-detalle apilado verticalmente ── */
 @media (max-width: 800px) {
   .list-detail-layout {
     grid-template-columns: 1fr;
-    grid-template-rows: 1fr 1px 340px;
+    grid-template-rows: auto;      /* sin altura fija, el contenido manda */
+    overflow: visible;
   }
+
+  /* El divisor vertical pasa a ser horizontal */
   .panel-divider {
     height: 1px;
     width: auto;
   }
+
+  /* La lista ocupa todo el ancho */
+  .list-panel {
+    min-height: 260px;
+    max-height: 50vh;
+  }
+
+  /* El panel de detalle se convierte en un sheet al fondo */
+  .detail-panel {
+    border-top: 2px solid var(--border-soft);
+    border-radius: 0 0 var(--radius-lg) var(--radius-lg);
+    max-height: 400px;
+  }
+
+  /* Indicador de arrastre (drag handle) encima del panel detalle */
+  .detail-panel::before {
+    content: '';
+    display: block;
+    width: 36px;
+    height: 4px;
+    background: var(--border-soft);
+    border-radius: 99px;
+    margin: 10px auto 0;
+    flex-shrink: 0;
+  }
+
+  /* El contenido interior del detalle puede hacer scroll */
+  .detail-content-inner {
+    padding: 12px 16px;
+  }
+
+  /* Grid de info del detalle: 2 cols en tablet */
+  .detail-info-grid {
+    grid-template-columns: 1fr 1fr;
+  }
 }
 
+/* ── Mobile: ajustes globales de espaciado ── */
 @media (max-width: 600px) {
-  .content { padding: 12px 14px; gap: 12px; }
-  .main-header { padding: 0.75rem 1rem; }
-  .stats-row { grid-template-columns: repeat(2, 1fr); gap: 8px; }
-  .list-panel-head { padding: 14px 14px 12px; }
-  .detail-content-inner { padding: 16px 16px; }
-  .detail-action-bar { padding: 12px 16px; }
+  /* Contenedor principal */
+  .content {
+    padding: 10px 12px;
+    gap: 10px;
+  }
+
+  /* Topbar */
+  .topbar {
+    padding: 0 16px;
+    height: 56px;
+  }
+
+  .topbar-sub {
+    display: none;          /* ocultamos subtítulo en pantallas muy pequeñas */
+  }
+
+  .logo-slogan {
+    display: none;
+  }
+
+  /* Stats: 2×2 en mobile */
+  .stats-row {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 8px;
+  }
+
+  .stat-card {
+    padding: 12px 14px;
+  }
+
+  .stat-value {
+    font-size: 22px;
+  }
+
+  /* Layout maestro-detalle en mobile */
+  .list-detail-layout {
+    border-radius: var(--radius-md);
+    overflow: visible;           /* permite que el sheet se expanda */
+  }
+
+  /* Panel lista: altura fija para dejar ver el detalle */
+  .list-panel {
+    max-height: 45vh;
+    min-height: 220px;
+  }
+
+  .list-panel-head {
+    padding: 12px 14px 10px;
+  }
+
+  .list-panel-title {
+    font-size: 13px;
+  }
+
+  /* Tabs más compactos en mobile */
+  .tab-btn {
+    padding: 4px 10px;
+    font-size: 11px;
+  }
+
+  /* Items de alarma más compactos */
+  .alarm-item {
+    padding: 10px 11px;
+  }
+
+  .alarm-item-icon {
+    width: 34px;
+    height: 34px;
+    border-radius: 8px;
+  }
+
+  .alarm-item-icon svg {
+    width: 18px;
+    height: 18px;
+  }
+
+  .alarm-item-name {
+    font-size: 12px;
+  }
+
+  .alarm-item-dates {
+    font-size: 10px;
+  }
+
+  /* Panel detalle en mobile: sheet compacto */
+  .detail-panel {
+    max-height: 360px;
+    border-radius: 0 0 var(--radius-md) var(--radius-md);
+  }
+
+  .detail-content-inner {
+    padding: 10px 14px;
+  }
+
+  /* Grid info del detalle: 2 cols en mobile */
+  .detail-info-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 7px;
+  }
+
+  .detail-info-box {
+    padding: 10px 12px;
+  }
+
+  /* Barra de acciones: botones en fila envolvente */
+  .detail-action-bar {
+    padding: 10px 14px 14px;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+
+  .btn-detail {
+    flex: 1;
+    min-width: 80px;
+    padding: 9px 12px;
+    font-size: 12px;
+    justify-content: center;
+  }
+
+  /* Toast en mobile: abajo centrado */
+  .toast {
+    bottom: 16px;
+    right: 12px;
+    left: 12px;
+    justify-content: center;
+  }
+
+  /* Modal en mobile: ocupa más pantalla */
+  .modal-content {
+    max-width: 95vw;
+    border-radius: 14px;
+  }
+}
+
+/* ── Mobile muy pequeño (≤400px) ── */
+@media (max-width: 400px) {
+  .stats-row {
+    grid-template-columns: 1fr 1fr;
+    gap: 6px;
+  }
+
+  .stat-value {
+    font-size: 20px;
+  }
+
+  .list-panel {
+    max-height: 40vh;
+  }
+
+  .detail-panel {
+    max-height: 300px;
+  }
+
+  .tab-btn {
+    padding: 3px 8px;
+    font-size: 10.5px;
+  }
 }
