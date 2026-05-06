@@ -1,31 +1,253 @@
-/* Responsivo */
+/* ════════════════════════════════════════════
+   RESPONSIVE — Medicamentos (mobile-first)
+   ════════════════════════════════════════════ */
+
 @media (max-width: 1024px) {
-    .grid-layout {
-        grid-template-columns: 1fr;
-    }
+  .grid-layout {
+    grid-template-columns: 1fr;
+  }
 
-    .main-header {
-        flex-wrap: wrap;
-        gap: 0.75rem;
-        padding: 1rem;
-    }
+  .main-header {
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    padding: 1rem;
+  }
 
-    .main-header .nav-links {
-        order: 3;
-        width: 100%;
-        display: flex;
-        justify-content: space-between;
-    }
+  .main-header .nav-links {
+    order: 3;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+  }
 
-    .main-header .nav-links a {
-        margin: 0;
-    }
+  .main-header .nav-links a {
+    margin: 0;
+  }
 
-    .account-menu-btn {
-        min-width: 160px;
-    }
-    
-    .sidebar {
-        display: none;
-    }
+  .account-menu-btn {
+    min-width: 160px;
+  }
+
+  .sidebar {
+    display: none;
+  }
+}
+
+/* ── Mobile: página de medicamentos ── */
+@media (max-width: 600px) {
+
+  /* Body scrolleable */
+  body {
+    overflow-y: auto;
+    height: auto;
+  }
+
+  /* ── Cards de medicamentos: 1 columna, layout horizontal ── */
+  .med-grid,
+  .medications-grid,
+  .cards-grid {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 10px !important;
+  }
+
+  /* Cada card: fila horizontal en mobile */
+  .med-card,
+  .medication-card,
+  .medicine-card {
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: center !important;
+    padding: 12px 14px !important;
+    border-radius: 12px !important;
+    gap: 12px !important;
+    position: relative;
+  }
+
+  /* Ícono/badge tipo a la izquierda */
+  .med-card .card-type,
+  .med-card .badge,
+  .med-card .pill-type,
+  .medication-card .card-type,
+  .medication-card .badge {
+    flex-shrink: 0;
+    font-size: 9px !important;
+  }
+
+  /* Info central */
+  .med-card .card-body,
+  .med-card .card-info,
+  .medication-card .card-body {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .med-card h3,
+  .medication-card h3,
+  .medicine-card h3,
+  .med-card .med-name,
+  .medication-card .med-name {
+    font-size: 15px !important;
+    font-weight: 700 !important;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .med-card .expiry,
+  .med-card .expires,
+  .medication-card .expiry {
+    font-size: 11px !important;
+  }
+
+  /* Botón X de eliminar: esquina superior derecha */
+  .med-card .btn-delete,
+  .med-card .close-btn,
+  .med-card button[aria-label="eliminar"],
+  .medication-card .btn-delete {
+    position: absolute !important;
+    top: 8px !important;
+    right: 8px !important;
+    width: 22px !important;
+    height: 22px !important;
+    font-size: 12px !important;
+  }
+
+  /* Acciones (editar + alarma): fila al fondo */
+  .med-card .card-actions,
+  .med-card .actions,
+  .medication-card .card-actions {
+    display: flex !important;
+    flex-direction: row !important;
+    gap: 6px !important;
+    margin-top: 0 !important;
+    flex-shrink: 0;
+  }
+
+  .med-card .card-actions button,
+  .med-card .actions button,
+  .medication-card .card-actions button {
+    width: 32px !important;
+    height: 32px !important;
+    border-radius: 8px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+  }
+
+  /* ── Modales: ocupan más pantalla ── */
+  .modal-overlay {
+    align-items: flex-end !important;   /* sheet desde abajo en mobile */
+    padding: 0;
+  }
+
+  .modal-content {
+    width: 100% !important;
+    max-width: 100% !important;
+    border-radius: 18px 18px 0 0 !important;
+    padding: 20px 18px 32px !important;
+    max-height: 92vh;
+    overflow-y: auto;
+  }
+
+  /* ── Inputs de fecha/hora: visibles y usables ── */
+  input[type="datetime-local"],
+  input[type="date"],
+  input[type="time"] {
+    width: 100% !important;
+    padding: 11px 12px !important;
+    border: 1.5px solid #cbd5e1 !important;
+    border-radius: 9px !important;
+    font-size: 14px !important;
+    font-family: inherit !important;
+    color: #0f172a !important;
+    background: #f8fafc !important;
+    box-sizing: border-box !important;
+    -webkit-appearance: none !important;
+    appearance: none !important;
+    display: block !important;
+    min-height: 46px !important;
+  }
+
+  input[type="datetime-local"]:focus,
+  input[type="date"]:focus,
+  input[type="time"]:focus {
+    border-color: #2563eb !important;
+    background: #fff !important;
+    outline: none !important;
+  }
+
+  /* Select de frecuencia */
+  select {
+    width: 100% !important;
+    padding: 11px 12px !important;
+    border: 1.5px solid #cbd5e1 !important;
+    border-radius: 9px !important;
+    font-size: 14px !important;
+    font-family: inherit !important;
+    background: #f8fafc !important;
+    color: #0f172a !important;
+    -webkit-appearance: none !important;
+    appearance: none !important;
+    min-height: 46px !important;
+    box-sizing: border-box !important;
+  }
+
+  /* Labels de formulario */
+  .modal-content label,
+  .modal-content .form-label,
+  .modal-content .field-label {
+    font-size: 11px !important;
+    font-weight: 600 !important;
+    color: #64748b !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.05em !important;
+    display: block !important;
+    margin-bottom: 5px !important;
+  }
+
+  /* Grupos de campo */
+  .modal-content .form-group,
+  .modal-content .field-group,
+  .modal-content .input-group {
+    margin-bottom: 14px !important;
+  }
+
+  /* Botones del modal */
+  .confirm-actions,
+  .modal-actions,
+  .modal-content .actions {
+    display: flex !important;
+    gap: 8px !important;
+    margin-top: 18px !important;
+  }
+
+  .btn-cancel,
+  .btn-danger,
+  .modal-content .btn-save,
+  .modal-content button[type="submit"] {
+    flex: 1 !important;
+    padding: 13px 16px !important;
+    font-size: 14px !important;
+    border-radius: 10px !important;
+    min-height: 48px !important;
+  }
+
+  /* Botón guardar full-width si está solo */
+  .modal-content .btn-save:only-child,
+  .modal-content button[type="submit"]:only-child {
+    width: 100% !important;
+  }
+}
+
+/* ── Mobile muy pequeño ── */
+@media (max-width: 380px) {
+  .modal-content {
+    padding: 16px 14px 28px !important;
+  }
+
+  .med-card h3,
+  .medication-card h3 {
+    font-size: 14px !important;
+  }
 }
